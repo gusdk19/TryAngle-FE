@@ -1,0 +1,39 @@
+.header{
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    position: relative;
+    width: 100%;
+    height: 51px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.title{
+    display: grid;
+    place-items: center;
+    flex-grow: 1;
+    vertical-align: middle;
+}
+
+.title-text{
+    position: absolute;
+    left:50%;
+    transform: translateX(-50%);
+    font-weight: bold;
+    font-size: large;
+}
+
+.bell{
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    vertical-align: middle;
+    margin-right:20px;
+
+}
+
+.bell-icon{
+    width: 20px;
+    height:20px;
+}
