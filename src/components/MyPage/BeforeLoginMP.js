@@ -1,7 +1,7 @@
 import { Bell, Home, SmileIcon, Trophy, User, Users } from "lucide-react";
 import React from "react";
 
-export default function BeforeLoginMain(){
+export default function BeforeLoginMP(){
 
     return(
         <main className="px-4">

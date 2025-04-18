@@ -2,14 +2,14 @@
 // import { Separator } from "@/components/ui/separator";
 import { Bell, Home, SmileIcon, Trophy, User, Users } from "lucide-react";
 import Header from "../components/Header";
-import BeforeLoginMain from "../components/beforeLoginMain";
-import AfterLoginMain from "../components/afterLoginMain";
+import BeforeLoginMP from "../components/MyPage/BeforeLoginMP.js";
+import AfterLoginMP from "../components/MyPage/AfterLoginMP.js";
 import Footer from "../components/Footer";
 import React, { useState } from "react";
 
 export default function MyPage() {
   // Login State (로그인 x : 0, 로그인 o : 1)
-  const [login, setLogin] = useState(0);
+  const [login, setLogin] = useState(1);
 
   const page = "myPage";
 
@@ -22,8 +22,8 @@ export default function MyPage() {
       
         {/* Main Content */}
         {login === 0 ? 
-          <BeforeLoginMain/>
-          :<AfterLoginMain/>}
+          <BeforeLoginMP/>
+          :<AfterLoginMP/>}
         
 
         {/* Footer Navigation */}

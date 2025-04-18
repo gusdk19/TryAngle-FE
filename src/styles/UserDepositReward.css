@@ -1,0 +1,47 @@
+.FinanceBox{
+    height:40px;
+    display: flex;
+    flex-direction:row;
+    flex-grow: 1;
+    padding: 8px 4px 8px 10px;
+}
+
+.deposit{
+    width:47%;
+    /* flex:1; */
+    display: flex;
+    flex-grow:1;
+    flex-direction: row;
+    justify-content: space-between;
+    font-size: 11px;
+    gap:4px;
+    vertical-align:center;
+}
+
+.reward{
+    width:40%;
+    /* flex:1; */
+    display: flex;
+    flex-grow:1;
+    flex-direction: row;
+    justify-content: space-between;
+    font-size: 11px;
+    gap:4px;
+    vertical-align:center;
+}
+
+.text-index{
+    display: flex;
+    flex-direction: row;
+    gap:5px;  
+}
+
+.deposit-title, .reward-title, .deposit-text, .reward-text{
+    font-weight:semibold;
+    margin: auto 0px;
+    color: #B8AA96;
+}
+
+.chevron-right{
+    flex:none;
+}
