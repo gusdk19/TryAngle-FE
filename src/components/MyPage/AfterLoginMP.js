@@ -94,7 +94,13 @@ export default function AfterLoginMP() {
                 size="sm"
                 className="grid place-items-center w-[22px] h-[22px] rounded-full p-0 border-[1.5px] border-[#6e6053]"
               >
-                <UserPlus className="h-[13px] w-[13px] stroke-[#6E6053] stroke-[2px]" />
+                <UserPlus className="h-[13px] w-[13px] stroke-[#6E6053] stroke-[2px]"  
+                  onClick={()=>{navigate("/friend", {
+                    state: {
+                      follower: userData.follower,
+                      following: userData.following,
+                    },
+                  });}}/>
               </button>
             </div>
           </div>

@@ -37,3 +37,17 @@
     width: 20px;
     height:20px;
 }
+
+.back{
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    vertical-align: middle;
+    margin-left:20px;
+
+}
+
+.back-icon{
+    width: 20px;
+    height:20px;
+}

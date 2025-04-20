@@ -1,6 +1,3 @@
-// import { Button } from "@/components/ui/button";
-// import { Separator } from "@/components/ui/separator";
-import { Bell, Home, SmileIcon, Trophy, User, Users } from "lucide-react";
 import Header from "../components/Header";
 import BeforeLoginMP from "../components/MyPage/BeforeLoginMP.js";
 import AfterLoginMP from "../components/MyPage/AfterLoginMP.js";
