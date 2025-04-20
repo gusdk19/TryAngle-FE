@@ -4,7 +4,7 @@
 // import { Button } from "@/components/ui/button";
 // import { Card, CardContent } from "@/components/ui/card";
 // import { hr } from "@/components/ui/separator";
-import "../../styles/AfterLoginMP.css";
+import "../../styles/mypage/AfterLoginMP.css";
 import bpi_22 from "../../assets/images/mypage/basic_profile_image/basic_profile_image_22.png";
 
 import { Bell, Calendar, Edit2, Home, User, UserPlus } from "lucide-react";
@@ -14,6 +14,8 @@ import ActivityBadgesSection from "./ActivityBadgesSection";
 import CalendarSection from "./CalendarSection";
 import UserDepositReward from "./UserDepositReward";
 import React from "react";
+import { useNavigate } from 'react-router-dom'; 
+import SuccessRateSection from "./SuccessRateSection";
 
 export default function AfterLoginMP() {
   // User data
@@ -29,9 +31,18 @@ export default function AfterLoginMP() {
     reward: 500,
     follower: 3,
     following: 2,
+    title: "챌린지 중독자",
   }
+
+  const navigate = useNavigate();
+
+  const goToMyCHallenge = () => {                                    // 3
+    navigate('/myChallenge');
+  };
+
+
   return (
-      <main className="flex flex-col w-full h-[80px] px-5">
+      <main className="main flex flex-col w-full h-[734px] px-5 overflow-scroll">
         {/* Profile Header */}
         <div className="flex items-start mt-5 mb-4">
           {/* Profile Image */}
@@ -55,7 +66,7 @@ export default function AfterLoginMP() {
               <button className="pb-[0.5px] font-normal underline text-[11px] text-[#838687]">로그아웃</button>
             </div>
             <h2 className="text-[13px] font-bold text-[#6E6053] ">
-              챌린지 중독자
+              {userData.title}
             </h2>
             <div className="flex items-center gap-3 text-xs text-[#6E6053]">
               <span>
@@ -94,15 +105,29 @@ export default function AfterLoginMP() {
         <ActivityBadgesSection />
 
         {/* Challenge Management */}
-        <div className="mt-4 mb-4">
-          <h3 className="text-sm font-semibold text-[#6e6053]">
+        <div className="mt-[23px] mb-4">
+          <h3 className="text-sm font-semibold text-[#6e6053] ml-[2px]">
             챌린지 관리
           </h3>
-          <p className="text-xs text-[#6e6053] mt-1">마이 챌린지</p>
+          <button className="text-xs text-[#6e6053] mt-1 ml-1" onClick={goToMyCHallenge}>마이 챌린지</button>
         </div>
 
         {/* Calendar Section */}
-        {/* <CalendarSection /> */}
+        <CalendarSection />
+
+        {/* Success Rate Section */}
+        <SuccessRateSection />    
+
+
+        {/* Instructions for Use */}
+        <div className="mt-[23px] mb-6">
+          <h3 className="text-sm font-semibold text-[#6e6053] ml-[2px]">
+            이용 안내
+          </h3>
+          <button className="text-xs text-[#6e6053] mt-1 ml-1" >1:1 문의</button>
+          <button className="text-xs text-[#6e6053] mt-1 ml-1" >약관 및 정책</button>
+        </div>
+
       </main>
   );
 }

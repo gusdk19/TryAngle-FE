@@ -56,7 +56,7 @@ export default function ActivityBadgesSection() {
     },
     {
         badgeId: 5,
-        name: "연속 성공 마스터",
+        name: "연속 성공 챌린저",
         description: "7회 연속 챌린지 성공",
         unlockCondition: "7회 연속 챌린지 성공",
         isVisible: false,
@@ -161,7 +161,7 @@ export default function ActivityBadgesSection() {
 
 
   return (
-    <div className="w-[328px] my-4">
+    <div className="w-full mt-4">
       <div className="relative border border-[#b8aa96] rounded-[5px]">
         <div className="flex items-center p-3">
           <span className="text-[#b8aa96] text-sm font-medium">활동 배지</span>

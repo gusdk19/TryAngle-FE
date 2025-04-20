@@ -26,4 +26,11 @@ code {
   border-radius: 30px;
   background: white;
   padding: 0px 0px;
+
+  -ms-overflow-style:none; /* IE and Edge */
+  scrollbar-width:none; /* Firefox */
+}
+
+.iphone-frame::-webkit-scrollbar {
+	display:none /* Chrome , Safari , Opera */
 }

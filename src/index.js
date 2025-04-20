@@ -3,14 +3,13 @@ import ReactDOM from 'react-dom/client';
 import "./styles/index.css";
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import MyPage from './pages/mypage';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     {/* <App /> */}
     <div className='iphone-frame'> 
-      <MyPage/>
+      <App/>
     </div>
   </React.StrictMode>
 );

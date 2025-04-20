@@ -1,0 +1,16 @@
+.piContainer {
+    height: 80px;
+    width: 80px;
+    border-radius:100%;
+    border: 1px solid #D9D9D9;
+}
+
+.main{
+    -ms-overflow-style:none; /* IE and Edge */
+    scrollbar-width:none; /* Firefox */
+}
+
+.main::-webkit-scrollbar {
+    display:none /* Chrome , Safari , Opera */
+}
+

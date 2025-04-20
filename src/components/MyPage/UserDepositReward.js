@@ -2,7 +2,7 @@ import { ChevronRight } from "lucide-react";
 import deposit_image from "../../assets/images/mypage/deposit_image.png";
 import reward_image from "../../assets/images/mypage/reward_image.png";
 
-import "../../styles/UserDepositReward.css";
+import "../../styles/mypage/UserDepositReward.css";
 import React from "react";
 
 export default function UserDepositReward({deposit, reward}) {
