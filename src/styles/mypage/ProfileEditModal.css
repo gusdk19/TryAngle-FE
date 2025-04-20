@@ -1,0 +1,118 @@
+/* iphone-frame 내부 백드롭 */
+.inner-backdrop {
+    position: absolute;
+    top: 0; 
+    left: 0;
+    width: 100%; 
+    height: 100%;
+    background-color: #FFFFFFCC;
+    z-index: 10;
+}
+  
+/* 모달 내용 */
+.inner-modal {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 20;
+    background: #FDF8ED;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    /* height: 467px; */
+    width: 299px;
+}
+
+.modal-sq{
+    position: relative;
+}
+
+.close-btn{
+    position: absolute;
+    width : 25px;
+    height: 25px;
+    right : 0px;
+    top : 0px;    
+}
+
+.profile-image{
+    position:relative;
+}
+
+.image-btn{
+    width: fit-content;
+    margin: auto;
+    z-index:25;
+    display: grid;
+    align-items: center;
+    gap: 8px;
+}
+
+.image-btn:hover{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    justify-content: center;
+    width:100%;
+    height: 100%;
+    background-color: #FFFFFFAA;
+}
+
+.basic-image-btn, .upload-image-btn{
+    padding: 3px 5px;
+    margin: 0px auto; 
+    width: fit-content;
+    font-size: 13px;
+    font-weight: semibold;
+    color: gray;
+    border: 1.5px solid gray;
+    border-radius: 10px;
+    z-index: 25;
+}
+
+/* .basic-image-btn:hover, 
+.upload-image-btn:hover{
+    padding: 3px 5px;
+    margin: auto; 
+    width: fit-content;
+    font-size: 13px;
+    font-weight: semibold;
+    background : #FFFFFF;
+    color: gray;
+    border: 1.5px solid gray;
+    border-radius: 10px;
+    z-index: 25;
+} */
+
+.preview-image{
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    width: 100%;
+    height: 100%;
+    opacity: 0.9;
+    pointer-events: none; /* 클릭 이벤트 무시 */
+  
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3열 */
+    grid-template-rows: repeat(4, auto);   /* 4행 */
+    gap: 10px;
+    /* max-width: 600px; */
+    margin: 10px auto;
+}
+  
+.grid-image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.grid-image:hover,
+.grid-image:focus{
+    border: 2px solid #4A483F;
+    border-radius: 15px;
+}

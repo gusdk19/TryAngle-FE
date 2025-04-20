@@ -1,11 +1,18 @@
-// Import sections
-// import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-// import { Badge } from "@/components/ui/badge";
-// import { Button } from "@/components/ui/button";
-// import { Card, CardContent } from "@/components/ui/card";
-// import { hr } from "@/components/ui/separator";
 import "../../styles/mypage/AfterLoginMP.css";
-import bpi_22 from "../../assets/images/mypage/basic_profile_image/basic_profile_image_22.png";
+
+// Basic Profile Image
+import bpi_1 from "../../assets/images/mypage/basic_profile_image/basic_profile_image_1.png";
+import bpi_2 from "../../assets/images/mypage/basic_profile_image/basic_profile_image_2.png";
+import bpi_3 from "../../assets/images/mypage/basic_profile_image/basic_profile_image_3.png";
+import bpi_4 from "../../assets/images/mypage/basic_profile_image/basic_profile_image_4.png";
+import bpi_5 from "../../assets/images/mypage/basic_profile_image/basic_profile_image_5.png";
+import bpi_6 from "../../assets/images/mypage/basic_profile_image/basic_profile_image_6.png";
+import bpi_7 from "../../assets/images/mypage/basic_profile_image/basic_profile_image_7.png";
+import bpi_8 from "../../assets/images/mypage/basic_profile_image/basic_profile_image_8.png";
+import bpi_9 from "../../assets/images/mypage/basic_profile_image/basic_profile_image_9.png";
+import bpi_10 from "../../assets/images/mypage/basic_profile_image/basic_profile_image_10.png";
+import bpi_11 from "../../assets/images/mypage/basic_profile_image/basic_profile_image_11.png";
+import bpi_12 from "../../assets/images/mypage/basic_profile_image/basic_profile_image_12.png";
 
 import { Bell, Calendar, Edit2, Home, User, UserPlus } from "lucide-react";
 import { MdOutlineEdit } from "react-icons/md";
@@ -13,26 +20,29 @@ import { MdOutlineEdit } from "react-icons/md";
 import ActivityBadgesSection from "./ActivityBadgesSection";
 import CalendarSection from "./CalendarSection";
 import UserDepositReward from "./UserDepositReward";
-import React from "react";
+import React, {useState} from "react";
 import { useNavigate } from 'react-router-dom'; 
 import SuccessRateSection from "./SuccessRateSection";
+import ProfileEditModal from "./ProfileEditModal";
 
 export default function AfterLoginMP() {
   // User data
-  const userData = {
+  const [userData, setUserData] = useState({
     userId: 1,
     email: "tryangle@gmail.com",
     name: "이현아",
     phone: "01012345678",
     description: "화이팅!",
     nickname: "효나츄",
-    profileImage: bpi_22,
+    profileImage: bpi_12,
     deposit: 10000,
     reward: 500,
     follower: 3,
     following: 2,
     title: "챌린지 중독자",
-  }
+  });
+
+  const [showPEModal, setShowPEModal] = useState(false);
 
   const navigate = useNavigate();
 
@@ -48,14 +58,14 @@ export default function AfterLoginMP() {
           {/* Profile Image */}
           <div className="relative">
             <div className="piContainer">
-              <img className="profileImage" alt="Profile Image" src={bpi_22} />
+              <img className="profileImage" alt="Profile Image" src={userData.profileImage} />
             </div>            
             <button
               variant="outline"
               size="icon"
               className="editbtn absolute bottom-0 right-0 h-[23px] w-[23px] rounded-full bg-white border border-[#4A483F] p-0"
             >
-              <MdOutlineEdit className="ml-[3px] h-[15px] w-[15px] stroke-[#4A483F] fill-[#4A483F]" />
+              <MdOutlineEdit className="ml-[3px] h-[15px] w-[15px] stroke-[#4A483F] fill-[#4A483F]" onClick={()=>{setShowPEModal(true)}}/>
             </button>
           </div>
 
@@ -94,7 +104,7 @@ export default function AfterLoginMP() {
         {/* Status Bar (오늘의 한마디) */}
         <div className="w-full mb-4 bg-[#FDF8ED] border-none rounded-md">
           <div className="px-3 py-2 flex items-center">
-            <span className="text-[#6E6053] text-[12px]">오늘의 한마디 :)</span>
+            <span className="text-[#6E6053] text-[12px]">{userData.description}</span>
           </div>
         </div>
 
@@ -127,6 +137,8 @@ export default function AfterLoginMP() {
           <button className="text-xs text-[#6e6053] mt-1 ml-1" >1:1 문의</button>
           <button className="text-xs text-[#6e6053] mt-1 ml-1" >약관 및 정책</button>
         </div>
+
+        {showPEModal && <ProfileEditModal origNickname={userData.nickname} origPI={userData.profileImage} onClose={setShowPEModal} changeUserData={setUserData}/>}
 
       </main>
   );
