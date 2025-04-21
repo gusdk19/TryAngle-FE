@@ -1,26 +1,27 @@
 import React, { useEffect, useState } from "react";
 import "../../styles/friend/follower.css";
 
-export default function Follower({searchValue}){
+export default function Follower({searchValue, setUserFollower, followers, setFollowers}){
 
-    const [followers, setFollowers] = useState([
-        {
-            user_id: 2,
-            nickname: "고은츄",
-            profileImage: "https://i.namu.wiki/i/w7GkIKr6Qac-0SCYEn7DdYBpkpZed9FaVNTBFE7aIQvm7p39bo7gs2Pb1ZWfX3dPVd0JmA3oX50T5kl-MU7wfw.webp"
-        },
-        {
-            user_id: 3,
-            nickname: "혜원츄",
-            profileImage: "https://i.namu.wiki/i/w7GkIKr6Qac-0SCYEn7DdYBpkpZed9FaVNTBFE7aIQvm7p39bo7gs2Pb1ZWfX3dPVd0JmA3oX50T5kl-MU7wfw.webp"
-        }
-    ]);
+    // const [followers, setFollowers] = useState([
+    //     {
+    //         user_id: 2,
+    //         nickname: "고은츄",
+    //         profileImage: "https://i.namu.wiki/i/w7GkIKr6Qac-0SCYEn7DdYBpkpZed9FaVNTBFE7aIQvm7p39bo7gs2Pb1ZWfX3dPVd0JmA3oX50T5kl-MU7wfw.webp"
+    //     },
+    //     {
+    //         user_id: 3,
+    //         nickname: "혜원츄",
+    //         profileImage: "https://i.namu.wiki/i/w7GkIKr6Qac-0SCYEn7DdYBpkpZed9FaVNTBFE7aIQvm7p39bo7gs2Pb1ZWfX3dPVd0JmA3oX50T5kl-MU7wfw.webp"
+    //     }
+    // ]);
 
     const filteredFollowers = followers.filter(follower =>
         follower.nickname.includes(searchValue)
     )
 
     const cancelFollow = (targetId) => {
+        setUserFollower((prev)=>(prev-1));
         setFollowers((prevFollowers) =>
           prevFollowers.filter((follower) => follower.user_id !== targetId)
         );

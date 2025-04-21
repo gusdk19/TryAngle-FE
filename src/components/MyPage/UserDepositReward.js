@@ -4,8 +4,11 @@ import reward_image from "../../assets/images/mypage/reward_image.png";
 
 import "../../styles/mypage/UserDepositReward.css";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function UserDepositReward({deposit, reward}) {
+  const navigate = useNavigate();
+  
   // Data for the financial summary
   return (
     <div className="FinanceBox border-[#B8AA96] border-[1px] rounded-md">
@@ -24,7 +27,8 @@ export default function UserDepositReward({deposit, reward}) {
         </div>
         <div className="reward-text font-bold">{reward}원</div>
       </div>
-      <ChevronRight className="chevron-right mx-[1px] my-auto" color="#B8AA96" />
+      <ChevronRight className="chevron-right mx-[1px] my-auto cursor-pointer" color="#B8AA96" 
+        onClick={()=>{navigate("/finance");}}/>
     </div>
   );
 }

@@ -20,12 +20,17 @@ import { MdOutlineEdit } from "react-icons/md";
 import ActivityBadgesSection from "./ActivityBadgesSection";
 import CalendarSection from "./CalendarSection";
 import UserDepositReward from "./UserDepositReward";
-import React, {useState} from "react";
-import { useNavigate } from 'react-router-dom'; 
+import React, {useEffect, useState} from "react";
+import { useNavigate, useLocation } from 'react-router-dom'; 
 import SuccessRateSection from "./SuccessRateSection";
 import ProfileEditModal from "./ProfileEditModal";
 
 export default function AfterLoginMP() {
+
+  const location = useLocation();
+
+  const { following, follower } = location.state || {};
+
   // User data
   const [userData, setUserData] = useState({
     userId: 1,
@@ -37,10 +42,22 @@ export default function AfterLoginMP() {
     profileImage: bpi_12,
     deposit: 10000,
     reward: 500,
-    follower: 3,
-    following: 2,
+    follower: follower ? follower : 2,
+    following: following ? following : 2,
     title: "챌린지 중독자",
   });
+
+  
+  // 친구 페이지 변경사항 업데이트트
+  console.log("follower/following",follower, following)
+  useEffect(()=>{
+    setUserData(prevData => ({
+      ...prevData,
+      follower: follower ? follower : userData.follower,
+      following: following ? following : userData.following
+    }));
+  }, [following, follower])
+    
 
   const [showPEModal, setShowPEModal] = useState(false);
 
