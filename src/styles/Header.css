@@ -16,6 +16,14 @@
     vertical-align: middle;
 }
 
+.logo-name{
+    display: grid;
+    place-items: start;
+    flex-grow: 1;
+    vertical-align: middle;
+    margin-left: 13px;
+}
+
 .title-text{
     position: absolute;
     left:50%;
@@ -36,6 +44,11 @@
 .bell-icon{
     width: 20px;
     height:20px;
+}
+
+.bell-icon2{
+    width: 25px;
+    height:25px;
 }
 
 .back{

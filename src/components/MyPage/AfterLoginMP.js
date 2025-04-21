@@ -71,7 +71,7 @@ export default function AfterLoginMP({setLogin}) {
   const navigate = useNavigate();
 
   const goToMyCHallenge = () => {                                    // 3
-    navigate('/myChallenge');
+    navigate('/mychallenge');
   };
 
 

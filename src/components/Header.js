@@ -3,6 +3,7 @@ import "../styles/Header.css"
 import { FaRegBell } from "react-icons/fa";
 import { IoIosArrowBack } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
+import logo_name  from "../assets/images/common/logo_name.png";
 
 export default function Header(props){
 
@@ -40,14 +41,21 @@ export default function Header(props){
                         }
                     }} />
             </div> : ""}
-            <div className="title flex-1 text-center align-middle">
-                <span className="title-text font-['Roboto-Black',Helvetica] font-black text-[#4A483F] text-lg tracking-[0] leading-normal">
-                    {title}
-                </span>
-            </div>
+
+            {title == "마이페이지" 
+             ? <div className="title flex-1 text-center align-middle">
+                    <span className="title-text font-['Roboto-Black',Helvetica] font-black text-[#4A483F] text-lg tracking-[0] leading-normal">
+                        {title}
+                    </span>
+                </div>
+             : <div className="logo-name my-auto flex-1 text-left align-middle">
+                    <img src={logo_name} alt="try-angle_logo_name"/>
+                </div>
+            }
+
             {(title == "친구" || title == "챌린지 비용 및 보상")
              ? "" : <div className="bell flex-none align-middle cursor-pointer">
-                <FaRegBell className="bell-icon text-[#4A483F]" />
+                <FaRegBell className={`${title == "마이페이지" ? "bell-icon" : "bell-icon2 mt-[2px]"} text-[#4A483F]`} />
             </div>}
         </div>
     );

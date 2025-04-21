@@ -34,7 +34,7 @@ export default function Footer({page}){
         { icon: page == "myChallenge" ? <PiTriangleDashedFill className="w-[33px] h-[33px] font-thin mb-[3px] mr-[35px]" />
           :<PiTriangleDashed className="w-[33px] h-[33px] font-thin mb-[3px] mr-[35px]" />, 
           label: <span className="font-['Roboto-Black',Helvetica] font-bold text-black text-[13px] text-center tracking-[0] leading-normal mr-[35px]">마이챌린지</span>,
-          route: "/myChallenge",
+          route: "/mychallenge",
         },
         { icon: page == "myPage" ?  <PiUserCircleDuotone className="w-[36px] h-[36px] mb-[1px] mt-[-2px]" />
           : <PiUserCircleDashed className="w-[36px] h-[36px] mb-[1px] mt-[-2px]" />,

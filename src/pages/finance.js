@@ -15,7 +15,7 @@ import { useLocation } from "react-router-dom";
 
 export default function Finance() {
 
-    const page = "재정";
+    const page = "finance";
 
     const location = useLocation();
 
