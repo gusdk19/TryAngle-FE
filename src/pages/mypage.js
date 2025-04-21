@@ -6,7 +6,7 @@ import React, { useState } from "react";
 
 export default function MyPage() {
   // Login State (로그인 x : 0, 로그인 o : 1)
-  const [login, setLogin] = useState(1);
+  const [login, setLogin] = useState(0);
 
   const page = "myPage";
 
@@ -19,8 +19,8 @@ export default function MyPage() {
       
         {/* Main Content */}
         {login === 0 ? 
-          <BeforeLoginMP/>
-          :<AfterLoginMP/>}
+          <BeforeLoginMP setLogin={setLogin}/>
+          :<AfterLoginMP setLogin={setLogin}/>}
         
 
         {/* Footer Navigation */}

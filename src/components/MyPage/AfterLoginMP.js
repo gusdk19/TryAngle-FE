@@ -25,7 +25,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import SuccessRateSection from "./SuccessRateSection";
 import ProfileEditModal from "./ProfileEditModal";
 
-export default function AfterLoginMP() {
+export default function AfterLoginMP({setLogin}) {
 
   const location = useLocation();
 
@@ -97,7 +97,10 @@ export default function AfterLoginMP() {
           <div className="h-full ml-5 flex flex-col justify-center gap-1">
             <div variant="outline" className="flex flex-row gap-5 mt-[6px] font-semibold text-[#4A483F] text-[15px]">
               <div className="">{userData.nickname}</div>
-              <button className="pb-[0.5px] font-normal underline text-[11px] text-[#838687]">로그아웃</button>
+              <button className="pb-[0.5px] font-normal underline text-[11px] text-[#838687]"
+                onClick={()=>{setLogin(0)}}>
+                로그아웃
+              </button>
             </div>
             <h2 className="text-[13px] font-bold text-[#6E6053] ">
               {userData.title}

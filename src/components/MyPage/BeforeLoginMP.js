@@ -1,20 +1,21 @@
 import { Bell, Home, SmileIcon, Trophy, User, Users } from "lucide-react";
 import React from "react";
 
-export default function BeforeLoginMP(){
+export default function BeforeLoginMP({setLogin}){
 
     return(
         <main className="px-4">
             {/* Login Prompt */}
             <div className="flex items-center gap-1 mt-[20px]">
                 <div className="font-['Roboto-Black',Helvetica] font-bold text-[#4a483f] text-[18px] tracking-[0] leading-normal">
-                로그인을 해주세요.
+                    로그인을 해주세요.
                 </div>
                 <SmileIcon className="w-[18px] h-[18px] text-[#4a483f]" />
             </div>
 
             {/* Login Button */}
-            <button className="w-full h-10 mt-[15px] bg-[#fab809] hover:bg-[#fab809]/90 text-[#4a483f] rounded-[5px]">
+            <button className="w-full h-10 mt-[15px] bg-[#fab809] hover:bg-[#fab809]/90 text-[#4a483f] rounded-[5px]"
+                onClick={()=>{setLogin(1)}}>
                 <span className="font-m3-body-bold font-bold text-[14px] text-center grid items-center">로그인하기</span>
             </button>
 
