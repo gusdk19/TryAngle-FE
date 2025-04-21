@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "../../styles/friend/friend.css";
 import "../../styles/friend/follower.css"; //follower와 사용하는 css 동일해서 따로 만들지 않고 재사용.
 
 export default function AddFriend({searchValue, setFollowings, allUsers, setAllUsers, setUserFollowing}){
@@ -65,7 +66,7 @@ export default function AddFriend({searchValue, setFollowings, allUsers, setAllU
 
 
     return(
-        <div className="px-[20px] flex flex-col gap-[13px]">
+        <div className="main px-[20px] flex flex-col gap-[13px] overflow-scroll">
             {(searchValue != "" ? filteredUsers:allUsers).map((user, index)=>{
                 return(
                     <div key={user.user_id} className="flex flex-row gap-4 py-auto align-center">

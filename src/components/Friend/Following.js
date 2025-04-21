@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "../../styles/friend/friend.css";
 import "../../styles/friend/follower.css"; //follower와 사용하는 css 동일해서 따로 만들지 않고 재사용.
 
 export default function Following({searchValue, followings, setFollowings, setAllUsers, setUserFollowing}){
@@ -38,7 +39,7 @@ export default function Following({searchValue, followings, setFollowings, setAl
 
 
     return(
-        <div className="px-[20px] flex flex-col gap-[13px]">
+        <div className="main px-[20px] flex flex-col gap-[13px] overflow-scroll">
             {(searchValue != "" ? filteredFollowings:followings).map((following, index)=>{
                 return(
                     <div key={following.user_id} className="flex flex-row gap-4 py-auto align-center">

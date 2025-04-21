@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import "../../styles/friend/friend.css";
 import "../../styles/friend/follower.css";
 
 export default function Follower({searchValue, setUserFollower, followers, setFollowers}){
@@ -29,7 +30,7 @@ export default function Follower({searchValue, setUserFollower, followers, setFo
 
 
     return(
-        <div className="px-[20px] flex flex-col gap-[13px]">
+        <div className="main px-[20px] flex flex-col gap-[13px] overflow-scroll">
             {(searchValue != "" ? filteredFollowers:followers).map((follower, index)=>{
                 return(
                     <div key={follower.user_id} className="flex flex-row gap-4 py-auto align-center">
