@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import FriendNav from "../components/Friend/FriendNav";
@@ -7,6 +7,8 @@ import { IoIosSearch } from "react-icons/io";
 
 import "../styles/friend/friend.css"
 import Follower from "../components/Friend/Follower";
+import Following from "../components/Friend/Following";
+
 
 export default function Friend() {
     const location = useLocation();
@@ -16,6 +18,12 @@ export default function Friend() {
     const page="friend";
 
     const [tab, setTab] = useState("follower"); // tab type(3) : follower, following, add
+
+    const [searchValue, setSearchValue] = useState("");
+
+    useEffect(()=>{
+        setSearchValue("");
+    },[tab]);
 
     return(
         <div className="bg-white flex flex-row justify-center w-full">
@@ -32,7 +40,9 @@ export default function Friend() {
                 <input
                     type="text"
                     placeholder="검색"
+                    value={searchValue}
                     className="search-input"
+                    onChange={(e)=>{setSearchValue(e.target.value)}}
                 />
                 <IoIosSearch className="search-icon"/>
                 {/* <span>🔍</span> */}
@@ -40,9 +50,9 @@ export default function Friend() {
 
             {/* Main Content */}
             {tab === "follower" ?
-             <Follower/>
+             <Follower searchValue={searchValue}/>
             : tab === "following" ?
-             <></>
+             <Following searchValue={searchValue}/>
             : tab === "add" ?
              <></>
             : ""}

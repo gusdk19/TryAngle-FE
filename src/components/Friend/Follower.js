@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../../styles/friend/follower.css";
 
-export default function Follower(){
+export default function Follower({searchValue}){
 
     const [followers, setFollowers] = useState([
         {
@@ -16,6 +16,10 @@ export default function Follower(){
         }
     ]);
 
+    const filteredFollowers = followers.filter(follower =>
+        follower.nickname.includes(searchValue)
+    )
+
     const cancelFollow = (targetId) => {
         setFollowers((prevFollowers) =>
           prevFollowers.filter((follower) => follower.user_id !== targetId)
@@ -25,7 +29,7 @@ export default function Follower(){
 
     return(
         <div className="px-[20px] flex flex-col gap-[13px]">
-            {followers.map((follower, index)=>{
+            {(searchValue != "" ? filteredFollowers:followers).map((follower, index)=>{
                 return(
                     <div key={follower.user_id} className="flex flex-row gap-4 py-auto align-center">
                         <img className="flex-none w-[43px] h-[43px] rounded-full p-[1px] border-[0.5px] border-[#D9D9D9]" src={follower.profileImage} alt={`${follower.user_id}-profileImage`}/>

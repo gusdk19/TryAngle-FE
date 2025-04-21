@@ -185,7 +185,7 @@ export default function ActivityBadgesSection() {
                 <button key={badge.badgeId} className="flex flex-col items-center text-pretty" 
                     onClick={()=>toggleBadge(badge.badgeId)}>
                   {!badge.isVisible ? (
-                    <div className="grid items-center w-[50px] h-[50px] bg-[#fdf8ed] rounded-[5px] border border-solid border-[#b8aa96] flex items-center justify-center">
+                    <div className="grid items-center w-[50px] h-[50px] bg-[#fdf8ed] rounded-[5px] border border-solid border-[#b8aa96] justify-center">
                         {clickedBadge.includes(badge.badgeId) ? 
                         <span className="p-[2px] text-[7.5px] text-[#6e6053] font-bold tracking-[0.50px] mt-1 [font-family:'Roboto-Bold',Helvetica] ">
                             {badge.description}
