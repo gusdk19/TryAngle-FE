@@ -9,13 +9,15 @@ export default function Header(props){
     const title = props.title ? props.title : "";
     const following = props.following ? props.following : "";
     const follower = props.follower ? props.follower : "";
+    const totalReturn = props.totalReturn ? props.totalReturn : "";
 
-    console.log(following, follower)
+    console.log(following, follower, totalReturn);
     const navigate = useNavigate();
 
     return(
-        <div className="header flex flex-unwrap grow w-full">
-            {title == "친구" ? <div className="back flex-none align-middle cursor-pointer">
+        <div className="header flex flex-unwrap grow w-full pt-[4.5px]">
+            {(title == "친구" || title == "챌린지 비용 및 보상") 
+            ? <div className="back flex-none align-middle cursor-pointer">
                 <IoIosArrowBack className="back-icon text-[#4A483F]" 
                     onClick={()=>{
                         if(title == "친구"){
@@ -25,15 +27,26 @@ export default function Header(props){
                                   following: following,
                                 },
                             });
-                        } else{
+                        } 
+                        else if(title == "재정정"){
+                            navigate("/mypage", {
+                                state: {
+                                  totalReturn: totalReturn,
+                                },
+                            });
+                        }
+                        else{
                             navigate(-1);
                         }
                     }} />
             </div> : ""}
             <div className="title flex-1 text-center align-middle">
-                <p className="title-text font-['Roboto-Black',Helvetica] font-black text-[#4A483F] text-lg tracking-[0] leading-normal">{title}</p>
+                <span className="title-text font-['Roboto-Black',Helvetica] font-black text-[#4A483F] text-lg tracking-[0] leading-normal">
+                    {title}
+                </span>
             </div>
-            {title == "친구" ? "" : <div className="bell flex-none align-middle cursor-pointer">
+            {(title == "친구" || title == "챌린지 비용 및 보상")
+             ? "" : <div className="bell flex-none align-middle cursor-pointer">
                 <FaRegBell className="bell-icon text-[#4A483F]" />
             </div>}
         </div>

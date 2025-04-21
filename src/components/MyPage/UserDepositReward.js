@@ -28,7 +28,12 @@ export default function UserDepositReward({deposit, reward}) {
         <div className="reward-text font-bold">{reward}원</div>
       </div>
       <ChevronRight className="chevron-right mx-[1px] my-auto cursor-pointer" color="#B8AA96" 
-        onClick={()=>{navigate("/finance");}}/>
+        onClick={()=>{navigate("/finance",{
+          state: {
+            deposit: deposit,
+            reward: reward,
+          },
+        });}}/>
     </div>
   );
 }

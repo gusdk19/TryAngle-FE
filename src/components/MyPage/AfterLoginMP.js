@@ -29,7 +29,7 @@ export default function AfterLoginMP() {
 
   const location = useLocation();
 
-  const { following, follower } = location.state || {};
+  const { following, follower, totalReturn } = location.state || {};
 
   // User data
   const [userData, setUserData] = useState({
@@ -40,8 +40,8 @@ export default function AfterLoginMP() {
     description: "화이팅!",
     nickname: "효나츄",
     profileImage: bpi_12,
-    deposit: 10000,
-    reward: 500,
+    deposit: 300000,
+    reward: totalReturn ? totalReturn : 120000,
     follower: follower ? follower : 2,
     following: following ? following : 2,
     title: "챌린지 중독자",
@@ -57,6 +57,13 @@ export default function AfterLoginMP() {
       following: following ? following : userData.following
     }));
   }, [following, follower])
+
+  useEffect(()=>{
+    setUserData(prevData => ({
+      ...prevData,
+      reward: totalReturn ? totalReturn : userData.reward,
+    }));
+  }, [totalReturn])
     
 
   const [showPEModal, setShowPEModal] = useState(false);
