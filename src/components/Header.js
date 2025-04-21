@@ -28,7 +28,7 @@ export default function Header(props){
                                 },
                             });
                         } 
-                        else if(title == "재정정"){
+                        else if(title == "챌린지 비용 및 보상"){
                             navigate("/mypage", {
                                 state: {
                                   totalReturn: totalReturn,

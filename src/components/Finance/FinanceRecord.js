@@ -4,7 +4,7 @@ export default function FinanceRecord({financeStatus}){
 
 
     return(
-        <div className="flex flex-col gap-[20px] mt-[20px] mx-auto w-[350px] ">
+        <div className="flex flex-col gap-[18px] mt-[20px] mx-auto w-[350px] ">
             {financeStatus.map((challenge)=>(
                 <div key={challenge.challenge_id} 
                     className="w-full flex flex-col gap-[10px] px-[15px] py-[13px] mx-auto bg-[#FDF8ED] rounded-md">

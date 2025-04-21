@@ -3,6 +3,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import TotalFinanceBox from "../components/Finance/TotalFinanceBox";
 import FinanceRecord from "../components/Finance/FinanceRecord";
+import WithdrawalModal from "../components/Finance/WithdrawalModal";
 
 import books from "../assets/images/finance/books.png";
 import water from "../assets/images/finance/water.png";
@@ -58,25 +59,31 @@ export default function Finance() {
     const totalDeposit = financeStatus.reduce((sum, item) => sum + item.deposit, 0);
     const totalReturn = financeStatus.reduce((sum, item) => sum + item.return, 0) - withdrawal;
     
+    // Whether to display withdrawal modal window
+    const [wdModal, setWdModal] = useState(false);
+
     return(
         <div className="bg-white flex flex-row justify-center w-full">
             <div className="bg-white w-[393px] h-[852px] relative">
-            {/* Header */}
-            <Header title={"챌린지 비용 및 보상"} totalReturn={totalReturn} />
-            <hr className="m-0"/>
+                
+                {/* Header */}
+                <Header title={"챌린지 비용 및 보상"} totalReturn={totalReturn} />
+                <hr className="m-0"/>
+                
             
-           
-            {/* Main Content */}
-            {/* 전체 챌린지 비용(예치금) 및 보상 박스 */}
-            <TotalFinanceBox totalDeposit={totalDeposit} totalReturn={totalReturn} withdrawal={withdrawal} setWithdrawal={setWithdrawal} />
-            
-            {/* 챌린지별 예치금 및 보상 기록 */}
-            <FinanceRecord financeStatus={financeStatus} />
-    
-            {/* Footer Navigation */}
-            <Footer page={page}/>
+                {/* Main Content */}
+                {/* 전체 챌린지 비용(예치금) 및 보상 박스 */}
+                <TotalFinanceBox totalDeposit={totalDeposit} totalReturn={totalReturn} withdrawal={withdrawal} setWithdrawal={setWithdrawal} onClose={setWdModal} />
+                
+                {/* 챌린지별 예치금 및 보상 기록 */}
+                <FinanceRecord financeStatus={financeStatus} />
+        
+                {/* Footer Navigation */}
+                <Footer page={page}/>
             
             </div>
+
+            {wdModal && <WithdrawalModal onClose={setWdModal} setWithdrawal={setWithdrawal} totalReturn={totalReturn}/>}
         </div>
     );
 

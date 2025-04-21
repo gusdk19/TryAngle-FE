@@ -3,7 +3,7 @@ import "../../styles/finance/TotalFinanceBox.css";
 import deposit_image from "../../assets/images/mypage/deposit_image.png";
 import reward_image from "../../assets/images/mypage/reward_image.png";
 
-export default function TotalFinanceBox({totalDeposit, totalReturn, withdrawal, setWithdrawal}){
+export default function TotalFinanceBox({totalDeposit, totalReturn, onClose}){
 
 
     return(
@@ -29,7 +29,8 @@ export default function TotalFinanceBox({totalDeposit, totalReturn, withdrawal, 
             <div className='mt-[5px] px-[8px]'>
                 <div className='flex flex-row justify-between'>
                     <span className='text-[12px] text-[#B8AA96] mt-[-1px]'>반환받은 챌린지 비용</span>
-                    <button className='withdrawal-btn text-[11px] font-semibold h-fit px-[14px] pt-[0.5px] pb-[1px] my-auto mt-[1px] text-[#4A483F] bg-[#F4F4F4] rounded-md'>
+                    <button className='withdrawal-btn text-[11px] font-semibold h-fit px-[14px] pt-[0.5px] pb-[1px] my-auto mt-[1px] text-[#4A483F] bg-[#F4F4F4] rounded-md'
+                        onClick={()=>{onClose(true)}}>
                         출금
                     </button>
                 </div>
