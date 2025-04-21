@@ -49,7 +49,7 @@ export default function OnProgressChall({onProgressChallengeList, dueChallengeLi
                                 <div className='chall-title flex-none'>{challenge.challenge_name}</div>
                                 <img className='chall-thumbnail flex-1' src={challenge.challenge_thumbnail} />
                                 {dayDiff > 0 && <div className='due-date'>D-{dayDiff}</div>}
-                                {challenge.leader && <MdStar className='leader-mark' color='#FFCC5D'/> }
+                                {challenge.leader === 1 && <MdStar className='leader-mark' color='#FFCC5D'/> }
                             </div>
                             <div className='card-text flex flex-row'>
                                 <span className='main-tag'>

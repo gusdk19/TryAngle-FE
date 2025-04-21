@@ -3,6 +3,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import MyChallNav from "../components/MyChallenge/MyChallNav";
 import OnProgressChall from "../components/MyChallenge/OnProgressChall";
+import FinishChall from "../components/MyChallenge/FinishChall";
 
 import "../styles/myChallenge/myChallenge.css";
 
@@ -35,7 +36,8 @@ export default function MyChallenge(){
             "min_deposit": 1000,
             "return_type": 1,
             "auth_frequency": "참여빈도",
-            "leader":true,
+            "leader":1,
+            "participation_success":0,
         },
         {
             "challenge_id" : 1,
@@ -55,7 +57,8 @@ export default function MyChallenge(){
             "min_deposit": 1000,
             "return_type": 1,
             "auth_frequency": "참여빈도",
-            "leader":false,
+            "leader":0,
+            "participation_success":1,
         },
         {
             "challenge_id" : 2,
@@ -75,7 +78,8 @@ export default function MyChallenge(){
             "min_deposit": 1000,
             "return_type": 1,
             "auth_frequency": "참여빈도",
-            "leader":true,
+            "leader":1,
+            "participation_success":0,
         },
         {
             "challenge_id" : 3,
@@ -95,7 +99,8 @@ export default function MyChallenge(){
             "min_deposit": 1000,
             "return_type": 1,
             "auth_frequency": "참여빈도",
-            "leader":false,
+            "leader":0,
+            "participation_success":1,
         },
         {
             "challenge_id" : 4,
@@ -115,8 +120,29 @@ export default function MyChallenge(){
             "min_deposit": 1000,
             "return_type": 1,
             "auth_frequency": "참여빈도",
-            "leader":false,
-
+            "leader":0,
+            "participation_success":0,
+        },
+        {
+            "challenge_id" : 5,
+            "challenge_name": "챌린지 5",
+            "status": 1,
+            "deposit_status": 1,
+            "challenge_thumbnail": books,
+            "challenge_shrotintro": "영어 공부 1시간",
+            "challenge_descripton": "챌린지 5 입니다",
+            "category": 1,
+            "challenge_public": true,
+            "start_date": "2025-04-01",
+            "end_date": "2025-04-07",
+            "auth_time_start": "06:00",
+            "auth_time_end": "22:00",
+            "max_people": 10,
+            "min_deposit": 1000,
+            "return_type": 1,
+            "auth_frequency": "참여빈도",
+            "leader":0,
+            "participation_success":1,
         },
     ])
 
@@ -166,7 +192,8 @@ export default function MyChallenge(){
             {tab === "onProgress" && 
                 <OnProgressChall dueChallengeList={dueChallengeList} onProgressChallengeList={onProgressChallengeList} 
                     setChallengeList={setChallengeList}/>}
-            {tab === "finish" && <></>}
+            {tab === "finish" &&
+                <FinishChall finishedChallengeList={finishedChallengeList}/> }
             {tab === "create" && <></>}
     
             {/* Footer Navigation */}
