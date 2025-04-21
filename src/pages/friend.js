@@ -3,6 +3,10 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import FriendNav from "../components/Friend/FriendNav";
 import { useLocation } from "react-router-dom";
+import { IoIosSearch } from "react-icons/io";
+
+import "../styles/friend/friend.css"
+import Follower from "../components/Friend/Follower";
 
 export default function Friend() {
     const location = useLocation();
@@ -24,14 +28,22 @@ export default function Friend() {
             <FriendNav tab={tab} setTab={setTab} following={following} follower={follower}/>
 
             {/* Search Bar */}
-
+            <div className="search-container">
+                <input
+                    type="text"
+                    placeholder="검색"
+                    className="search-input"
+                />
+                <IoIosSearch className="search-icon"/>
+                {/* <span>🔍</span> */}
+            </div>
 
             {/* Main Content */}
-            {tab == "follower" ?
+            {tab === "follower" ?
+             <Follower/>
+            : tab === "following" ?
              <></>
-            : tab == "following" ?
-             <></>
-            : tab == "add" ?
+            : tab === "add" ?
              <></>
             : ""}
             
