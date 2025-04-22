@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 //onProgressChall와 동일한 css 사용
 import "../../styles/myChallenge/onProgressChall.css";
 
@@ -6,6 +7,8 @@ import { MdStar } from "react-icons/md";
 import { FaAngleRight } from "react-icons/fa6";
 
 export default function FinishChall({finishedChallengeList }){
+
+    const navigate = useNavigate();
 
     const sortedFinishedChallengeList = finishedChallengeList.sort((a, b) => {
         // 1단계: participation_success 기준
@@ -39,7 +42,7 @@ export default function FinishChall({finishedChallengeList }){
                     const dayDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
 
                     return(
-                        <div className={`${challenge.participation_success ? "card-success" : "card-fail"}`}>
+                        <div className={`${challenge.participation_success ? "card-success" : "card-fail"}`} onClick={()=>{navigate(`/challenge/${challenge.challenge_id}/info`)}}>
                             <div className='card-image flex flex-col'>
                                 <div className='chall-title flex-none'>{challenge.challenge_name}</div>
                                 <img className='chall-thumbnail flex-1' src={challenge.challenge_thumbnail} />

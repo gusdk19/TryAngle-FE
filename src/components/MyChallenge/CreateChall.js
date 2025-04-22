@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 //onProgressChall와 동일한 css 사용
 import "../../styles/myChallenge/onProgressChall.css";
 
 import { MdStar } from "react-icons/md";
 import { FiPlus } from "react-icons/fi";
-import { useNavigate } from 'react-router-dom';
 
 export default function CreateChall({leaderChallengeList}){
 
@@ -71,7 +71,7 @@ export default function CreateChall({leaderChallengeList}){
                         const dayDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
 
                         return(
-                            <div className="card">
+                            <div className="card" onClick={()=>{navigate(`/challenge/${challenge.challenge_id}/info`)}}>
                                 <div className='card-image flex flex-col'>
                                     <div className='chall-title flex-none'>{challenge.challenge_name}</div>
                                     <img className='chall-thumbnail flex-1' src={challenge.challenge_thumbnail} />
