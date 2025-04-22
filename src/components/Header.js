@@ -48,14 +48,15 @@ export default function Header(props){
                         {title}
                     </span>
                 </div>
-             : <div className="logo-name my-auto flex-1 text-left align-middle">
+             : <div className="logo-name my-auto flex-1 text-left align-middle cursor-pointer" onClick={()=>{navigate("/");}}>
                     <img src={logo_name} alt="try-angle_logo_name"/>
                 </div>
             }
 
             {(title == "친구" || title == "챌린지 비용 및 보상")
              ? "" : <div className="bell flex-none align-middle cursor-pointer">
-                <FaRegBell className={`${title == "마이페이지" ? "bell-icon" : "bell-icon2 mt-[2px]"} text-[#4A483F]`} />
+                <FaRegBell className={`${title == "마이페이지" ? "bell-icon" : "bell-icon2 mt-[2px]"} text-[#4A483F]`} 
+                    onClick={()=>{navigate("/alarm");}}/>
             </div>}
         </div>
     );
