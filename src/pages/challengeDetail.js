@@ -35,7 +35,7 @@ export default function ChallengeDetail() {
     <div className="bg-white flex flex-row justify-center w-full">
       <div className="bg-white w-[393px] h-[852px] relative">
         {/* Header */}
-        <Header title={challengeData.challenge_name}/>
+        <Header title={challengeData.challenge_name} page={page}/>
         <hr className="m-0"/>
       
         {/* Main Content */}
