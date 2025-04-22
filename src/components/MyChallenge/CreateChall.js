@@ -7,6 +7,8 @@ import { MdStar } from "react-icons/md";
 import { FiPlus } from "react-icons/fi";
 import { TiDeleteOutline } from "react-icons/ti";
 
+import CancelModal from './CancelModal';
+
 export default function CreateChall({leaderChallengeList, setChallengeList}){
 
     const navigate = useNavigate();
@@ -49,10 +51,15 @@ export default function CreateChall({leaderChallengeList, setChallengeList}){
         return new Date(b.start_date) - new Date(a.start_date);
     });
 
-    const cancelChall = (targetId)=>{
-        setChallengeList((preChallList) =>
-            preChallList.filter((challenge) => challenge.challenge_id !== targetId)
-        );
+
+    const [openModal, setOpenModal] = useState(false);
+    const [cancelChallID, setCancelChallID] = useState();
+    const [cancelChallName, setCancelChallName] = useState();
+
+    const cancelChall = (challenge)=>{
+        setOpenModal(true);
+        setCancelChallID(challenge.challenge_id);
+        setCancelChallName(challenge.challenge_name);
     }
 
     return(
@@ -119,7 +126,7 @@ export default function CreateChall({leaderChallengeList, setChallengeList}){
                                     {filter == "recruit-fail" &&
                                     //  <button className={`number-participants-fail`}
                                     <button className={`cancel-btn`}
-                                        onClick={()=>{cancelChall(challenge.challenge_id);}}>
+                                        onClick={(e)=>{e.stopPropagation(); cancelChall(challenge);}}>
                                         삭제하기
                                     </button>}
                                 </div>
@@ -133,6 +140,9 @@ export default function CreateChall({leaderChallengeList, setChallengeList}){
                     <FiPlus className='my-auto' color="#B8AA96"/>
                 </button>}
             </div>
+            {openModal && 
+                <CancelModal onClose={setOpenModal} cancel={"challenge"} 
+                    cancelChallID={cancelChallID} cancelChallName={cancelChallName} setChallengeList={setChallengeList}/>}
         </div>
     )
 }

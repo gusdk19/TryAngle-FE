@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import "../../styles/myChallenge/onProgressChall.css";
 
+import CancelModal from './CancelModal';
+
 import { MdStar } from "react-icons/md";
 import { FaAngleRight } from "react-icons/fa6";
 import { useNavigate } from 'react-router-dom';
@@ -9,12 +11,16 @@ export default function OnProgressChall({onProgressChallengeList, dueChallengeLi
 
     const navigate = useNavigate();
     
-    const [filter, setFilter] = useState("due"); // filter(2) : "due" - 예정, "onProgress" - 진행중중
+    const [filter, setFilter] = useState("due"); // filter(2) : "due" - 예정, "onProgress" - 진행중
 
-    const cancelChall = (targetId)=>{
-        setChallengeList((preChallList) =>
-            preChallList.filter((challenge) => challenge.challenge_id !== targetId)
-        );
+    const [openModal, setOpenModal] = useState(false);
+    const [cancelChallID, setCancelChallID] = useState();
+    const [cancelChallName, setCancelChallName] = useState();
+
+    const cancelChall = (challenge)=>{
+        setOpenModal(true);
+        setCancelChallID(challenge.challenge_id);
+        setCancelChallName(challenge.challenge_name);
     }
 
     return(
@@ -59,9 +65,10 @@ export default function OnProgressChall({onProgressChallengeList, dueChallengeLi
                                         #{challenge.challenge_shrotintro}
                                     </span>
                                     <button className={`${filter == "due" ? "cancel-btn" : challenge.auth_status ? "auth-done-btn" : "auth-btn"}`}
-                                        onClick={()=>{
+                                        onClick={(e)=>{
+                                            e.stopPropagation(); 
                                             if(filter == "due"){
-                                                cancelChall(challenge.challenge_id)
+                                                cancelChall(challenge)
                                             }
                                             else{
                                                 if(!challenge.auth_status){
@@ -84,6 +91,9 @@ export default function OnProgressChall({onProgressChallengeList, dueChallengeLi
                     <FaAngleRight className='my-auto' color="#B8AA96"/>
                 </button>
             </div>
+            {openModal && 
+                <CancelModal onClose={setOpenModal} cancel={"participate"} 
+                    cancelChallID={cancelChallID} cancelChallName={cancelChallName} setChallengeList={setChallengeList}/>}
         </div>
     )
 }

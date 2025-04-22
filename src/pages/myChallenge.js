@@ -369,7 +369,6 @@ export default function MyChallenge(){
     }, [challengeList])
     
 
-    
     return(
         <div className="bg-white flex flex-row justify-center w-full">
             <div className="bg-white w-[393px] h-[852px] relative">
@@ -382,17 +381,17 @@ export default function MyChallenge(){
             {/* Main Content */}
             {tab === "onProgress" && 
                 <OnProgressChall dueChallengeList={dueChallengeList} onProgressChallengeList={onProgressChallengeList} 
-                    setChallengeList={setChallengeList}/>}
+                    setChallengeList={setChallengeList} />}
             {tab === "finish" &&
                 <FinishChall finishedChallengeList={finishedChallengeList}/> }
             {tab === "create" &&
-                <CreateChall leaderChallengeList={leaderChallengeList} 
-                    setChallengeList={setChallengeList}/>}
+                <CreateChall leaderChallengeList={leaderChallengeList} setChallengeList={setChallengeList}/>}
     
             {/* Footer Navigation */}
             <Footer page={page}/>
             
             </div>
+
         </div>
     )
 }
