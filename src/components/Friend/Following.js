@@ -39,7 +39,7 @@ export default function Following({searchValue, followings, setFollowings, setAl
 
 
     return(
-        <div className="main px-[20px] flex flex-col gap-[13px] overflow-scroll">
+        <div className="main h-[612px] px-[20px] flex flex-col gap-[13px] overflow-scroll">
             {(searchValue != "" ? filteredFollowings:followings).map((following, index)=>{
                 return(
                     <div key={following.user_id} className="flex flex-row gap-4 py-auto align-center">

@@ -7,14 +7,28 @@ import { FaAngleRight } from "react-icons/fa6";
 
 export default function FinishChall({finishedChallengeList }){
 
+    const sortedFinishedChallengeList = finishedChallengeList.sort((a, b) => {
+        // 1단계: participation_success 기준
+        if (a.participation_success !== b.participation_success) {
+            return b.participation_success - a.participation_success; // 1이 앞에 오도록
+        }
+    
+        // 2단계: deposit_status 기준 (참여 성공자 중에서는 미정산(0)이 먼저)
+        if (a.participation_success === 1 && b.participation_success === 1) {
+            return a.deposit_status - b.deposit_status; // 0이 앞에 오도록
+        }
+    
+        // 3단계: 기타 - 그대로 두거나 날짜 기준 등 추가 정렬 가능
+        return 0;
+    });
 
 
     return(
-        <div className='w-full px-5 mt-4'>
+        <div className='main w-full h-[666px] px-5 pb-4 mt-4 overflow-scroll'>
             
             {/* Challenge List */}
-            <div className='card-container mt-4'>
-                {finishedChallengeList.map((challenge)=>{
+            <div className='card-container'>
+                {sortedFinishedChallengeList.map((challenge)=>{
                     const startDate = new Date(challenge.start_date);
                     const endDate = new Date(challenge.end_date);
 

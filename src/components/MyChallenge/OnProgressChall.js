@@ -20,7 +20,7 @@ export default function OnProgressChall({onProgressChallengeList, dueChallengeLi
     return(
         <div className='w-full px-5 mt-4'>
             {/* Navbar */}
-            <div className='flex flex-row gap-2'>
+            <div className='flex flex-row gap-2 mb-4'>
                 <button className={`${filter == "due" ? "filter-selected font-medium" : "filter-unselected font-semibold"}`}
                     onClick={()=>{setFilter("due")}}>
                     예정
@@ -30,54 +30,56 @@ export default function OnProgressChall({onProgressChallengeList, dueChallengeLi
                     진행중
                 </button>
             </div>
+            {/* main */}
+            <div className='main h-[619px] pb-4 overflow-scroll'>
+                {/* Challenge List */}
+                <div className='card-container'>
+                    {(filter == "due" ? dueChallengeList : onProgressChallengeList).map((challenge)=>{
+                        const startDate = new Date(challenge.start_date);
+                        const now = new Date();
 
-            {/* Challenge List */}
-            <div className='card-container mt-4'>
-                {(filter == "due" ? dueChallengeList : onProgressChallengeList).map((challenge)=>{
-                    const startDate = new Date(challenge.start_date);
-                    const endDate = new Date(challenge.end_date);
+                        // 날짜 차이 계산 (밀리초 단위)
+                        const timeDiff = startDate.getTime() - now.getTime();
 
-                    // 날짜 차이 계산 (밀리초 단위)
-                    const timeDiff = endDate.getTime() - startDate.getTime();
+                        // 밀리초 → 일수 (1일 = 1000 * 60 * 60 * 24)
+                        const dayDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
 
-                    // 밀리초 → 일수 (1일 = 1000 * 60 * 60 * 24)
-                    const dayDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
-
-                    return(
-                        <div className="card">
-                            <div className='card-image flex flex-col'>
-                                <div className='chall-title flex-none'>{challenge.challenge_name}</div>
-                                <img className='chall-thumbnail flex-1' src={challenge.challenge_thumbnail} />
-                                {dayDiff > 0 && <div className='due-date'>D-{dayDiff}</div>}
-                                {challenge.leader === 1 && <MdStar className='leader-mark' color='#FFCC5D'/> }
-                            </div>
-                            <div className='card-text flex flex-row'>
-                                <span className='main-tag'>
-                                    #{challenge.challenge_shrotintro}
-                                </span>
-                                <button className={`${filter == "due" ? "cancel-btn" : challenge.status ? "auth-done-btn" : "auth-btn"}`}
-                                    onClick={()=>{
-                                        if(filter == "due"){
-                                            cancelChall(challenge.challenge_id)
-                                        }
-                                        else{
-                                            if(!challenge.status){
-                                                navigate(`/challenge/${challenge.challenge_id}/auth`);
+                        return(
+                            <div className="card">
+                                <div className='card-image flex flex-col'>
+                                    <div className='chall-title flex-none'>{challenge.challenge_name}</div>
+                                    <img className='chall-thumbnail flex-1' src={challenge.challenge_thumbnail} />
+                                    {dayDiff > 0 && <div className='due-date'>D-{dayDiff}</div>}
+                                    {challenge.leader === 1 && <MdStar className='leader-mark' color='#FFCC5D'/> }
+                                </div>
+                                <div className='card-text flex flex-row'>
+                                    <span className='main-tag'>
+                                        #{challenge.challenge_shrotintro}
+                                    </span>
+                                    <button className={`${filter == "due" ? "cancel-btn" : challenge.status ? "auth-done-btn" : "auth-btn"}`}
+                                        onClick={()=>{
+                                            if(filter == "due"){
+                                                cancelChall(challenge.challenge_id)
                                             }
-                                        }
-                                    }}>
-                                    {filter == "due" ? "참가 취소" : challenge.status ? "인증완료" : "인증하기"}
-                                </button>
+                                            else{
+                                                if(!challenge.status){
+                                                    navigate(`/challenge/${challenge.challenge_id}/auth`);
+                                                }
+                                            }
+                                        }}>
+                                        {filter == "due" ? "참가 취소" : challenge.status ? "인증완료" : "인증하기"}
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-                )})}
-            </div>
+                    )})}
+                </div>
 
-            <button className='more-btn flex flex-row justify-center gap-[4px] mt-4 w-full text-center'
-                onClick={()=>{navigate("/")}}>
-                <span className=""> 모집중인 챌린지 더보기 </span>
-                <FaAngleRight className='my-auto' color="#B8AA96"/>
-            </button>
+                <button className='more-btn flex flex-row justify-center gap-[4px] mt-3 w-full text-center'
+                    onClick={()=>{navigate("/")}}>
+                    <span className=""> 모집중인 챌린지 더보기 </span>
+                    <FaAngleRight className='my-auto' color="#B8AA96"/>
+                </button>
+            </div>
         </div>
     )
 }

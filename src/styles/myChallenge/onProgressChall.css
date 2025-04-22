@@ -142,6 +142,7 @@
     margin-top:1px;
 }
 
+/* 참여완료 탭 - 정산중 */
 .adjust-progress{
     border: 1px solid #4A483F;
     border-radius: 5px;
@@ -170,6 +171,7 @@
     color: white;
 }
 
+/* 참여중 탭의 인증완료, 참여완료 탭의 정산중 */
 .auth-done-btn, .adjust-done{
     background: white;
     border: 1px solid #B8AA96;
@@ -190,4 +192,25 @@
     color: #B8AA96;
     font-size: 11px;
     text-align : center;
+}
+
+/* 개설탭의 참여인원 */
+.number-participants{
+    background: white;
+    border: 1px solid #4A483F;
+    border-radius: 5px;
+    color: #4A483F;
+    font-size: 8.5px;
+    font-weight: 600;
+    padding: 2.5px 5px 2px 5px;
+    margin-top:1px;
+}
+
+.main{
+    -ms-overflow-style:none; /* IE and Edge */
+    scrollbar-width:none; /* Firefox */
+}
+
+.main::-webkit-scrollbar {
+    display:none /* Chrome , Safari , Opera */
 }

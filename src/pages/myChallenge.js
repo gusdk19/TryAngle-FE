@@ -10,6 +10,7 @@ import "../styles/myChallenge/myChallenge.css";
 import books from "../assets/images/finance/books.png";
 import water from "../assets/images/finance/water.png";
 import dumbell from "../assets/images/finance/dumbell.png";
+import CreateChall from "../components/MyChallenge/CreateChall";
 
 export default function MyChallenge(){
 
@@ -33,6 +34,7 @@ export default function MyChallenge(){
             "auth_time_start": "06:00",
             "auth_time_end": "22:00",
             "max_people": 10,
+            "now_people":9,
             "min_deposit": 1000,
             "return_type": 1,
             "auth_frequency": "참여빈도",
@@ -54,6 +56,7 @@ export default function MyChallenge(){
             "auth_time_start": "06:00",
             "auth_time_end": "22:00",
             "max_people": 10,
+            "now_people":10,
             "min_deposit": 1000,
             "return_type": 1,
             "auth_frequency": "참여빈도",
@@ -75,6 +78,7 @@ export default function MyChallenge(){
             "auth_time_start": "06:00",
             "auth_time_end": "22:00",
             "max_people": 10,
+            "now_people":7,
             "min_deposit": 1000,
             "return_type": 1,
             "auth_frequency": "참여빈도",
@@ -95,11 +99,12 @@ export default function MyChallenge(){
             "end_date": "2025-02-21",
             "auth_time_start": "06:00",
             "auth_time_end": "22:00",
-            "max_people": 10,
+            "max_people": 13,
+            "now_people":13,
             "min_deposit": 1000,
             "return_type": 1,
             "auth_frequency": "참여빈도",
-            "leader":0,
+            "leader":1,
             "participation_success":1,
         },
         {
@@ -112,15 +117,16 @@ export default function MyChallenge(){
             "challenge_descripton": "챌린지 4 입니다",
             "category": 1,
             "challenge_public": true,
-            "start_date": "2025-05-01",
+            "start_date": "2025-04-30",
             "end_date": "2025-05-21",
             "auth_time_start": "06:00",
             "auth_time_end": "22:00",
-            "max_people": 10,
+            "max_people": 12,
+            "now_people":10,
             "min_deposit": 1000,
             "return_type": 1,
             "auth_frequency": "참여빈도",
-            "leader":0,
+            "leader":1,
             "participation_success":0,
         },
         {
@@ -138,47 +144,213 @@ export default function MyChallenge(){
             "auth_time_start": "06:00",
             "auth_time_end": "22:00",
             "max_people": 10,
+            "now_people":10,
             "min_deposit": 1000,
             "return_type": 1,
             "auth_frequency": "참여빈도",
             "leader":0,
             "participation_success":1,
         },
+        {
+            "challenge_id" : 6,
+            "challenge_name": "챌린지 6",
+            "status": 1,
+            "deposit_status": 1,
+            "challenge_thumbnail": water,
+            "challenge_shrotintro": "식물에 물 주기",
+            "challenge_descripton": "챌린지 6 입니다",
+            "category": 1,
+            "challenge_public": true,
+            "start_date": "2025-04-01",
+            "end_date": "2025-04-18",
+            "auth_time_start": "06:00",
+            "auth_time_end": "22:00",
+            "max_people": 10,
+            "now_people":10,
+            "min_deposit": 1000,
+            "return_type": 1,
+            "auth_frequency": "참여빈도",
+            "leader":1,
+            "participation_success":0,
+        },
+        {
+            "challenge_id" : 7,
+            "challenge_name": "챌린지 7",
+            "status": 1,
+            "deposit_status": 1,
+            "challenge_thumbnail": books,
+            "challenge_shrotintro": "수학 공부 1시간",
+            "challenge_descripton": "챌린지 7 입니다",
+            "category": 1,
+            "challenge_public": true,
+            "start_date": "2025-05-11",
+            "end_date": "2025-05-17",
+            "auth_time_start": "06:00",
+            "auth_time_end": "22:00",
+            "max_people": 10,
+            "now_people":10,
+            "min_deposit": 1000,
+            "return_type": 1,
+            "auth_frequency": "참여빈도",
+            "leader":0,
+            "participation_success":0,
+        },
+        {
+            "challenge_id" : 8,
+            "challenge_name": "챌린지 8",
+            "status": 1,
+            "deposit_status": 1,
+            "challenge_thumbnail": dumbell,
+            "challenge_shrotintro": "크로스핏",
+            "challenge_descripton": "챌린지 8 입니다",
+            "category": 1,
+            "challenge_public": true,
+            "start_date": "2025-04-12",
+            "end_date": "2025-06-20",
+            "auth_time_start": "06:00",
+            "auth_time_end": "22:00",
+            "max_people": 10,
+            "now_people":10,
+            "min_deposit": 1000,
+            "return_type": 1,
+            "auth_frequency": "참여빈도",
+            "leader":1,
+            "participation_success":0,
+        },
+        {
+            "challenge_id" : 9,
+            "challenge_name": "챌린지 9",
+            "status": 1,
+            "deposit_status": 1,
+            "challenge_thumbnail": water,
+            "challenge_shrotintro": "비타민 먹기",
+            "challenge_descripton": "챌린지 5 입니다",
+            "category": 1,
+            "challenge_public": true,
+            "start_date": "2025-05-01",
+            "end_date": "2025-05-07",
+            "auth_time_start": "06:00",
+            "auth_time_end": "22:00",
+            "max_people": 10,
+            "now_people":10,
+            "min_deposit": 1000,
+            "return_type": 1,
+            "auth_frequency": "참여빈도",
+            "leader":0,
+            "participation_success":0,
+        },
+        {
+            "challenge_id" : 10,
+            "challenge_name": "챌린지 10",
+            "status": 1,
+            "deposit_status": 1,
+            "challenge_thumbnail": books,
+            "challenge_shrotintro": "국어 공부 1시간",
+            "challenge_descripton": "챌린지 10 입니다",
+            "category": 1,
+            "challenge_public": true,
+            "start_date": "2025-07-01",
+            "end_date": "2025-08-07",
+            "auth_time_start": "06:00",
+            "auth_time_end": "22:00",
+            "max_people": 10,
+            "now_people":10,
+            "min_deposit": 1000,
+            "return_type": 1,
+            "auth_frequency": "참여빈도",
+            "leader":1,
+            "participation_success":0,
+        },
+        {
+            "challenge_id" : 11,
+            "challenge_name": "챌린지 11",
+            "status": 1,
+            "deposit_status": 1,
+            "challenge_thumbnail": dumbell,
+            "challenge_shrotintro": "천국의 계단",
+            "challenge_descripton": "챌린지 5 입니다",
+            "category": 1,
+            "challenge_public": true,
+            "start_date": "2025-06-01",
+            "end_date": "2025-06-07",
+            "auth_time_start": "06:00",
+            "auth_time_end": "22:00",
+            "max_people": 10,
+            "now_people":10,
+            "min_deposit": 1000,
+            "return_type": 1,
+            "auth_frequency": "참여빈도",
+            "leader":0,
+            "participation_success":0,
+        },
+        {
+            "challenge_id" : 12,
+            "challenge_name": "챌린지 12",
+            "status": 1,
+            "deposit_status": 1,
+            "challenge_thumbnail": books,
+            "challenge_shrotintro": "독서 스터디",
+            "challenge_descripton": "챌린지 12 입니다",
+            "category": 1,
+            "challenge_public": true,
+            "start_date": "2025-03-20",
+            "end_date": "2025-05-20",
+            "auth_time_start": "06:00",
+            "auth_time_end": "22:00",
+            "max_people": 10,
+            "now_people":10,
+            "min_deposit": 1000,
+            "return_type": 1,
+            "auth_frequency": "참여빈도",
+            "leader":1,
+            "participation_success":0,
+        },
     ])
 
+    // 모든 챌린지를 start_date 기준으로 역순 정렬
+    const sortedChallengeList = [...challengeList].sort(
+        (a, b) => new Date(b.start_date) - new Date(a.start_date)
+    );
+    console.log("sortedChallengeList",sortedChallengeList);
+    
     const [dueChallengeList, setDueChallengeList] = useState([]);
     const [onProgressChallengeList, setOnProgressChallengeList] = useState([]);
     const [finishedChallengeList, setFinishedChallengeList] = useState([]);
+    const [leaderChallengeList, setLeaderChallengeList] = useState([]);
 
     useEffect(()=>{
         const now = new Date();
 
-        setDueChallengeList([]);
-        setOnProgressChallengeList([]);
-        setFinishedChallengeList([]);
+        const dueList = [];
+        const onProgressList = [];
+        const finishedList = [];
+        const leaderList = [];
 
-        challengeList.forEach((challenge) => {
+        sortedChallengeList.forEach((challenge) => {
             const startDate = new Date(challenge.start_date);
             const endDate = new Date(challenge.end_date);
-    
+
             if (now < startDate) {
-                // 예정된
-                setDueChallengeList((prev)=>([...prev, challenge]));
+                dueList.push(challenge);
             } else if (now >= startDate && now <= endDate) {
-                // 진행 중
-                setOnProgressChallengeList((prev)=>([...prev, challenge]));
+                onProgressList.push(challenge);
             } else {
-                setFinishedChallengeList((prev)=>([...prev, challenge]));
+                finishedList.push(challenge);
+            }
+
+            if (challenge.leader) {
+                leaderList.push(challenge);
             }
         });
+
+        setDueChallengeList(dueList);
+        setOnProgressChallengeList(onProgressList);
+        setFinishedChallengeList(finishedList);
+        setLeaderChallengeList(leaderList);
     }, [challengeList])
     
 
     
-
-
-
-
     return(
         <div className="bg-white flex flex-row justify-center w-full">
             <div className="bg-white w-[393px] h-[852px] relative">
@@ -194,7 +366,8 @@ export default function MyChallenge(){
                     setChallengeList={setChallengeList}/>}
             {tab === "finish" &&
                 <FinishChall finishedChallengeList={finishedChallengeList}/> }
-            {tab === "create" && <></>}
+            {tab === "create" &&
+                <CreateChall leaderChallengeList={leaderChallengeList} />}
     
             {/* Footer Navigation */}
             <Footer page={page}/>

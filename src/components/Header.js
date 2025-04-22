@@ -12,7 +12,7 @@ export default function Header(props){
     const follower = props.follower ? props.follower : "";
     const totalReturn = props.totalReturn ? props.totalReturn : "";
 
-    console.log(following, follower, totalReturn);
+    // console.log(following, follower, totalReturn);
     const navigate = useNavigate();
 
     return(

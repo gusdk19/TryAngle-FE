@@ -66,7 +66,7 @@ export default function AddFriend({searchValue, setFollowings, allUsers, setAllU
 
 
     return(
-        <div className="main px-[20px] flex flex-col gap-[13px] overflow-scroll">
+        <div className="main h-[612px] px-[20px] flex flex-col gap-[13px] overflow-scroll">
             {(searchValue != "" ? filteredUsers:allUsers).map((user, index)=>{
                 return(
                     <div key={user.user_id} className="flex flex-row gap-4 py-auto align-center">
