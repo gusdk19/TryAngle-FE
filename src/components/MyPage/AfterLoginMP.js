@@ -40,8 +40,8 @@ export default function AfterLoginMP({setLogin}) {
     description: "화이팅!",
     nickname: "효나츄",
     profileImage: bpi_12,
-    deposit: 300000,
-    reward: totalReturn ? totalReturn : 120000,
+    challenge_money: 300000,
+    return_money: totalReturn ? totalReturn : 120000,
     follower: follower ? follower : 2,
     following: following ? following : 2,
     title: "챌린지 중독자",
@@ -142,7 +142,7 @@ export default function AfterLoginMP({setLogin}) {
         </div>
 
         {/* User Deposit/Reward Section */}
-        <UserDepositReward deposit={userData.deposit} reward={userData.reward} />
+        <UserDepositReward deposit={userData.challenge_money} reward={userData.return_money} />
 
         {/* Activity Badges Section */}
         <ActivityBadgesSection />

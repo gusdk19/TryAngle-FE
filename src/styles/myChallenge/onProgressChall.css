@@ -47,6 +47,12 @@
     cursor: pointer;
 }
 
+.card:focus,
+.card-success:focus,
+.card-fail:focus{
+    border: 2px solid #4A483F;
+}
+
 .card-image{
     position:relative;
     width:150px;
@@ -174,7 +180,7 @@
     color: white;
 }
 
-/* 참여중 탭의 인증완료, 참여완료 탭의 정산중 */
+/* 참여중 탭의 인증완료, 참여완료 탭의 정산완료 */
 .auth-done-btn, .adjust-done{
     background: white;
     border: 1px solid #B8AA96;
@@ -208,6 +214,18 @@
     padding: 2.5px 5px 2px 5px;
     margin-top:1px;
     cursor: default;
+}
+
+.number-participants-fail{
+    background: white;
+    border: 1px solid #B8AA96;
+    border-radius: 5px;
+    color: #B8AA96;
+    font-size: 8.5px;
+    font-weight: 600;
+    padding: 2.5px 5px 2px 5px;
+    cursor: default;
+    margin-top:1px;
 }
 
 .main{

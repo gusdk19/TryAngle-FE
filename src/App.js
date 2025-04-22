@@ -4,6 +4,7 @@ import MyPage from './pages/mypage';
 import Friend from './pages/friend';
 import Finance from './pages/finance';
 import MyChallenge from './pages/myChallenge';
+import ChallengeDetail from './pages/challengeDetail';
 
 function App() {
   return (
@@ -12,7 +13,8 @@ function App() {
         <Route path='/mypage' element={<MyPage />} />   
         <Route path='/friend' element={<Friend />} />      
         <Route path='/finance' element={<Finance />} />
-        <Route path='/mychallenge' element={<MyChallenge />} />                
+        <Route path='/mychallenge' element={<MyChallenge />} />
+        <Route path='/challenge/:id' element={<ChallengeDetail />} />                                
       </Routes>
   </BrowserRouter>
   );

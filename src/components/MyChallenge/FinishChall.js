@@ -42,7 +42,9 @@ export default function FinishChall({finishedChallengeList }){
                     const dayDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
 
                     return(
-                        <div className={`${challenge.participation_success ? "card-success" : "card-fail"}`} onClick={()=>{navigate(`/challenge/${challenge.challenge_id}/info`)}}>
+                        <div className={`${challenge.participation_success ? "card-success" : "card-fail"}`} onClick={()=>{navigate(`/challenge/${challenge.challenge_id}`, {state:{
+                            tab: "info",
+                        }})}}>
                             <div className='card-image flex flex-col'>
                                 <div className='chall-title flex-none'>{challenge.challenge_name}</div>
                                 <img className='chall-thumbnail flex-1' src={challenge.challenge_thumbnail} />

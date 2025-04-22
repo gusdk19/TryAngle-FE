@@ -45,7 +45,9 @@ export default function OnProgressChall({onProgressChallengeList, dueChallengeLi
                         const dayDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
 
                         return(
-                            <div className="card" onClick={()=>{navigate(`/challenge/${challenge.challenge_id}/info`)}}>
+                            <div className="card" onClick={()=>{navigate(`/challenge/${challenge.challenge_id}`, {state:{
+                                tab: "info",
+                            }})}}>
                                 <div className='card-image flex flex-col'>
                                     <div className='chall-title flex-none'>{challenge.challenge_name}</div>
                                     <img className='chall-thumbnail flex-1' src={challenge.challenge_thumbnail} />
@@ -56,18 +58,20 @@ export default function OnProgressChall({onProgressChallengeList, dueChallengeLi
                                     <span className='main-tag'>
                                         #{challenge.challenge_shrotintro}
                                     </span>
-                                    <button className={`${filter == "due" ? "cancel-btn" : challenge.status ? "auth-done-btn" : "auth-btn"}`}
+                                    <button className={`${filter == "due" ? "cancel-btn" : challenge.auth_status ? "auth-done-btn" : "auth-btn"}`}
                                         onClick={()=>{
                                             if(filter == "due"){
                                                 cancelChall(challenge.challenge_id)
                                             }
                                             else{
-                                                if(!challenge.status){
-                                                    navigate(`/challenge/${challenge.challenge_id}`);
+                                                if(!challenge.auth_status){
+                                                    navigate(`/challenge/${challenge.challenge_id}`, {state:{
+                                                        tab: "auth",
+                                                    }});
                                                 }
                                             }
                                         }}>
-                                        {filter == "due" ? "참가 취소" : challenge.status ? "인증완료" : "인증하기"}
+                                        {filter == "due" ? "참가 취소" : challenge.auth_status ? "인증완료" : "인증하기"}
                                     </button>
                                 </div>
                             </div>

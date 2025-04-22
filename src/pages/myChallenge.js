@@ -22,7 +22,8 @@ export default function MyChallenge(){
         {
             "challenge_id" : 0,
             "challenge_name": "챌린지 0",
-            "status": 0,
+            "status": 1,
+            "auth_status": 0,
             "deposit_status": 0,
             "challenge_thumbnail": books,
             "challenge_shrotintro": "기상스터디",
@@ -45,6 +46,7 @@ export default function MyChallenge(){
             "challenge_id" : 1,
             "challenge_name": "챌린지 1",
             "status": 1,
+            "auth_status": 1,
             "deposit_status": 1,
             "challenge_thumbnail": water,
             "challenge_shrotintro": "하루에 물 한잔",
@@ -66,7 +68,8 @@ export default function MyChallenge(){
         {
             "challenge_id" : 2,
             "challenge_name": "챌린지 2",
-            "status": 0,
+            "status": 3,
+            "auth_status": 0,
             "deposit_status": 0,
             "challenge_thumbnail": dumbell,
             "challenge_shrotintro": "하루 30분 운동",
@@ -88,7 +91,8 @@ export default function MyChallenge(){
         {
             "challenge_id" : 3,
             "challenge_name": "챌린지 3",
-            "status": 0,
+            "status": 3,
+            "auth_status": 0,
             "deposit_status": 0,
             "challenge_thumbnail": books,
             "challenge_shrotintro": "30분 독서",
@@ -110,7 +114,8 @@ export default function MyChallenge(){
         {
             "challenge_id" : 4,
             "challenge_name": "챌린지 4",
-            "status": 1,
+            "status": 0,
+            "auth_status": 0,
             "deposit_status": 1,
             "challenge_thumbnail": books,
             "challenge_shrotintro": "기상스터디",
@@ -122,7 +127,7 @@ export default function MyChallenge(){
             "auth_time_start": "06:00",
             "auth_time_end": "22:00",
             "max_people": 12,
-            "now_people":10,
+            "now_people":1,
             "min_deposit": 1000,
             "return_type": 1,
             "auth_frequency": "참여빈도",
@@ -132,7 +137,8 @@ export default function MyChallenge(){
         {
             "challenge_id" : 5,
             "challenge_name": "챌린지 5",
-            "status": 1,
+            "status": 3,
+            "auth_status": 0,
             "deposit_status": 1,
             "challenge_thumbnail": books,
             "challenge_shrotintro": "영어 공부 1시간",
@@ -154,7 +160,8 @@ export default function MyChallenge(){
         {
             "challenge_id" : 6,
             "challenge_name": "챌린지 6",
-            "status": 1,
+            "status": 3,
+            "auth_status": 0,
             "deposit_status": 1,
             "challenge_thumbnail": water,
             "challenge_shrotintro": "식물에 물 주기",
@@ -176,7 +183,8 @@ export default function MyChallenge(){
         {
             "challenge_id" : 7,
             "challenge_name": "챌린지 7",
-            "status": 1,
+            "status": 0,
+            "auth_status": 0,
             "deposit_status": 1,
             "challenge_thumbnail": books,
             "challenge_shrotintro": "수학 공부 1시간",
@@ -199,6 +207,7 @@ export default function MyChallenge(){
             "challenge_id" : 8,
             "challenge_name": "챌린지 8",
             "status": 1,
+            "auth_status": 1,
             "deposit_status": 1,
             "challenge_thumbnail": dumbell,
             "challenge_shrotintro": "크로스핏",
@@ -220,7 +229,8 @@ export default function MyChallenge(){
         {
             "challenge_id" : 9,
             "challenge_name": "챌린지 9",
-            "status": 1,
+            "status": 0,
+            "auth_status": 0,
             "deposit_status": 1,
             "challenge_thumbnail": water,
             "challenge_shrotintro": "비타민 먹기",
@@ -242,7 +252,8 @@ export default function MyChallenge(){
         {
             "challenge_id" : 10,
             "challenge_name": "챌린지 10",
-            "status": 1,
+            "status": 0,
+            "auth_status": 0,
             "deposit_status": 1,
             "challenge_thumbnail": books,
             "challenge_shrotintro": "국어 공부 1시간",
@@ -264,7 +275,8 @@ export default function MyChallenge(){
         {
             "challenge_id" : 11,
             "challenge_name": "챌린지 11",
-            "status": 1,
+            "status": 0,
+            "auth_status": 0,
             "deposit_status": 1,
             "challenge_thumbnail": dumbell,
             "challenge_shrotintro": "천국의 계단",
@@ -276,17 +288,18 @@ export default function MyChallenge(){
             "auth_time_start": "06:00",
             "auth_time_end": "22:00",
             "max_people": 10,
-            "now_people":10,
+            "now_people":8,
             "min_deposit": 1000,
             "return_type": 1,
             "auth_frequency": "참여빈도",
-            "leader":0,
+            "leader":1,
             "participation_success":0,
         },
         {
             "challenge_id" : 12,
             "challenge_name": "챌린지 12",
             "status": 1,
+            "auth_status": 0,
             "deposit_status": 1,
             "challenge_thumbnail": books,
             "challenge_shrotintro": "독서 스터디",
@@ -298,7 +311,7 @@ export default function MyChallenge(){
             "auth_time_start": "06:00",
             "auth_time_end": "22:00",
             "max_people": 10,
-            "now_people":10,
+            "now_people":1,
             "min_deposit": 1000,
             "return_type": 1,
             "auth_frequency": "참여빈도",
@@ -311,7 +324,8 @@ export default function MyChallenge(){
     const sortedChallengeList = [...challengeList].sort(
         (a, b) => new Date(b.start_date) - new Date(a.start_date)
     );
-    console.log("sortedChallengeList",sortedChallengeList);
+
+    // console.log("sortedChallengeList",sortedChallengeList);
     
     const [dueChallengeList, setDueChallengeList] = useState([]);
     const [onProgressChallengeList, setOnProgressChallengeList] = useState([]);
@@ -343,8 +357,13 @@ export default function MyChallenge(){
             }
         });
 
+        const onProgressSortedList = onProgressList.sort((a, b) => {
+            // auth_status가(0-인증미완료, 1-인증완료) 0인 경우가 앞에 오도록록
+            return a.auth_status - b.auth_status;
+        });
+
         setDueChallengeList(dueList);
-        setOnProgressChallengeList(onProgressList);
+        setOnProgressChallengeList(onProgressSortedList);
         setFinishedChallengeList(finishedList);
         setLeaderChallengeList(leaderList);
     }, [challengeList])
@@ -367,7 +386,8 @@ export default function MyChallenge(){
             {tab === "finish" &&
                 <FinishChall finishedChallengeList={finishedChallengeList}/> }
             {tab === "create" &&
-                <CreateChall leaderChallengeList={leaderChallengeList} />}
+                <CreateChall leaderChallengeList={leaderChallengeList} 
+                    setChallengeList={setChallengeList}/>}
     
             {/* Footer Navigation */}
             <Footer page={page}/>

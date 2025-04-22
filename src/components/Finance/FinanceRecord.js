@@ -22,7 +22,7 @@ export default function FinanceRecord({financeStatus}){
                             </div>
                             <div className="text-[13px] flex flex-row gap-[10px]">
                                 <span className="flex-none font-medium">반환액</span>
-                                <span className="flex-1 font-normal text-center">{challenge.return_date}</span>
+                                <span className="flex-1 font-normal text-center">{challenge.deposit_return_date}</span>
                                 <span className="flex-none mt-[-1.5px] text-[15px] font-bold text-[#6E6053]">
                                     {challenge.status != "정산완료" ? challenge.status : challenge.return+"원"}
                                 </span>
