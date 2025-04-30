@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import SearchBar from "../components/SearchBar";
 import dumbell from '../assets/images/finace/dumbell.png';
 import books from '../assets/images/finace/books.png';
 import water from '../assets/images/finace/water.png';
 import sun from '../assets/images/finace/Sun.png';
-import bannerImage from '../assets/images/common/banner_image.png';
+import bannerImage from '../assets/images/common/bannerimage.png';
 
 const Home = () => {
   const [activeTab, setActiveTab] = useState('participating');
@@ -30,8 +31,13 @@ const Home = () => {
       {/* 모바일 프레임 */}
       <div className="bg-white w-[393px] h-[852px] relative">
         <Header />
-        {/* 배너 이미지 삽입 (Header 아래에 추가) */}
+        {/* 배너 이미지 삽입*/}
         <img src={bannerImage} alt="banner" className="w-full" /> 
+
+        {/* 검색창 */}
+        <div className="px-4 mt-4">
+            <SearchBar />
+        </div>
                   
         {/* 탭 영역 */}
         <div className="flex justify-between items-center px-4 mt-4">
