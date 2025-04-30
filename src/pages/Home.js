@@ -5,6 +5,7 @@ import dumbell from '../assets/images/finace/dumbell.png';
 import books from '../assets/images/finace/books.png';
 import water from '../assets/images/finace/water.png';
 import sun from '../assets/images/finace/Sun.png';
+import bannerImage from '../assets/images/common/banner_image.png';
 
 const Home = () => {
   const [activeTab, setActiveTab] = useState('participating');
@@ -29,35 +30,40 @@ const Home = () => {
       {/* 모바일 프레임 */}
       <div className="bg-white w-[393px] h-[852px] relative">
         <Header />
-
+        {/* 배너 이미지 삽입 (Header 아래에 추가) */}
+        <img src={bannerImage} alt="banner" className="w-full" /> 
+                  
         {/* 탭 영역 */}
-        <div className="flex justify-around mt-4">
-          <button
-            className={`text-lg font-semibold ${
-              activeTab === 'participating'
-                ? 'border-b-2 border-yellow-400 text-black'
-                : 'text-gray-400'
-            }`}
-            onClick={() => setActiveTab('participating')}
+        <div className="flex justify-between items-center px-4 mt-4">
+          <div className="flex space-x-6">
+            <button
+                className={`text-lg font-semibold ${
+                activeTab === 'participating'
+                    ? 'border-b-2 border-yellow-400 text-black'
+                    : 'text-gray-400'
+                }`}
+                onClick={() => setActiveTab('participating')}
+            >
+                참여모집
+            </button>
+            <button
+                className={`text-lg font-semibold ${
+                activeTab === 'ongoing'
+                    ? 'border-b-2 border-yellow-400 text-black'
+                    : 'text-gray-400'
+                }`}
+                onClick={() => setActiveTab('ongoing')}
+            >
+                진행중
+            </button>
+          </div>
+          <button 
+            className="bg-yellow-400 text-white text-xl w-8 h-8 rounded-full flex items-center justify-center shadow hover:bg-yellow-500"
+            //onClick={() => navigate('/challenge/add')}
           >
-            참여모집
-          </button>
-          <button
-            className={`text-lg font-semibold ${
-              activeTab === 'ongoing'
-                ? 'border-b-2 border-yellow-400 text-black'
-                : 'text-gray-400'
-            }`}
-            onClick={() => setActiveTab('ongoing')}
-          >
-            진행중
+            +
           </button>
         </div>
-
-        {/* + 버튼 */}
-        <button className="absolute bottom-20 right-4 bg-yellow-400 w-23 h-22 rounded-full text-white text-2xl shadow-md hover:bg-yellow-500 z-20">
-          +
-        </button>
 
         {/* 카테고리 */}
         <div className="flex justify-center gap-3 mt-3">
