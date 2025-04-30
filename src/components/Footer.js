@@ -32,12 +32,12 @@ export default function Footer({ page }) {
   ];
 
   return(
-    <footer className="absolute w-full h-[70px] bottom-0 left-0 bg-white px-4 pt-2">
-      <div className="flex justify-evenly items-start">
+    <footer className="absolute w-full h-[70px] bg-white bottom-0  px-4 pt-2">
+      <div className="flex justify-evenly items-center">
         {navigationItems.map((item, index) => (
-          <div key={index} className="flex flex-col items-center cursor-pointer" onClick={()=>{navigate(item.route);}}>
-            {item.icon}
-            {item.label}
+          <div key={index} className="flex flex-col items-center justify-center cursor-pointer" onClick={()=>{navigate(item.route);}}>
+            <div className="w-6 h-6 flex items-center justify-center">{item.icon}</div>
+            <span className="text-[13px] font-bold mt-1">{item.label}</span>
           </div>
         ))}
       </div>
