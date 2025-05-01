@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import SearchBar from "../components/SearchBar";
+import SearchBar from "../components/Home/SearchBar";
 import dumbell from '../assets/images/finace/dumbell.png';
 import books from '../assets/images/finace/books.png';
 import water from '../assets/images/finace/water.png';
 import sun from '../assets/images/finace/Sun.png';
 import bannerImage from '../assets/images/common/bannerimage.png';
+import ChallengeCard from "../components/Challenge/ChallengeCard";
+import "../styles/Challenge/ChallengeCard.css";
 
 const Home = () => {
   const [activeTab, setActiveTab] = useState('participating');
@@ -91,21 +93,9 @@ const Home = () => {
         {/* 챌린지 카드 */}
         <div className="flex-grow overflow-y-auto p-4 pb-[100px]">
           <div className="grid grid-cols-2 gap-4">
-            {filteredChallenges.map((c) => (
-              <div
-                key={c.id}
-                className="bg-white p-3 rounded-xl shadow hover:bg-yellow-200 transition"
-              >
-                <img
-                  src={c.image}
-                  alt={c.title}
-                  className="w-full h-24 object-contain mb-2"
-                />
-                <p className="font-semibold">{c.title}</p>
-                <p className="text-sm text-gray-600">D-{c.dday}</p>
-                <p className="text-xs text-gray-400 mt-1">{c.tag}</p>
-              </div>
-            ))}
+          {filteredChallenges.map((challenge) => (
+            <ChallengeCard key={challenge.id} challenge={challenge} />
+          ))}
           </div>
         </div>
 

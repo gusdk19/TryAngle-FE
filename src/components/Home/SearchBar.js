@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-import "./SearchBar.css"
-import Icon from '../assets/images/common/SearchIcon.png';
+import "../../../styles/Home/SearchBar.css";
+import Icon from "../../../assets/images/common/SearchIcon.png";
 
 function SearchBar(){
     const [query, setQuery] = useState("");
