@@ -41,6 +41,7 @@ export default function ChallengeDetail() {
     "now_people" : 8,
     "description": "챌린지 내용 + 예치금 관련 공지",
     "status" : -1,
+    "participant_list" : [3],
   });
 
   const page = "challengeDetail";
@@ -104,7 +105,7 @@ export default function ChallengeDetail() {
       
         {/* Footer Navigation */}
         {navTab == "info" ?
-        <ChallengeFooter status={challengeData.status} challengeID={id} setChallengeData={setChallengeData}/> : ""}
+        <ChallengeFooter status={challengeData.status} challengeID={id} setChallengeData={setChallengeData} participant_list={challengeData.participant_list}/> : ""}
       </div>
     </div>
   );

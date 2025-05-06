@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function ChallengeFooter({status, challengeID, setChallengeData}){
+export default function ChallengeFooter({status, challengeID, setChallengeData, participant_list}){
     const navigate = useNavigate();
 
     return(
@@ -27,7 +27,9 @@ export default function ChallengeFooter({status, challengeID, setChallengeData})
              status == 1 ? "참가중" : "참가완료"}
           </button>
           <button className="flex-1 font-semibold text-[20px] bg-[#FAB809] text-[#4A483F]"
-            onClick={()=>{navigate(`/challenge/${challengeID}/recommend`)}}>
+            onClick={()=>{navigate(`/challenge/${challengeID}/recommend`, {state:{
+                'participant_list': participant_list,
+            }})}}>
             권유하기
           </button>
         </footer>
