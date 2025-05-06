@@ -47,12 +47,6 @@
     cursor: pointer;
 }
 
-.card:focus,
-.card-success:focus,
-.card-fail:focus{
-    border: 2px solid #4A483F;
-}
-
 .card-image{
     position:relative;
     width:150px;
