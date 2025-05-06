@@ -73,7 +73,7 @@ export default function OnProgressChall({onProgressChallengeList, dueChallengeLi
                                             else{
                                                 if(!challenge.auth_status){
                                                     navigate(`/challenge/${challenge.challenge_id}`, {state:{
-                                                        tab: "auth",
+                                                        tab: "vertify",
                                                     }});
                                                 }
                                             }
