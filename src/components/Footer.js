@@ -1,5 +1,6 @@
 import React from "react";
 import "../styles/Header.css";
+import "../styles/Footer.css";
 import { GoHome, GoHomeFill } from "react-icons/go";
 import { HiTrophy, HiOutlineTrophy } from "react-icons/hi2";
 import { PiUserCircleDashed, PiUserCircleDuotone, PiTriangleDashedFill, PiTriangleDashed } from "react-icons/pi";
@@ -32,12 +33,12 @@ export default function Footer({ page }) {
   ];
 
   return(
-    <footer className="absolute w-full h-[70px] bg-white bottom-0  px-4 pt-2">
-      <div className="flex justify-evenly items-center">
+    <footer className="footer">
+      <div className="footer-content">
         {navigationItems.map((item, index) => (
-          <div key={index} className="flex flex-col items-center justify-center cursor-pointer" onClick={()=>{navigate(item.route);}}>
-            <div className="w-6 h-6 flex items-center justify-center">{item.icon}</div>
-            <span className="text-[13px] font-bold mt-1">{item.label}</span>
+          <div key={index} className="footer-item" onClick={()=>{navigate(item.route);}}>
+            <div className="icon-wrapper">{item.icon}</div>
+            <span className="footer-label">{item.label}</span>
           </div>
         ))}
       </div>
