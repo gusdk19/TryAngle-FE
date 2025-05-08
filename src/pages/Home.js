@@ -9,18 +9,48 @@ import sun from '../assets/images/finace/Sun.png';
 import bannerImage from '../assets/images/common/bannerimage.png';
 import ChallengeCard from "../components/Challenge/ChallengeCard";
 import "../styles/Challenge/ChallengeCard.css";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const [activeTab, setActiveTab] = useState('participating');
   const [activeCategory, setActiveCategory] = useState('전체');
+  const navigate = useNavigate();
 
   const categories = ['전체', '운동', '공부', '생활', '기타'];
 
   const challenges = [
-    { id: 1, title: '하루 30분 운동', dday: 5, tag: '#아침 운동', image: dumbell },
-    { id: 2, title: '30분 독서', dday: 1, tag: '#공부', image: books },
-    { id: 3, title: '일어나서 물 한 잔', dday: 2, tag: '#생활', image: water },
-    { id: 4, title: '아침 8시 기상', dday: 7, tag: '#생활', image: sun },
+    {
+      id: 1,
+      title: '하루 30분 운동',
+      start_date: '2025-05-03',
+      end_date: '2025-05-10',
+      tag: '#아침 운동',
+      image: dumbell
+    },
+    {
+      id: 2,
+      title: '30분 독서',
+      start_date: '2025-05-02',
+      end_date: '2025-05-05',
+      tag: '#공부',
+      image: books
+    },
+    {
+      id: 3,
+      title: '일어나서 물 한 잔',
+      start_date: '2025-05-04',
+      end_date: '2025-05-09',
+      tag: '#생활',
+      image: water
+    },
+    {
+      id: 4,
+      title: '아침 8시 기상',
+      start_date: '2025-05-06',
+      end_date: '2025-05-12',
+      tag: '#생활',
+      image: sun
+    }
   ];
 
   const filteredChallenges =
@@ -42,13 +72,13 @@ const Home = () => {
         </div>
                   
         {/* 탭 영역 */}
-        <div className="flex justify-between items-center px-4 mt-4">
-          <div className="flex space-x-6">
+        <div className="flex justify-between items-center px-4 mt-[43px]">
+          <div className="flex space-x-10">
             <button
                 className={`text-lg font-semibold ${
                 activeTab === 'participating'
-                    ? 'border-b-2 border-yellow-400 text-black'
-                    : 'text-gray-400'
+                    ? 'border-b-2 border-[#4A483F] text-[#4A483F]'
+                    : 'text-[#4A483F]'
                 }`}
                 onClick={() => setActiveTab('participating')}
             >
@@ -57,8 +87,8 @@ const Home = () => {
             <button
                 className={`text-lg font-semibold ${
                 activeTab === 'ongoing'
-                    ? 'border-b-2 border-yellow-400 text-black'
-                    : 'text-gray-400'
+                    ? 'border-b-2 border-yellow-400 text-[#4A483F]'
+                    : 'text-[#4A483F]'
                 }`}
                 onClick={() => setActiveTab('ongoing')}
             >
@@ -66,22 +96,22 @@ const Home = () => {
             </button>
           </div>
           <button 
-            className="bg-yellow-400 text-white text-xl w-8 h-8 rounded-full flex items-center justify-center shadow hover:bg-yellow-500"
-            //onClick={() => navigate('/challenge/add')}
+            className="w-[23px] h-[22px] bg-[#FDF8ED] rounded-[2px] border-b border-[#4A483F] text-[#4A483F] text-sm font-bold flex items-center justify-center shadow hover:bg-yellow-200"
+            onClick={() => navigate('/add-challenge')}
           >
             +
           </button>
         </div>
 
         {/* 카테고리 */}
-        <div className="flex justify-center gap-3 mt-3">
+        <div className="flex justify-center gap-3 mt-[29px]">
           {categories.map((category) => (
             <button
               key={category}
-              className={`px-3 py-1 rounded-full text-sm ${
+              className={`px-3 py-1 rounded-[5px] text-sm ${
                 activeCategory === category
-                  ? 'bg-yellow-400 text-white'
-                  : 'bg-white text-gray-700 border border-gray-300'
+                  ? 'bg-[#6E6053] text-white'
+                  : 'bg-white text-[#4A483F]'
               }`}
               onClick={() => setActiveCategory(category)}
             >
