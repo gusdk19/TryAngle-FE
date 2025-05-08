@@ -11,7 +11,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         {/*<Route path="/alarm" element={<Alarm />} /> */}
-        { /*<Route path="/challenge/add" element={<ChallengeAdd />} />*/}
+        {/*<Route path="/add-challenge" element={<ChallengeAdd />} />*/}
       </Routes>
     </BrowserRouter>
   );
