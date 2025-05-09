@@ -108,7 +108,7 @@ const Home = () => {
           {categories.map((category) => (
             <button
               key={category}
-              className={`px-3 py-1 rounded-[5px] text-sm ${
+              className={`px-3 py-1 rounded-[5px] text-sm mb-[25px] ${
                 activeCategory === category
                   ? 'bg-[#6E6053] text-white'
                   : 'bg-white text-[#4A483F]'

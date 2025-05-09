@@ -37,7 +37,7 @@
     height:145px;
     background:#FDF8ED;
     border-radius:5px;
-    margin: 8px auto;
+    margin:8px auto;
     box-sizing: border-box; 
 }
 
@@ -51,17 +51,12 @@
 }
 
 .challenge-title {
-    width: 126.556px;
-    height: 19px;
-    flex-shrink: 0;
-    color: #4A483F;
-    text-align: center;
-    font-family: 'Roboto', sans-serif;
-    font-size: 18px;
-    font-style: normal;
-    font-weight: 900;
-    line-height: normal;
-    margin: 0 auto;
+    position:absolute;
+    top: 8px;
+    width: 100%;
+    text-align : center;
+    font-weight : bold;
+    font-size: 17px;
   }
     
 

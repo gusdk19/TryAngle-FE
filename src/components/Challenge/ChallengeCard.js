@@ -30,7 +30,7 @@ export default function ChallengeCard({challenge}) {
     >
       {/* 내부 박스 */}
         <div className="card-image">
-            <p className="challenge-title">{challenge.title}</p>
+            <p className="challenge-title text-[#4A483F]">{challenge.title}</p>
 
             <img
             src={challenge.image}
