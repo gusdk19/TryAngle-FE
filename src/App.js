@@ -6,12 +6,14 @@ import Finance from './pages/finance';
 import MyChallenge from './pages/myChallenge';
 import ChallengeDetail from './pages/challengeDetail';
 import Recommend from './pages/recommend';
+import Login from './pages/login';
 
 function App() {
   return (
     <BrowserRouter>                                   
       <Routes>                                            
-        <Route path='/mypage' element={<MyPage />} />   
+        <Route path='/mypage' element={<MyPage />} /> 
+        <Route path='/login' element={<Login />} />        
         <Route path='/friend' element={<Friend />} />      
         <Route path='/finance' element={<Finance />} />
         <Route path='/mychallenge' element={<MyChallenge />} />

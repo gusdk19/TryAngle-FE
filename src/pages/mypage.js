@@ -3,10 +3,18 @@ import BeforeLoginMP from "../components/MyPage/BeforeLoginMP.js";
 import AfterLoginMP from "../components/MyPage/AfterLoginMP.js";
 import Footer from "../components/Footer";
 import React, { useState } from "react";
+import { useLocation } from "react-router-dom";
 
 export default function MyPage() {
+
+  const location = useLocation();
+
+  const {success} = location.state || {};
+
   // Login State (로그인 x : 0, 로그인 o : 1)
-  const [login, setLogin] = useState(0);
+  const [login, setLogin] = useState(success == undefined ? 0 : success);
+
+  console.log(login, "login");
 
   const page = "myPage";
 

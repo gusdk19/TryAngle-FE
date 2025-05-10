@@ -1,7 +1,10 @@
 import { Bell, Home, SmileIcon, Trophy, User, Users } from "lucide-react";
 import React from "react";
+import { useNavigate } from 'react-router-dom'; 
 
 export default function BeforeLoginMP({setLogin}){
+
+    const navigate = useNavigate();
 
     return(
         <main className="px-4">
@@ -15,7 +18,10 @@ export default function BeforeLoginMP({setLogin}){
 
             {/* Login Button */}
             <button className="w-full h-10 mt-[15px] bg-[#fab809] hover:bg-[#fab809]/90 text-[#4a483f] rounded-[5px]"
-                onClick={()=>{setLogin(1)}}>
+                onClick={()=>{
+                    // setLogin(1);
+                    navigate("/login");
+                }}>
                 <span className="font-m3-body-bold font-bold text-[14px] text-center grid items-center">로그인하기</span>
             </button>
 
