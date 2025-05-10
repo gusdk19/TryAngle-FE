@@ -8,8 +8,11 @@ import doubt_icon from "../../assets/images/challenge/doubt.png";
 import { FaRegHeart } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa";
 import VoteFooter from "./VoteFooter";
+import ReportModal from "./ReportModal";
 
 export default function Vote({challengeID}){
+
+    const [onReport, setOnReport] = useState(false);
 
     const [onVote, setOnVote] = useState("");
 
@@ -61,6 +64,7 @@ export default function Vote({challengeID}){
     const [emotionModal, setEmotionModal] = useState(0);
     const [emotionChoice, setEmotionChoice] = useState("");
 
+
     return(
         <div className="px-5">
             {onVote == "" ? 
@@ -101,7 +105,8 @@ export default function Vote({challengeID}){
                             alt={`user-${onVoteUser.voter_id}} profileImage`} />
                         <div className="my-auto text-[17px] font-semibold">{onVoteUser.nickname}</div>
                     </div>
-                    <img className="my-auto" src={report_icon} alt="report-icon" width="36px"/>
+                    <img className="my-auto cursor-pointer" src={report_icon} alt="report-icon" width="36px"
+                      onClick={()=>{setOnReport(true)}}/>
                 </div>
 
                 <div className="rounded-md mt-3 overflow-scroll main h-[615px]">  
@@ -152,6 +157,8 @@ export default function Vote({challengeID}){
             </div>}
             
             {onVote ? <VoteFooter onVoteUserID={onVoteUser.voter_id} setVoteStatusList={setVoteStatusList} setOnVote={setOnVote}/> : ""}
+        
+            {onReport ? <ReportModal onClose={setOnReport} onVoteUser={onVoteUser}/> : ""}
         </div>
     )
 }
