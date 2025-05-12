@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 const Home = () => {
   const [activeTab, setActiveTab] = useState('participating');
   const [activeCategory, setActiveCategory] = useState('전체');
+  const [query, setQuery] = useState("");
   const navigate = useNavigate();
 
   const categories = ['전체', '운동', '공부', '생활', '기타'];
@@ -50,25 +51,53 @@ const Home = () => {
       end_date: '2025-05-12',
       tag: '#생활',
       image: sun
+    },
+    {
+      id: 4,
+      title: '아침 8시 기상',
+      start_date: '2025-05-06',
+      end_date: '2025-05-12',
+      tag: '#생활',
+      image: sun
+    },
+    {
+      id: 4,
+      title: '아침 8시 기상',
+      start_date: '2025-05-06',
+      end_date: '2025-05-12',
+      tag: '#생활',
+      image: sun
+    },
+    {
+      id: 4,
+      title: '아침 8시 기상',
+      start_date: '2025-05-06',
+      end_date: '2025-05-12',
+      tag: '#생활',
+      image: sun
     }
   ];
 
-  const filteredChallenges =
-    activeCategory === '전체'
-      ? challenges
-      : challenges.filter((c) => c.tag.includes(activeCategory));
+  const filteredChallenges = challenges
+  .filter((c) =>
+    activeCategory === '전체' ? true : c.tag.includes(activeCategory)
+  )
+  .filter((c) =>
+    c.title.toLowerCase().includes(query) ||
+    c.description?.toLowerCase().includes(query)
+  );
 
   return (
     <div className="bg-white flex flex-row justify-center w-full">
       {/* 모바일 프레임 */}
       <div className="bg-white w-[393px] h-[852px] relative">
-        <Header />
+        <Header className="flex-none" title="홈"/>
         {/* 배너 이미지 삽입*/}
         <img src={bannerImage} alt="banner" className="w-full" /> 
 
         {/* 검색창 */}
         <div className="px-4 mt-4">
-            <SearchBar />
+            <SearchBar query={query} setQuery={setQuery} />
         </div>
                   
         {/* 탭 영역 */}
@@ -121,7 +150,7 @@ const Home = () => {
         </div>
 
         {/* 챌린지 카드 */}
-        <div className="flex-grow overflow-y-auto p-4 pb-[100px]">
+        <div className=" flex-1 overflow-y-auto p-4 pb-[18px] main max-h-[440px] overflow-scroll">
           <div className="grid grid-cols-2 gap-4">
           {filteredChallenges.map((challenge) => (
             <ChallengeCard key={challenge.id} challenge={challenge} />
@@ -131,6 +160,7 @@ const Home = () => {
 
         <Footer page="home" />
       </div>
+      
     </div>
   );
 };
