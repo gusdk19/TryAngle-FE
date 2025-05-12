@@ -110,9 +110,9 @@ export default function CreateChall({leaderChallengeList, setChallengeList}){
                                 <div className='card-image flex flex-col'>
                                     <div className='chall-title flex-none'>{challenge.challenge_name}</div>
                                     <img className='chall-thumbnail flex-1' src={challenge.challenge_thumbnail} />
-                                    <div className='due-date'>
+                                    {filter == "recruit-fail" ? "" : <div className='due-date'>
                                         {now < startDate ? `D-${dayDiff}` : now <= endDate ? "진행중" : "완료"}
-                                    </div>
+                                    </div>}
                                     {challenge.leader === 1 && <MdStar className='leader-mark' color='#FFCC5D'/> }
                                 </div>
                                 <div className='card-text flex flex-row gap-[2px]'>
