@@ -129,8 +129,9 @@ const Home = () => {
           </div>
         </div>
 
-        <Footer page="home" />
+       
       </div>
+      <Footer page="home" />
     </div>
   );
 };

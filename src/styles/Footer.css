@@ -8,9 +8,11 @@
   
   .footer-content {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
     align-items: center;
     height: 100%;
+    margin: auto 16px;
+    padding-bottom : 10px;
   }
   
   .footer-item {
