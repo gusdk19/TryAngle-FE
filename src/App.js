@@ -8,6 +8,8 @@ import ChallengeDetail from './pages/challengeDetail';
 import Recommend from './pages/recommend';
 import Login from './pages/login';
 import SignUp from './pages/signup';
+import FindEmail from './pages/findEmail';
+import FindPW from './pages/findPW';
 
 
 function App() {
@@ -16,7 +18,9 @@ function App() {
       <Routes>                                            
         <Route path='/mypage' element={<MyPage />} /> 
         <Route path='/login' element={<Login />} />    
-        <Route path='/signup' element={<SignUp />} />            
+        <Route path='/signup' element={<SignUp />} />
+        <Route path='/findEmail' element={<FindEmail />} />            
+        <Route path='/findPW' element={<FindPW />} />            
         <Route path='/friend' element={<Friend />} />      
         <Route path='/finance' element={<Finance />} />
         <Route path='/mychallenge' element={<MyChallenge />} />

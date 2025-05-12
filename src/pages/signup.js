@@ -24,7 +24,7 @@ export default function SignUp(){
     const [step, setStep] = useState(1);
     const [errors, setErrors] = useState([]);
 
-    const emailIsExisted = true;
+    const emailIsExisted = false;
     const nicknameIsExisted = false;
 
     return(

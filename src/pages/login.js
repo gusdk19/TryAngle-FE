@@ -103,8 +103,8 @@ export default function Login(){
                 </div>
                 <div className="flex-none flex gap-[2px] my-auto">
                     <span className="text-[12px] underline cursor-pointer"
-                        onClick={()=>{navigate("/findID")}}>
-                            아이디 찾기
+                        onClick={()=>{navigate("/findEmail")}}>
+                            이메일 찾기
                     </span>
                     <hr orientation="vertical" className="h-[12px] mt-[4px] mx-[8px] border-[#D9D9D9] border-l-[0.1px]" />
                     <span className="text-[12px] underline cursor-pointer"

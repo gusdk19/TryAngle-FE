@@ -21,7 +21,12 @@ export default function SUStepThree({name, setName, phoneNumber, setPhoneNumber,
     const changePhoneNumber = (e)=>{
         const value = e.target.value;
         setPhoneNumber(value); 
-        setIsPNValid(!value.includes("-"));
+
+        const str = String(value);
+        const hasDash = str.includes("-");
+        const isElevenDigits = str.length === 11;
+
+        setIsPNValid(!hasDash && isElevenDigits);
 
         const newErrors = isCNValid ? [] : ["⚠ 인증번호가 올바르지 않습니다"];
 
@@ -104,9 +109,10 @@ export default function SUStepThree({name, setName, phoneNumber, setPhoneNumber,
                     <div className="flex gap-2">
                         <input 
                             id="phoneNumber" 
-                            className="flex-1 input text-[#838687] placeholder-[#d9d9d9]" 
-                            type="text" 
-                            placeholder="'-'없이 입력해주세요"
+                            className="flex-1 phone-input text-[#838687] placeholder-[#d9d9d9]
+                                appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none" 
+                            type="number" 
+                            placeholder="'-'없이 11자리 번호를 입력해주세요"
                             value={phoneNumber}
                             onChange={(e)=>{changePhoneNumber(e)}}/>
                         <button className={`flex-none py-[8px] px-[10px] text-[14px] rounded-lg
@@ -135,7 +141,7 @@ export default function SUStepThree({name, setName, phoneNumber, setPhoneNumber,
                             placeholder="인증번호 6자리를 입력해주세요"
                             value={cn}
                             onChange={(e)=>{changeCN(e)}}/>
-                        <span className="absolute right-[10px] top-[6px] text-[18px] text-[#838687]">
+                        <span className="absolute right-[10px] top-[7px] text-[16px] text-[#838687]">
                             {timeLeft > 0 ? formatTime(timeLeft) : isRunning ? "타이머 종료" : "00:00"}
                         </span>
                     </div>

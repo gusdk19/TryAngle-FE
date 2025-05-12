@@ -19,7 +19,7 @@ export default function Header(props){
 
     return(
         <div className="header flex flex-unwrap grow w-full pt-[4.5px]">
-            {(title == "친구" || title == "챌린지 비용 및 보상" || page == "challengeDetail" || title == "권유하기" || title == "로그인" || title == "회원가입") 
+            {(title == "친구" || title == "챌린지 비용 및 보상" || page == "challengeDetail" || title == "권유하기" || title == "로그인" || title == "회원가입" || title == "이메일 찾기" || title == "비밀번호 재설정") 
             ? <div className="back flex-none align-middle cursor-pointer">
                 <IoIosArrowBack className="back-icon text-[#4A483F]" 
                     onClick={()=>{
@@ -51,7 +51,7 @@ export default function Header(props){
                     }} />
             </div> : ""}
 
-            {(title == "마이페이지" || title == "챌린지 비용 및 보상" || page == "challengeDetail" || title == "권유하기" || title == "로그인"  || title == "회원가입")
+            {(title == "마이페이지" || title == "챌린지 비용 및 보상" || page == "challengeDetail" || title == "권유하기" || title == "로그인"  || title == "회원가입"  || title == "이메일 찾기" || title == "비밀번호 재설정")
              ? <div className="title flex-1 text-center align-middle">
                     <span className="title-text font-['Roboto-Black',Helvetica] font-black text-[#4A483F] text-lg tracking-[0] leading-normal">
                         {title}
@@ -62,7 +62,7 @@ export default function Header(props){
                 </div>
             }
 
-            {(title == "친구" || title == "챌린지 비용 및 보상" || page == "challengeDetail"  || title == "권유하기" || title == "로그인" || title == "회원가입")
+            {(title == "친구" || title == "챌린지 비용 및 보상" || page == "challengeDetail"  || title == "권유하기" || title == "로그인" || title == "회원가입"  || title == "이메일 찾기" || title == "비밀번호 재설정")
              ? "" : <div className="bell flex-none align-middle cursor-pointer">
                 <FaRegBell className={`${title == "마이페이지" ? "bell-icon" : "bell-icon2 mt-[2px]"} text-[#4A483F]`} 
                     onClick={()=>{navigate("/alarm");}}/>
