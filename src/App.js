@@ -11,12 +11,14 @@ import SignUp from './pages/signup';
 import FindEmail from './pages/findEmail';
 import FindPW from './pages/findPW';
 import Home from './pages/Home';
+import Alarm from './pages/Alarm';
 
 function App() {
   return (
     <BrowserRouter>                                   
       <Routes>     
-        <Route path="/" element={<Home />} />                                       
+        <Route path="/" element={<Home />} />  
+        <Route path="/alarm" element={<Alarm />} />                                      
         <Route path='/mypage' element={<MyPage />} /> 
         <Route path='/login' element={<Login />} />    
         <Route path='/signup' element={<SignUp />} />

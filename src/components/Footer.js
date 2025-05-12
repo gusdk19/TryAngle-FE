@@ -1,5 +1,6 @@
 import React from "react";
-import "../styles/Header.css"
+import "../styles/Header.css";
+import "../styles/Footer.css";
 import { GoHome, GoHomeFill } from "react-icons/go";
 import { HiTrophy, HiOutlineTrophy } from "react-icons/hi2";
 import { PiUserCircleDashed, PiUserCircleDuotone } from "react-icons/pi";
