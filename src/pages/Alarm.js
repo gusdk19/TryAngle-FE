@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { FaRegBell } from "react-icons/fa";
-import NotificationItem from '../components/Notification'
+import NotificationItem from '../components/Notification';
+import "../styles/Alarm/alarm.css";
 
 //API 연결 전 mock data로 구성*
 const mockNotification = [

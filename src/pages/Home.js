@@ -9,6 +9,7 @@ import sun from '../assets/images/finace/Sun.png';
 import bannerImage from '../assets/images/common/bannerimage.png';
 import ChallengeCard from "../components/Challenge/ChallengeCard";
 import "../styles/Challenge/ChallengeCard.css";
+import "../styles/Challenge/Home.css";
 import { useNavigate } from "react-router-dom";
 
 const Home = () => {
