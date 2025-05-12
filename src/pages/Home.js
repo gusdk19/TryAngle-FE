@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 const Home = () => {
   const [activeTab, setActiveTab] = useState('participating');
   const [activeCategory, setActiveCategory] = useState('전체');
+  const [query, setQuery] = useState("");
   const navigate = useNavigate();
 
   const categories = ['전체', '운동', '공부', '생활', '기타'];
@@ -77,10 +78,14 @@ const Home = () => {
     }
   ];
 
-  const filteredChallenges =
-    activeCategory === '전체'
-      ? challenges
-      : challenges.filter((c) => c.tag.includes(activeCategory));
+  const filteredChallenges = challenges
+  .filter((c) =>
+    activeCategory === '전체' ? true : c.tag.includes(activeCategory)
+  )
+  .filter((c) =>
+    c.title.toLowerCase().includes(query) ||
+    c.description?.toLowerCase().includes(query)
+  );
 
   return (
     <div className="bg-white flex justify-center w-full">
@@ -92,7 +97,7 @@ const Home = () => {
 
         {/* 검색창 */}
         <div className="px-4 mt-4">
-            <SearchBar />
+            <SearchBar query={query} setQuery={setQuery} />
         </div>
                   
         {/* 탭 영역 */}
