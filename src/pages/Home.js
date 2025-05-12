@@ -50,6 +50,30 @@ const Home = () => {
       end_date: '2025-05-12',
       tag: '#생활',
       image: sun
+    },
+    {
+      id: 4,
+      title: '아침 8시 기상',
+      start_date: '2025-05-06',
+      end_date: '2025-05-12',
+      tag: '#생활',
+      image: sun
+    },
+    {
+      id: 4,
+      title: '아침 8시 기상',
+      start_date: '2025-05-06',
+      end_date: '2025-05-12',
+      tag: '#생활',
+      image: sun
+    },
+    {
+      id: 4,
+      title: '아침 8시 기상',
+      start_date: '2025-05-06',
+      end_date: '2025-05-12',
+      tag: '#생활',
+      image: sun
     }
   ];
 
@@ -59,9 +83,9 @@ const Home = () => {
       : challenges.filter((c) => c.tag.includes(activeCategory));
 
   return (
-    <div className="bg-white flex flex-row justify-center w-full">
+    <div className="bg-white flex justify-center w-full">
       {/* 모바일 프레임 */}
-      <div className="bg-white w-[393px] h-[852px] relative">
+      <div className="bg-white w-[393px] h-[852px] flex flex-col relative">
         <Header />
         {/* 배너 이미지 삽입*/}
         <img src={bannerImage} alt="banner" className="w-full" /> 
@@ -121,7 +145,7 @@ const Home = () => {
         </div>
 
         {/* 챌린지 카드 */}
-        <div className="flex-grow overflow-y-auto p-4 pb-[100px]">
+        <div className=" flex-1 overflow-y-auto p-4 pb-[100px]">
           <div className="grid grid-cols-2 gap-4">
           {filteredChallenges.map((challenge) => (
             <ChallengeCard key={challenge.id} challenge={challenge} />
@@ -129,9 +153,9 @@ const Home = () => {
           </div>
         </div>
 
-       
+        <Footer page="home" />
       </div>
-      <Footer page="home" />
+      
     </div>
   );
 };

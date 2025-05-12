@@ -8,7 +8,7 @@ export default function Header() {
   const navigate = useNavigate();
 
   return (
-    <div className="header flex flex-unwrap grow w-full pt-[4.5px]">
+    <div className="header flex flex-center w-full px-4 py-2 h-[60px]">
       {/* 로고 (왼쪽) */}
       <div className="logo-name my-auto flex-1 text-left align-middle cursor-pointer" onClick={() => navigate("/")}>
         <img src={logo_name} alt="try-angle_logo_name" />
