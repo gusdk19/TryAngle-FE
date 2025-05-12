@@ -1,10 +1,18 @@
 import React from "react";
 import "../styles/Header.css"
-import { GoHome, GoHomeFill } from "react-icons/go";
-import { HiTrophy, HiOutlineTrophy } from "react-icons/hi2";
-import { PiUserCircleDashed, PiUserCircleDuotone } from "react-icons/pi";
+import { GoHome } from "react-icons/go";
+import { GoHomeFill } from "react-icons/go";
+import { HiTrophy } from "react-icons/hi2";
+import { HiOutlineTrophy } from "react-icons/hi2";
+import { PiUserCircleDashed } from "react-icons/pi";
+import { PiUserCircleDuotone } from "react-icons/pi";
+import { PiUserCircleFill } from "react-icons/pi";
+import { TbUser } from "react-icons/tb";
+import { PiTriangle } from "react-icons/pi";
+import { SiAlchemy } from "react-icons/si";
 import { PiTriangleDashedFill } from "react-icons/pi";
 import { PiTriangleDashed } from "react-icons/pi";
+import { IoTriangleOutline } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 
 export default function Footer({page}){

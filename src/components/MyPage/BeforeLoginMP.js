@@ -35,7 +35,7 @@ export default function BeforeLoginMP({setLogin}){
                 </div>
             </div>
 
-            <InquiryModal onClose={setInquiryModal}/>
+            {inquiryModal ? <InquiryModal onClose={setInquiryModal}/> : ""}
         </main>
     );
 }

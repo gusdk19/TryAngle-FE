@@ -19,6 +19,7 @@ export default function Header(props){
 
     return(
         <div className="header flex flex-unwrap grow w-full pt-[4.5px]">
+            {/* 로고 (왼쪽) */}
             {(title == "친구" || title == "챌린지 비용 및 보상" || page == "challengeDetail" || title == "권유하기" || title == "로그인" || title == "회원가입" || title == "이메일 찾기" || title == "비밀번호 재설정") 
             ? <div className="back flex-none align-middle cursor-pointer">
                 <IoIosArrowBack className="back-icon text-[#4A483F]" 
@@ -62,6 +63,7 @@ export default function Header(props){
                 </div>
             }
 
+            {/* 알림 아이콘 (오른쪽) */}
             {(title == "친구" || title == "챌린지 비용 및 보상" || page == "challengeDetail"  || title == "권유하기" || title == "로그인" || title == "회원가입"  || title == "이메일 찾기" || title == "비밀번호 재설정")
              ? "" : <div className="bell flex-none align-middle cursor-pointer">
                 <FaRegBell className={`${title == "마이페이지" ? "bell-icon" : "bell-icon2 mt-[2px]"} text-[#4A483F]`} 

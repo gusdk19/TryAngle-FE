@@ -10,12 +10,13 @@ import Login from './pages/login';
 import SignUp from './pages/signup';
 import FindEmail from './pages/findEmail';
 import FindPW from './pages/findPW';
-
+import Home from './pages/Home';
 
 function App() {
   return (
     <BrowserRouter>                                   
-      <Routes>                                            
+      <Routes>     
+        <Route path="/" element={<Home />} />                                       
         <Route path='/mypage' element={<MyPage />} /> 
         <Route path='/login' element={<Login />} />    
         <Route path='/signup' element={<SignUp />} />
@@ -32,3 +33,4 @@ function App() {
 }
 
 export default App;
+
