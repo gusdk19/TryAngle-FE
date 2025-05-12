@@ -1,0 +1,139 @@
+import React, { useState } from 'react';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
+import SearchBar from "../components/Home/SearchBar";
+import dumbell from '../assets/images/finace/dumbell.png';
+import books from '../assets/images/finace/books.png';
+import water from '../assets/images/finace/water.png';
+import sun from '../assets/images/finace/Sun.png';
+import bannerImage from '../assets/images/common/bannerimage.png';
+import ChallengeCard from "../components/Challenge/ChallengeCard";
+import "../styles/Challenge/ChallengeCard.css";
+import { useNavigate } from "react-router-dom";
+
+const Home = () => {
+  const [activeTab, setActiveTab] = useState('participating');
+  const [activeCategory, setActiveCategory] = useState('전체');
+  const navigate = useNavigate();
+
+  const categories = ['전체', '운동', '공부', '생활', '기타'];
+
+  const challenges = [
+    {
+      id: 1,
+      title: '하루 30분 운동',
+      start_date: '2025-05-03',
+      end_date: '2025-05-10',
+      tag: '#아침 운동',
+      image: dumbell
+    },
+    {
+      id: 2,
+      title: '30분 독서',
+      start_date: '2025-05-02',
+      end_date: '2025-05-05',
+      tag: '#공부',
+      image: books
+    },
+    {
+      id: 3,
+      title: '일어나서 물 한 잔',
+      start_date: '2025-05-04',
+      end_date: '2025-05-09',
+      tag: '#생활',
+      image: water
+    },
+    {
+      id: 4,
+      title: '아침 8시 기상',
+      start_date: '2025-05-06',
+      end_date: '2025-05-12',
+      tag: '#생활',
+      image: sun
+    }
+  ];
+
+  const filteredChallenges =
+    activeCategory === '전체'
+      ? challenges
+      : challenges.filter((c) => c.tag.includes(activeCategory));
+
+  return (
+    <div className="bg-white flex flex-row justify-center w-full">
+      {/* 모바일 프레임 */}
+      <div className="bg-white w-[393px] h-[852px] relative">
+        <Header />
+        {/* 배너 이미지 삽입*/}
+        <img src={bannerImage} alt="banner" className="w-full" /> 
+
+        {/* 검색창 */}
+        <div className="px-4 mt-4">
+            <SearchBar />
+        </div>
+                  
+        {/* 탭 영역 */}
+        <div className="flex justify-between items-center px-4 mt-[43px]">
+          <div className="flex space-x-10">
+            <button
+                className={`text-lg font-semibold ${
+                activeTab === 'participating'
+                    ? 'border-b-2 border-[#4A483F] text-[#4A483F]'
+                    : 'text-[#4A483F]'
+                }`}
+                onClick={() => setActiveTab('participating')}
+            >
+                참여모집
+            </button>
+            <button
+                className={`text-lg font-semibold ${
+                activeTab === 'ongoing'
+                    ? 'border-b-2 border-yellow-400 text-[#4A483F]'
+                    : 'text-[#4A483F]'
+                }`}
+                onClick={() => setActiveTab('ongoing')}
+            >
+                진행중
+            </button>
+          </div>
+          <button 
+            className="w-[23px] h-[22px] bg-[#FDF8ED] rounded-[2px] border-b border-[#4A483F] text-[#4A483F] text-sm font-bold flex items-center justify-center shadow hover:bg-yellow-200"
+            onClick={() => navigate('/add-challenge')}
+          >
+            +
+          </button>
+        </div>
+
+        {/* 카테고리 */}
+        <div className="flex justify-center gap-3 mt-[29px]">
+          {categories.map((category) => (
+            <button
+              key={category}
+              className={`px-3 py-1 rounded-[5px] text-sm mb-[25px] ${
+                activeCategory === category
+                  ? 'bg-[#6E6053] text-white'
+                  : 'bg-white text-[#4A483F]'
+              }`}
+              onClick={() => setActiveCategory(category)}
+            >
+              #{category}
+            </button>
+          ))}
+        </div>
+
+        {/* 챌린지 카드 */}
+        <div className="flex-grow overflow-y-auto p-4 pb-[100px]">
+          <div className="grid grid-cols-2 gap-4">
+          {filteredChallenges.map((challenge) => (
+            <ChallengeCard key={challenge.id} challenge={challenge} />
+          ))}
+          </div>
+        </div>
+
+       
+      </div>
+      <Footer page="home" />
+    </div>
+  );
+};
+
+export default Home;
