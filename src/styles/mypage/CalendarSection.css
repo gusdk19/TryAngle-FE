@@ -10,6 +10,7 @@
 
 .react-calendar__navigation{
     margin-bottom : 10px;
+    pointer-events : auto;
 }
 
 .react-calendar__navigation__label__labelText{
