@@ -29,6 +29,7 @@ export default function Header(props){
                                 state: {
                                   follower: follower,
                                   following: following,
+                                  success:true,
                                 },
                             });
                         } 
@@ -36,6 +37,7 @@ export default function Header(props){
                             navigate("/mypage", {
                                 state: {
                                   totalReturn: totalReturn,
+                                  success:true,
                                 },
                             });
                         }
@@ -46,13 +48,16 @@ export default function Header(props){
                                 },
                             });
                         } 
+                        else if(title == "로그인"){
+                            navigate('/mypage');
+                        } 
                         else{
                             navigate(-1);
                         }
                     }} />
             </div> : ""}
 
-            {(title == "마이페이지" || title == "챌린지 비용 및 보상" || page == "challengeDetail" || title == "권유하기" || title == "로그인"  || title == "회원가입"  || title == "이메일 찾기" || title == "비밀번호 재설정")
+            {(title == "친구" || title == "마이페이지" || title == "챌린지 비용 및 보상" || page == "challengeDetail" || title == "권유하기" || title == "로그인"  || title == "회원가입"  || title == "이메일 찾기" || title == "비밀번호 재설정")
              ? <div className="title flex-1 text-center align-middle">
                     <span className="title-text font-['Roboto-Black',Helvetica] font-black text-[#4A483F] text-lg tracking-[0] leading-normal">
                         {title}

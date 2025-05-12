@@ -72,7 +72,7 @@ export default function AddFriend({searchValue, setFollowings, allUsers, setAllU
                     <div key={user.user_id} className="flex flex-row gap-4 py-auto align-center">
                         <img className="flex-none w-[43px] h-[43px] rounded-full p-[1px] border-[0.5px] border-[#D9D9D9]" src={user.profileImage} alt={`${user.user_id}-profileImage`}/>
                         <span className="flex-1 my-auto text-[15px] text-[#6E6053] font-medium">{user.nickname}</span>
-                        <button className={`follow-cancel-btn flex-none h-fit px-8 py-[5px] my-auto text-[13px] font-medium  text-[#4A483F] ${user.following ? "bg-[#F4F4F4]":"bg-[#FAB809]"} rounded-lg`}
+                        <button className={`follow-cancel-btn flex-none h-fit py-[5px] my-auto text-[13px] font-medium  text-[#4A483F] ${user.following ? "bg-[#F4F4F4] px-5":"bg-[#FAB809]  px-8"} rounded-lg`}
                           onClick={()=>{handleFollow(user, user.following)}}>
                             {user.following ? "팔로우 취소":"팔로우"}
                         </button>

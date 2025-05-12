@@ -91,7 +91,7 @@ export default function Friend() {
             <FriendNav tab={tab} setTab={setTab} following={userFollowing} follower={userFollower}/>
 
             {/* Search Bar */}
-            <div className="search-container">
+            <div className="search-friend-container">
                 <input
                     type="text"
                     placeholder="검색"

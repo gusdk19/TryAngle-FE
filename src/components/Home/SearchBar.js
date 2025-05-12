@@ -26,9 +26,9 @@ function SearchBar(){
     
     return(
         <form className="search-container" onSubmit={submit} >
-            <img className="search-icon" src={Icon} alt="search icon" />
+            <img className="search-bar-icon" src={Icon} alt="search icon" />
             <input
-                className="search-input"
+                className="search-input-bar"
                 type="text" 
                 value={query}
                 onChange={onChange}

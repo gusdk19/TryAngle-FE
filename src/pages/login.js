@@ -23,15 +23,15 @@ export default function Login(){
 
     const handleClick = ()=>{
         // if 로그인 성공
-        // navigate("/mypage", {state:{success:true}})
+        navigate("/mypage", {state:{success:true}})
         // if 로그인 실패
-        const newErrors = [];
+        // const newErrors = [];
 
-        newErrors.push("⚠ 이메일과 암호가 일치하지 않습니다.");
+        // newErrors.push("⚠ 이메일과 암호가 일치하지 않습니다.");
     
-        setErrors(newErrors);
-        setEmail("");
-        setPW("");
+        // setErrors(newErrors);
+        // setEmail("");
+        // setPW("");
     }
 
     const changeEmail = (e)=>{
