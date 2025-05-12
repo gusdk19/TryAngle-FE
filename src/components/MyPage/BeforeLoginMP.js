@@ -1,10 +1,13 @@
 import { Bell, Home, SmileIcon, Trophy, User, Users } from "lucide-react";
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom'; 
+import InquiryModal from "./InquiryModal";
 
 export default function BeforeLoginMP({setLogin}){
 
     const navigate = useNavigate();
+
+    const [inquiryModal, setInquiryModal] = useState(false);
 
     return(
         <main className="px-4">
@@ -27,10 +30,12 @@ export default function BeforeLoginMP({setLogin}){
 
             {/* Contact Link */}
             <div className="flex justify-end mt-[7px] mr-[2px]">
-                <div className="text-[12px] [-webkit-text-stroke:0.1px_#838687] font-m3-label-medium text-[#838687] whitespace-nowrap underline">
+                <div className="text-[12px] [-webkit-text-stroke:0.1px_#838687] font-m3-label-medium text-[#838687] whitespace-nowrap underline cursor-pointer">
                 문의하기
                 </div>
             </div>
+
+            <InquiryModal onClose={setInquiryModal}/>
         </main>
     );
 }
