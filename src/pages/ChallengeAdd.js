@@ -67,8 +67,8 @@ export default function ChallengeAdd() {
           </button>
         </div>
 
-        <Footer page="home" />
       </div>
+      <Footer page="home" />
     </div>
   );
 }
