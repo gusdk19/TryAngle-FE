@@ -4,6 +4,7 @@ import './App.css';
 //import Home from './pages/Home';
 //import Alarm from './pages/Alarm';
 import ChallengeAdd from './pages/ChallengeAdd';
+import Add from './pages/Add';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         {/*<Route path="/" element={<Home />} />*/}
         {/*<Route path="/" element={<Alarm />} />*/}
         <Route path="/" element={<ChallengeAdd />} />
+        <Route path="/challenge/add" element={<Add />} />
       </Routes>
     </BrowserRouter>
   );
