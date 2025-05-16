@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { FaRegBell } from "react-icons/fa";
+//import { FaRegBell } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
 
 export default function ChallengeAdd() {
@@ -30,7 +30,7 @@ export default function ChallengeAdd() {
 
           {/* 공개 챌린지 */}
           <div
-            onClick={() => setVisibility('public')}
+            onClick={() => {setVisibility('public'); navigate('/challenge/add')}}
             className={`border rounded-xl p-4 mb-4 cursor-pointer transition ${
               visibility === 'public'
                 ? 'border-yellow-400 bg-yellow-50'
