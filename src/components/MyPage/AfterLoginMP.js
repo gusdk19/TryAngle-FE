@@ -25,7 +25,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import SuccessRateSection from "./SuccessRateSection";
 import ProfileEditModal from "./ProfileEditModal";
 
-export default function AfterLoginMP({setLogin}) {
+export default function AfterLoginMP({logout}) {
 
   const location = useLocation();
 
@@ -98,7 +98,7 @@ export default function AfterLoginMP({setLogin}) {
             <div variant="outline" className="flex flex-row gap-5 mt-[6px] font-semibold text-[#4A483F] text-[15px]">
               <div className="">{userData.nickname}</div>
               <button className="pb-[0.5px] font-normal underline text-[11px] text-[#838687]"
-                onClick={()=>{setLogin(0)}}>
+                onClick={()=>{logout()}}>
                 로그아웃
               </button>
             </div>
@@ -171,7 +171,7 @@ export default function AfterLoginMP({setLogin}) {
           <button className="text-xs text-[#6e6053] mt-1 ml-1" >약관 및 정책</button>
         </div>
 
-        {showPEModal && <ProfileEditModal origNickname={userData.nickname} origPI={userData.profileImage} onClose={setShowPEModal} changeUserData={setUserData}/>}
+        {showPEModal && <ProfileEditModal origNickname={userData.nickname} origPI={userData.profileImage} origDescription={userData.description} onClose={setShowPEModal} changeUserData={setUserData}/>}
 
       </main>
   );

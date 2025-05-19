@@ -17,7 +17,7 @@ import bpi_12 from "../../assets/images/mypage/basic_profile_image/basic_profile
 
 import { IoMdClose } from "react-icons/io";
 
-export default function ProfileEditModal({origNickname, onClose, changeUserData, origPI}){
+export default function ProfileEditModal({origNickname, onClose, changeUserData, origPI, origDescription}){
     const [profileImage, setProfileImage] = useState(origPI);
     const [prePI, setPrePI] = useState(origPI);
 
@@ -29,6 +29,7 @@ export default function ProfileEditModal({origNickname, onClose, changeUserData,
 
 
     const [nickname, setNickname] = useState(origNickname);
+    const [description, setDescription] = useState(origDescription);
     const [errors, setErrors] = useState("");
     const [choiceBasicImage, setChoiceBasicImage] = useState(false);
 
@@ -62,7 +63,8 @@ export default function ProfileEditModal({origNickname, onClose, changeUserData,
         changeUserData(prevData => ({
             ...prevData,
             nickname: nickname,
-            profileImage: profileImage
+            profileImage: profileImage,
+            description: description,
         }));
 
         onClose(false);
@@ -133,9 +135,23 @@ export default function ProfileEditModal({origNickname, onClose, changeUserData,
                         </ul>
                     )}
 
+                    {/* 오늘의 한마디 */}
+                    <div className="mx-auto px-4 mt-[10px] flex flex-col justify-between gap-1">
+                        <label htmlFor="description" className="text-[12px] mt-[2.5px] flex-none text-[#6e6053]">
+                            <span className={``}>오늘의 한마디</span>
+                        </label>
+                        <input
+                            id="description"
+                            className="text-[12px] h-[25px] rounded-md text-[#6e6053] pl-2 align-middle"
+                            type="input"
+                            value={description}
+                            onChange={(e)=>setDescription(e.target.value)}
+                        />
+                    </div>
+
                     {/* 변경 버튼 */}
                     <div className="w-full grid items-center">
-                        <button className={`mx-auto w-[192px] h-[38px] mt-[20px] mb-[5px] px-2 py-1 rounded-md 
+                        <button className={`mx-auto w-[192px] h-[38px] mt-[25px] mb-[5px] px-2 py-1 rounded-md 
                         text-white font-medium text-[15px] text-center items-center 
                         ${errors.length > 0 ? "bg-[#D9D9D9] cursor-not-allowed" : "bg-[#FFC421] cursor-pointer"}`}
                             onClick={handleChange} disabled={errors.length > 0 ? true : false}>

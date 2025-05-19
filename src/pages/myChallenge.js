@@ -11,12 +11,16 @@ import books from "../assets/images/finance/books.png";
 import water from "../assets/images/finance/water.png";
 import dumbell from "../assets/images/finance/dumbell.png";
 import CreateChall from "../components/MyChallenge/CreateChall";
+import BeforeLoginMC from "../components/MyChallenge/BeforeLoginMC";
+import useAuthStore from "../components/User/UseAuthStore";
 
 export default function MyChallenge(){
 
     const page = "myChallenge";
 
     const [tab, setTab] = useState("onProgress") // tab(3) - onProgress(참여중), finish(참여완료), create(개설)
+
+    const { isLoggedIn, login, logout } = useAuthStore();
 
     const [challengeList, setChallengeList] = useState([
         {
@@ -372,21 +376,26 @@ export default function MyChallenge(){
     return(
         <div className="bg-white flex flex-row justify-center w-full">
             <div className="bg-white w-[393px] h-[852px] relative">
+
             {/* Header */}
             <Header title={"마이챌린지"}/>
-            
-            {/* Navbar */}
-            <MyChallNav tab={tab} setTab={setTab} />
-            
-            {/* Main Content */}
-            {tab === "onProgress" && 
-                <OnProgressChall dueChallengeList={dueChallengeList} onProgressChallengeList={onProgressChallengeList} 
-                    setChallengeList={setChallengeList} />}
-            {tab === "finish" &&
-                <FinishChall finishedChallengeList={finishedChallengeList}/> }
-            {tab === "create" &&
-                <CreateChall leaderChallengeList={leaderChallengeList} setChallengeList={setChallengeList}/>}
-    
+
+            {isLoggedIn ?    
+            <>                
+                {/* Navbar */}
+                <MyChallNav tab={tab} setTab={setTab} />
+                
+                {/* Main Content */}
+                {tab === "onProgress" && 
+                    <OnProgressChall dueChallengeList={dueChallengeList} onProgressChallengeList={onProgressChallengeList} 
+                        setChallengeList={setChallengeList} />}
+                {tab === "finish" &&
+                    <FinishChall finishedChallengeList={finishedChallengeList}/> }
+                {tab === "create" &&
+                    <CreateChall leaderChallengeList={leaderChallengeList} setChallengeList={setChallengeList}/>}
+            </>
+            :<BeforeLoginMC />}
+
             {/* Footer Navigation */}
             <Footer page={page}/>
             

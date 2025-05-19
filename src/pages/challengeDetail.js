@@ -11,13 +11,16 @@ import Vertify from "../components/ChallengeDetail/Vertify";
 import Info from "../components/ChallengeDetail/Info";
 import Vote from "../components/ChallengeDetail/Vote";
 import ChallengeFooter from "../components/ChallengeDetail/ChallengeFooter";
-
+import RequestLogin from "../components/ChallengeDetail/RequestLogin";
+import useAuthStore from "../components/User/UseAuthStore.js";
 
 export default function ChallengeDetail() {
   // Login State (로그인 x : 0, 로그인 o : 1)
   const location = useLocation();
 
   const { tab } = location.state || {};
+
+  const { isLoggedIn } = useAuthStore();
 
   const { id } = useParams(); // URL에 있는 id 값(challenge_id) 가져오기
   console.log("challengeID",id);
@@ -47,6 +50,7 @@ export default function ChallengeDetail() {
   const page = "challengeDetail";
 
   const [navTab, setNavTab] = useState(tab ? tab : "vertify");
+  const [requestLogin, setRequestLogin] = useState(false);
 
   const now = new Date();
   const startDate = new Date(challengeData.start_date);
@@ -67,7 +71,8 @@ export default function ChallengeDetail() {
         {/* Header */}
         <Header title={challengeData.challenge_name} page={page}/>
         <hr className="m-0"/>
-        <DetailNav tab={navTab} setTab={setNavTab}/>
+        {isLoggedIn ? <DetailNav tab={navTab} setTab={setNavTab}/> 
+        : <div className="my-3"></div>}
 
         {/* Main Content */}
         {navTab == "vote" ? 
@@ -105,8 +110,11 @@ export default function ChallengeDetail() {
       
         {/* Footer Navigation */}
         {navTab == "info" ?
-        <ChallengeFooter status={challengeData.status} challengeID={id} setChallengeData={setChallengeData} participant_list={challengeData.participant_list}/> : ""}
+        <ChallengeFooter status={challengeData.status} challengeID={id} setChallengeData={setChallengeData} participant_list={challengeData.participant_list} isLoggedIn={isLoggedIn} setRequestLogin={setRequestLogin}/> : ""}
       </div>
+
+      {!isLoggedIn && requestLogin ? <RequestLogin onClose={setRequestLogin} /> : "" }
+
     </div>
   );
 }

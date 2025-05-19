@@ -1,9 +1,9 @@
 import { Bell, Home, SmileIcon, Trophy, User, Users } from "lucide-react";
 import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom'; 
-import InquiryModal from "./InquiryModal";
+import InquiryModal from "../MyPage/InquiryModal";
 
-export default function BeforeLoginMP(){
+export default function BeforeLoginMC(){
 
     const navigate = useNavigate();
 
@@ -14,7 +14,7 @@ export default function BeforeLoginMP(){
             {/* Login Prompt */}
             <div className="flex items-center gap-1 mt-[20px]">
                 <div className="font-['Roboto-Black',Helvetica] font-bold text-[#4a483f] text-[18px] tracking-[0] leading-normal">
-                    로그인을 해주세요.
+                    로그인이 필요한 서비스 입니다.
                 </div>
                 <SmileIcon className="w-[18px] h-[18px] text-[#4a483f]" />
             </div>
@@ -27,14 +27,6 @@ export default function BeforeLoginMP(){
                 <span className="font-m3-body-bold font-bold text-[14px] text-center grid items-center">로그인하기</span>
             </button>
 
-            {/* Contact Link */}
-            <div className="flex justify-end mt-[7px] mr-[2px]">
-                <div className="text-[12px] [-webkit-text-stroke:0.1px_#838687] font-m3-label-medium text-[#838687] whitespace-nowrap underline cursor-pointer">
-                문의하기
-                </div>
-            </div>
-
-            {inquiryModal ? <InquiryModal onClose={setInquiryModal}/> : ""}
         </main>
     );
 }

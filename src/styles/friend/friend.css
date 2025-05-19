@@ -5,9 +5,9 @@
     margin: 0 auto;
     display: flex;
     align-items:center;
-  }
+}
   
-  .search-icon {
+.search-icon {
     position: absolute;
     right: 30px;
     top: 50%;

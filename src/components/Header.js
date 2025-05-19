@@ -2,7 +2,7 @@ import React from "react";
 import "../styles/Header.css"
 import { FaRegBell } from "react-icons/fa";
 import { IoIosArrowBack } from "react-icons/io";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import logo_name  from "../assets/images/common/logo_name.png";
 
 export default function Header(props){
@@ -13,6 +13,10 @@ export default function Header(props){
     const follower = props.follower ? props.follower : "";
     const totalReturn = props.totalReturn ? props.totalReturn : "";
     const id = props.id ? props.id : "";
+
+    const location = useLocation();
+
+    const {back} = location.state || {};
 
     // console.log(following, follower, totalReturn);
     const navigate = useNavigate();
@@ -49,7 +53,11 @@ export default function Header(props){
                             });
                         } 
                         else if(title == "로그인"){
-                            navigate('/mypage');
+                            if(back){
+                                navigate(-1);
+                            }else{
+                                navigate('/mypage');
+                            }
                         } 
                         else{
                             navigate(-1);

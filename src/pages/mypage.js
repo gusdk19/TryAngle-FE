@@ -1,6 +1,7 @@
 import Header from "../components/Header";
 import BeforeLoginMP from "../components/MyPage/BeforeLoginMP.js";
 import AfterLoginMP from "../components/MyPage/AfterLoginMP.js";
+import useAuthStore from "../components/User/UseAuthStore.js";
 import Footer from "../components/Footer";
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
@@ -9,12 +10,10 @@ export default function MyPage() {
 
   const location = useLocation();
 
-  const {success} = location.state || {};
+  const { isLoggedIn, login, logout } = useAuthStore();
+  // const {success} = location.state || {};
 
-  // Login State (로그인 x : 0, 로그인 o : 1)
-  const [login, setLogin] = useState(success == undefined ? 0 : success);
-
-  console.log(login, "login");
+  console.log(isLoggedIn, "isLoggedIn");
 
   const page = "myPage";
 
@@ -26,9 +25,9 @@ export default function MyPage() {
         <hr className="m-0"/>
       
         {/* Main Content */}
-        {login === 0 ? 
-          <BeforeLoginMP setLogin={setLogin}/>
-          :<AfterLoginMP setLogin={setLogin}/>}
+        {!isLoggedIn ? 
+          <BeforeLoginMP />
+          :<AfterLoginMP logout={logout}/>}
         
 
         {/* Footer Navigation */}

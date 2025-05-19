@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import "../styles/user/user.css";
 import { useNavigate } from "react-router-dom";
+import "../styles/user/user.css";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
+import useAuthStore from "../components/User/UseAuthStore.js";
 
 export default function Login(){
 
@@ -10,6 +11,8 @@ export default function Login(){
 
     const navigate = useNavigate();
 
+    const { login } = useAuthStore();
+    
     const [email, setEmail] = useState("");
     const [pw, setPW] = useState("");
     const [isValid, setIsValid] = useState(true);
@@ -23,7 +26,8 @@ export default function Login(){
 
     const handleClick = ()=>{
         // if 로그인 성공
-        navigate("/mypage", {state:{success:true}})
+        navigate("/mypage", {state:{success:true}});
+        login();
         // if 로그인 실패
         // const newErrors = [];
 
@@ -69,7 +73,7 @@ export default function Login(){
                         <input 
                             id="email" 
                             className="input" 
-                            type="text" 
+                            type="password" 
                             placeholder="비밀번호를 입력해주세요"
                             value={pw}
                             onChange={(e)=>{setPW(e.target.value);}}/>
