@@ -4,6 +4,7 @@ import { FaRegBell } from "react-icons/fa";
 import { IoIosArrowBack } from "react-icons/io";
 import { useNavigate, useLocation } from "react-router-dom";
 import logo_name  from "../assets/images/common/logo_name.png";
+import useAuthStore from "./User/UseAuthStore";
 
 export default function Header(props){
 
@@ -15,6 +16,8 @@ export default function Header(props){
     const id = props.id ? props.id : "";
 
     const location = useLocation();
+
+    const { isLoggedIn, login, logout } = useAuthStore();
 
     const {back} = location.state || {};
 
@@ -77,7 +80,7 @@ export default function Header(props){
             }
 
             {/* 알림 아이콘 (오른쪽) */}
-            {(title == "친구" || title == "챌린지 비용 및 보상" || page == "challengeDetail"  || title == "권유하기" || title == "로그인" || title == "회원가입"  || title == "이메일 찾기" || title == "비밀번호 재설정")
+            {(!isLoggedIn || (title == "친구" || title == "챌린지 비용 및 보상" || page == "challengeDetail"  || title == "권유하기" || title == "로그인" || title == "회원가입"  || title == "이메일 찾기" || title == "비밀번호 재설정"))
              ? "" : <div className="bell flex-none align-middle cursor-pointer">
                 <FaRegBell className={`${title == "마이페이지" ? "bell-icon" : "bell-icon2 mt-[2px]"} text-[#4A483F]`} 
                     onClick={()=>{navigate("/alarm");}}/>
