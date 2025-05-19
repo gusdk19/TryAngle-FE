@@ -2,6 +2,7 @@ import React, { useRef,useState } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { useLocation, useNavigate } from 'react-router-dom';
+import FieldError from '../components/FieldError';
 
 export default function InviteCode() {
   const location = useLocation();
@@ -11,15 +12,28 @@ export default function InviteCode() {
   const [code, setCode] = useState(Array(6).fill(''));
   const inputsRef = useRef([]);
 
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isValidate, setIsValidate] = useState(false);
+
 
   const handleChange = (index, value) => {
     if (value.length > 1) return;
+
+    // 숫자 유효성 검사
+    if (isNaN(value)) {
+      setErrorMessage("초대 코드는 숫자로 입력해주세요");
+      setIsValidate(true);
+      return;
+    }
+
+    setErrorMessage(""); // 유효하면 메시지 초기화
+    setIsValidate(false);
 
     const newCode = [...code];
     newCode[index] = value;
     setCode(newCode);
 
-    // 다음 인풋으로 포커스 이동
+    // 다음 input으로 포커스
     if (value && index < 5) {
       inputsRef.current[index + 1]?.focus();
     }
@@ -33,6 +47,7 @@ export default function InviteCode() {
       inputsRef.current[index - 1]?.focus();
     }
   };
+
 
   const handleSubmit = () => {
     const inviteCode = code.join('');
@@ -59,6 +74,10 @@ export default function InviteCode() {
           </h2>
           <h3 className="text-[#3D3D3D] text-[15px] mb-6">친구들을 초대할 수 있는 초대 코드를 만들어주세요</h3>
 
+          {/* 초대 코드 입력 필드 위에 라벨과 에러 함께 표시 */}
+            <FieldError
+              error={isValidate ? errorMessage : ''}
+             />
           {/* 1자씩 입력하는 회색 박스 */}
           <div className="flex ml-8 gap-2 mb-6">
             {code.map((char, i) => (
