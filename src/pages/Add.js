@@ -3,6 +3,7 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 //import { FaRegBell } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import FieldError from '../components/FieldError';
 
 // Basic Profile Image
@@ -21,6 +22,10 @@ import bpi_12 from "../assets/images/basic_profile_image/basic_profile_image_12.
 
 
 export default function Add() {
+
+    const location = useLocation();
+    const { visibility, inviteCode } = location.state || {};
+
     const [challengeName, setChallengeName] = useState('');
     const [challengeNameError, setChallengeNameError] = useState(false);
 

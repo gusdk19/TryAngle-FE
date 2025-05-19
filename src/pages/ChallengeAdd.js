@@ -10,7 +10,7 @@ export default function ChallengeAdd() {
 
   const handleNext = () => {
     if (visibility) {
-      navigate('/add-challenge/details', { state: { visibility } });
+      navigate('/challenge/add', { state: { visibility } });
     } else {
       alert('챌린지 공개 여부를 선택해주세요!');
     }
@@ -30,7 +30,7 @@ export default function ChallengeAdd() {
 
           {/* 공개 챌린지 */}
           <div
-            onClick={() => {setVisibility('public'); navigate('/challenge/add')}}
+            onClick={() => {setVisibility('public')}}
             className={`border rounded-xl p-4 mb-4 cursor-pointer transition ${
               visibility === 'public'
                 ? 'border-yellow-400 bg-yellow-50'
@@ -45,7 +45,11 @@ export default function ChallengeAdd() {
 
           {/* 비공개 챌린지 */}
           <div
-            onClick={() => setVisibility('private')}
+            onClick={() => {
+              navigate('/add-challenge/invite', {
+                state: { visibility: 'private' }
+              });
+            }}
             className={`border rounded-xl p-4 mb-6 cursor-pointer transition ${
               visibility === 'private'
                 ? 'border-yellow-400 bg-yellow-50'
