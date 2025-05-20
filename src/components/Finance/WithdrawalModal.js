@@ -23,6 +23,14 @@ export default function WithdrawalModal({onClose, setWithdrawal, totalReturn}){
             newErrors.push("⚠ 출금 가능한 금액을 초과하였습니다.");
         }
 
+        if (value < 5000) {
+            newErrors.push("⚠ 출금은 5000원부터 가능합니다.");
+        }
+
+        if (value % 1000 != 0) {
+            newErrors.push("⚠ 출금은 1000원 단위로 가능합니다.");
+        }
+
         if (!isNumber(value)) {
             newErrors.push("⚠ 옳지 않은 입력입니다. 출금할 금액을 숫자로 입력해주세요.");
         }
@@ -56,8 +64,10 @@ export default function WithdrawalModal({onClose, setWithdrawal, totalReturn}){
                     </label>
                     <input
                         id="withdrawal"
-                        className="text-[13px] h-[20px] flex-1 rounded-md text-[#6e6053] px-[12px] py-[9px] align-middle"
-                        type="input"
+                        className="text-[13px] h-[20px] flex-1 rounded-md text-[#6e6053] px-[12px] py-[9px] align-middle
+                            appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+                        type="number"
+                        min="5000" step="1000"
                         value={wdValue}
                         onChange={(e)=>handleInputChange(e)}
                     />
@@ -72,6 +82,10 @@ export default function WithdrawalModal({onClose, setWithdrawal, totalReturn}){
                     ))}
                     </ul>
                 )}
+                
+                <div className="mt-[6px] px-[5px] text-[12px] text-left text-[red]">
+                    ※ 출금은 5000원 이상 1000원 단위로 가능합니다.
+                </div>
 
                 {/* 변경 버튼 */}
                 <div className="w-full grid items-center">

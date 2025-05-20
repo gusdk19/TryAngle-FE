@@ -9,8 +9,10 @@ export default function ChallengeAdd() {
   const navigate = useNavigate();
 
   const handleNext = () => {
-    if (visibility) {
-      navigate('/add-challenge/content', { state: { visibility } });
+    if (visibility == 'public') {
+      navigate('/add-challenge/content', { state: { visibility: visibility, from:"add-challenge" } });
+    } else if (visibility == 'private'){
+      navigate('/add-challenge/invite', { state: { visibility: visibility, from:"add-challenge" } });
     } else {
       alert('챌린지 공개 여부를 선택해주세요!');
     }
@@ -23,15 +25,16 @@ export default function ChallengeAdd() {
         <Header />
 
         {/* 본문 */}
-        <div className="p-4 pt-20 ">
-          <h2 className="text-[24px] font-bold mb-6 text-[#4A483F]">
-            챌린지 공개 여부를 선택해주세요!
+        <div className="px-4 pt-[40px]">
+          <h2 className="px-1 mb-[45px] text-[24px] font-bold text-[#4A483F]">
+            챌린지 공개 여부를
+            <p>선택해주세요!</p>
           </h2>
 
           {/* 공개 챌린지 */}
           <div
             onClick={() => {setVisibility('public')}}
-            className={`border rounded-xl p-4 mb-4 cursor-pointer transition ${
+            className={`border rounded-xl p-4 mb-8 cursor-pointer transition ${
               visibility === 'public'
                 ? 'border-yellow-400 bg-yellow-50'
                 : 'border-gray-300'
@@ -46,11 +49,9 @@ export default function ChallengeAdd() {
           {/* 비공개 챌린지 */}
           <div
             onClick={() => {
-              navigate('/add-challenge/invite', {
-                state: { visibility: 'private' }
-              });
+              setVisibility("private");
             }}
-            className={`border rounded-xl p-4 mb-6 cursor-pointer transition ${
+            className={`border rounded-xl p-4 mb-8 cursor-pointer transition ${
               visibility === 'private'
                 ? 'border-yellow-400 bg-yellow-50'
                 : 'border-gray-300'

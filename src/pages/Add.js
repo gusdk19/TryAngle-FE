@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+
+import "../styles/Challenge/Add.css";
+
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 //import { FaRegBell } from "react-icons/fa";
 //import { useNavigate } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
 import FieldError from '../components/FieldError';
 
 // Basic Profile Image
@@ -65,8 +68,11 @@ export default function Add() {
     const [challVoteError, setChallVoteError] = useState('');
 
     const [profileImage, setProfileImage] = useState('');
+    const [profileImageError, setProfileImageError] = useState('');
     const [prePI, setPrePI] = useState('');
     const [choiceBasicImage, setChoiceBasicImage] = useState(false);
+
+    const navigate = useNavigate();
 
     const basicImages = [
     bpi_1, bpi_2, bpi_3, bpi_4, bpi_5, bpi_6,
@@ -78,8 +84,31 @@ export default function Add() {
     if (file) {
         setProfileImage(URL.createObjectURL(file));
         setPrePI('');
+        setProfileImageError(false);
     }
     };
+
+    useEffect(()=>{
+        const startDate = new Date(
+            parseInt(startYear),
+            parseInt(startMonth) - 1,
+            parseInt(startDay)
+        );
+        const endDate = new Date(
+            parseInt(endYear),
+            parseInt(endMonth) - 1,
+            parseInt(endDay)
+        );
+
+        if (startDate > endDate) {
+            setDateError('wrong input');
+            return;
+        }
+
+        if (startYear && startMonth && startDay && endYear && endMonth && endDay) {
+            setDateError(false);
+        }
+    },[startYear, startMonth, startDay, endYear, endMonth, endDay])
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -101,9 +130,25 @@ export default function Add() {
         hasError = true;
         }
 
+        const startDate = new Date(
+            parseInt(startYear),
+            parseInt(startMonth) - 1,
+            parseInt(startDay)
+        );
+        const endDate = new Date(
+            parseInt(endYear),
+            parseInt(endMonth) - 1,
+            parseInt(endDay)
+        );
+
+        if (startDate > endDate) {
+            setDateError('wrong input');
+            hasError = true;
+        }
+
         if (!startYear || !startMonth || !startDay || !endYear || !endMonth || !endDay) {
-        setDateError(true);
-        hasError = true;
+            setDateError(true);
+            hasError = true;
         }
 
         if (!certifyPeriod) {
@@ -137,24 +182,37 @@ export default function Add() {
         }
 
         if (challVote.trim() === '') {
-        setChallVoteError(true);
-        hasError = true;
+            setChallVoteError(true);
+            hasError = true;
         }
 
-        if (hasError) return;
+        if (!profileImage){
+            setProfileImageError(true);
+            hasError = true;
+        }
+
+        if (hasError) {
+            return;
+        }
+        else{
+            navigate("/");
+        }
+        
 
         // 실제 제출 로직 (ex: API 호출) 추가 가능
   };
 
+    console.log("date", "certify", dateError, certifyPeriod);
+
     return (
         <div className="bg-white flex justify-center w-full">
             {/* 모바일 프레임 */}
-            <div className="bg-white w-[393px] h-[852px] flex flex-col">
-            <Header />
+            <div className="bg-white w-[393px] h-[852px]">
+                <Header title={"챌린지 추가"}/>
     
             {/*본문 */}
-                <main className="flex-1 overflow-y-auto px-4 py-2 pb-[90px]">
-                    <h2 className="text-[24px] font-bold my-4 text-[#4A483F]">챌린지 추가</h2>
+                <main className="main h-[730px] overflow-auto px-5 mt-[20px] pb-6">
+                    <h2 className="text-[24px] font-bold mb-4 text-[#4A483F]">챌린지 추가</h2>
 
                     {/* 입력 폼들 */}
                     <form onSubmit={handleSubmit}>
@@ -218,15 +276,15 @@ export default function Add() {
                                 shortIntroError ? 'border-red-500' : 'border-gray-300'
                                 }`}
                             />
-                            <p className='px-2 mt-2 text-sm text-[#B3B3B3]'>짧은 소개글은 섬네일에 표시됩니다</p>
+                            <p className='px-1 mt-2 text-sm text-[#B3B3B3]'>※ 짧은 소개글은 섬네일에 표시됩니다</p>
                         </div>
                         {/*챌린지 기간*/}
                         <div className="mb-6">
                             <FieldError
                                 label="챌린지 기간"
-                                error={dateError ? '신청 기간을 입력해주세요' : ''}
+                                error={dateError ? dateError == 'wrong input' ? '신청기간을 올바르게 입력해주세요' : '신청 기간을 입력해주세요' : ''}
                             />
-                            <div className="overflow-x-auto overflow-y-hidden whitespace-nowrap rounded p-2 flex gap-2">
+                            <div className="scroll overflow-x-auto overflow-y-hidden whitespace-nowrap rounded px-2 py-1 flex gap-2">
                                 {/* 시작일 */}
                                 <select value={startYear} onChange={(e) => setStartYear(e.target.value)} className={`border w-[85px] px-2 py-1 rounded text-sm ${
                                     startYear === '' ? 'text-gray-400' : 'text-black'
@@ -295,12 +353,12 @@ export default function Add() {
                                 label="인증 기간"
                                 error={certifyPeriodError ? '인증 기간을 선택해주세요' : ''}
                             />
-                            <div className="overflow-x-auto overflow-y-hidden whitespace-nowrap rounded p-2 flex gap-2">
+                            <div className="scroll overflow-x-auto overflow-y-hidden whitespace-nowrap rounded p-1 flex gap-2">
                                 {CERTIFY_OPTIONS.map((option) => (
                                 <button
                                     key={option}
                                     type="button"
-                                    onClick={() => setCertifyPeriod(option)}
+                                    onClick={() => {setCertifyPeriod(option);setCertifyPeriodError(false);}}
                                     className={`px-4 py-1 rounded-full border text-sm transition-all
                                     ${certifyPeriod === option
                                         ? 'bg-gray-600 text-white'
@@ -311,7 +369,7 @@ export default function Add() {
                                 </button>
                                 ))}
                             </div>
-                            <p className='px-2 mt-2 text-sm text-[#B3B3B3]'>인증 요일은 월, 화, 수, 목, 금, 토, 일 입니다</p>
+                            <p className='px-1 mt-2 text-sm text-[#B3B3B3]'>※ 인증 요일은 월, 화, 수, 목, 금, 토, 일 입니다</p>
                         </div>
                         {/* 최대 모집 인원 */}
                         <div className="mb-6">
@@ -341,7 +399,7 @@ export default function Add() {
                                 <option value="9">9</option>
                                 <option value="10">10</option>
                             </select>
-                            <p className='px-2 mt-2 text-sm text-[#B3B3B3]'>1명을 선택할 경우, 혼자 참여하는 챌린지로 추가됩니다</p>
+                            <p className='px-1 mt-2 text-sm text-[#B3B3B3]'>※ 1명을 선택할 경우, 혼자 참여하는 챌린지로 추가됩니다</p>
                         </div>
                         {/* 챌린지 소개*/}
                         <div className="mb-6">
@@ -370,7 +428,7 @@ export default function Add() {
                             error={depositTypeError ? '챌린지 비용 방식을 선택해주세요' : ''}
                             />
                             {/* 선택 버튼(예치금/기부) */}
-                            <div className='flex gap-2 mb-2'>
+                            <div className='flex gap-2 py-1'>
                                 {['예치금', '기부'].map((type) => (
                                     <button 
                                     key={type} 
@@ -390,40 +448,41 @@ export default function Add() {
                                 ))}
                             </div>
                             {/* 금액 입력 */}
-                            <div className="flex flex-col gap-2">
-                            <FieldError
-                                error={amountError ? '최소 챌린지 비용을 입력해주세요' : ''}
-                            />
+                            <div className="flex flex-col gap-3 justify-between mt-2">
+                                {amountError ? <FieldError className="max-h-[20px]"
+                                    error={amountError ? '최소 챌린지 비용을 입력해주세요' : ''}
+                                /> : ""}
 
-                            <div className="flex items-center gap-2">
-                                <input
-                                type="text"
-                                value={amount}
-                                onChange={(e) => {
-                                    setAmount(e.target.value);
-                                    setAmountError(false);
-                                }}
-                                className={`w-[120px] px-3 py-1 border rounded-md text-sm outline-none ${
-                                    amountError ? 'border-red-500' : 'border-gray-300'
-                                }`}
+                                <div className="flex items-center gap-2">
+                                    <input
+                                    type="number"
+                                    value={amount}
+                                    onChange={(e) => {
+                                        setAmount(e.target.value);
+                                        setAmountError(false);
+                                    }}
+                                    className={`w-[120px] px-3 py-1 border rounded-md text-sm outline-none 
+                                        appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none
+                                        ${amountError ? 'border-red-500' : 'border-gray-300'
+                                    }`}
+                                    />
+                                    <span className="text-sm">원</span>
+                                </div>
+
+                                {/* 동적으로 변경되는 문구 */}
+                                {depositType && <p className="text-sm text-[#B3B3B3] px-1">
+                                    ※ 최소 200,000원까지 {depositType} 비용을 입력할 수 있습니다
+                                </p>}
+
+                                {/* 선택한 방식에 따라 동적으로 안내 문구 변경 */}
+                                <textarea
+                                    className="w-full border rounded-md px-3 py-2 text-sm"
+                                    placeholder={
+                                    depositType === '예치금'
+                                        ? '예치금 관리 방식을 설명해주세요.'
+                                        : '기부금 관리 방식을 설명해주세요.'
+                                    }
                                 />
-                                <span className="text-sm">원</span>
-                            </div>
-
-                            {/* 동적으로 변경되는 문구 */}
-                            <p className="text-sm text-[#B3B3B3]">
-                                최소 200,000원까지 {depositType} 비용을 입력할 수 있습니다
-                            </p>
-
-                            {/* 선택한 방식에 따라 동적으로 안내 문구 변경 */}
-                            <textarea
-                                className="w-full border rounded-md px-3 py-2 text-sm"
-                                placeholder={
-                                depositType === '예치금'
-                                    ? '예치금 관리 방식을 설명해주세요.'
-                                    : '기부금 관리 방식을 설명해주세요.'
-                                }
-                            />
                             </div>
 
                         </div>
@@ -469,21 +528,30 @@ export default function Add() {
                         </div>
                         {/* 챌린지 대표 이미지 설정 */}
                         <div className="mb-6">
-                        <FieldError label="대표 이미지 설정" error="" />
+                        <FieldError 
+                            label="대표 이미지 설정" 
+                            error={profileImageError ? "대표 이미지를 설정해주세요.": ""} />
 
                         {!choiceBasicImage ? (
-                            <div className="w-[192px] h-[192px] bg-white mx-auto mt-[10px] rounded-lg">
+                            <div className="w-full h-[190px] bg-white mx-auto mt-[10px] rounded-lg">
                             <div className="grid items-center w-full h-full">
-                                <div className="w-[150px] h-[145px] border border-gray-300 rounded-md flex flex-col justify-center items-center gap-2">
+                                <div className={`relative m-auto w-[150px] h-[145px] border border-gray-300 rounded-md flex flex-col justify-center items-center gap-2`}>
+                                
+                                {profileImage && (
+                                <div className="absolute z-10">
+                                    <img src={profileImage} alt="preview" className={`w-[150px] ${profileImage ? "h-fit max-h-[150px] opacity-[80%]" : "h-[145px]"} object-fill rounded-md`} />
+                                </div>
+                                )}
+
                                 <button
-                                    className=" w-[115px] h-[24px] border border-gray-300 rounded-md flex flex-col justify-center items-center upload-image-btn text-sm text-[#B3B3B3]"
+                                    className="w-[115px] h-[24px] border border-gray-300 rounded-md flex flex-col justify-center items-center basic-image-btn text-sm text-[#B3B3B3] z-20"
                                     onClick={() => setChoiceBasicImage(true)}
                                 >
                                     기본 이미지 선택
                                 </button>
 
-                                <label htmlFor="imageUpload" className="upload-button cursor-pointer">
-                                    <span className=" w-[95px] h-[24px] border border-gray-300 rounded-md flex flex-col justify-center items-center upload-image-btn text-sm text-[#B3B3B3]">사진 업로드</span>
+                                <label htmlFor="imageUpload" className="cursor-pointer z-20">                                   
+                                    <span className=" w-[95px] h-[24px] border border-gray-300 rounded-md flex flex-col justify-center items-center upload-image-btn text-sm text-[#B3B3B3] ">사진 업로드</span>
                                 </label>
 
                                 <input
@@ -495,28 +563,25 @@ export default function Add() {
                                 />
                                 </div>
 
-                                {profileImage && (
-                                <div className="preview-image p-[15px]">
-                                    <img src={profileImage} alt="preview" className="w-full h-full object-cover rounded-md" />
-                                </div>
-                                )}
+                                
                             </div>
                             </div>
                         ) : (
                             <>
-                            <div className="w-[223px] bg-white mx-auto mt-[10px] rounded-lg p-[20px]">
-                                <div className="grid grid-cols-4 gap-2">
+                            <div className="w-fit bg-white mx-auto rounded-lg mt-[20px] p-[20px] border-[1px] border-solid border-[#D9D9D9]">
+                                <div className="w-fit mx-auto grid grid-cols-3 gap-2 ">
                                 {basicImages.map((img, idx) => (
                                     <img
                                     key={idx}
                                     src={img}
                                     alt={`basic-${idx}`}
-                                    className={`w-[50px] h-[50px] cursor-pointer object-cover ${
+                                    className={`w-[56px] h-[56px] cursor-pointer object-cover ${
                                         prePI === img ? "border-[3px] border-[#4A483F] rounded-[15px]" : ""
                                     }`}
                                     onClick={() => {
                                         setPrePI(img);
                                         setProfileImage(img);
+                                        setProfileImageError(false);
                                     }}
                                     />
                                 ))}
@@ -531,7 +596,7 @@ export default function Add() {
                             </>
                         )}
                         </div>
-                        <button type="submit" className="w-[272px] mt-10 ml-10 py-3 text-white font-semibold rounded-lg bg-[#FAB809] transition duration-200 shadow-sm">
+                        <button type="submit" className="w-[272px] ml-10 mt-[-8px] mb-[30px] py-3 text-white font-semibold rounded-lg bg-[#FAB809] transition duration-200 shadow-sm">
                             챌린지 추가
                         </button>
                     </form>

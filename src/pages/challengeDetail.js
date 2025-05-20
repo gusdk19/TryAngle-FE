@@ -113,7 +113,7 @@ export default function ChallengeDetail() {
         <ChallengeFooter status={challengeData.status} challengeID={id} setChallengeData={setChallengeData} participant_list={challengeData.participant_list} isLoggedIn={isLoggedIn} setRequestLogin={setRequestLogin}/> : ""}
       </div>
 
-      {!isLoggedIn && requestLogin ? <RequestLogin onClose={setRequestLogin} /> : "" }
+      {!isLoggedIn && requestLogin ? <RequestLogin onClose={setRequestLogin} purpose="참가"/> : "" }
 
     </div>
   );

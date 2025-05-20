@@ -8,7 +8,10 @@ export default function InviteCode() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const { visibility } = location.state || {};
+  const { visibility, from } = location.state || {};
+
+  console.log("from", from);
+
   const [code, setCode] = useState(Array(6).fill(''));
   const inputsRef = useRef([]);
 
@@ -56,9 +59,13 @@ export default function InviteCode() {
       return;
     }
 
-    navigate('/challenge/add', {
-      state: { visibility, inviteCode },
-    });
+    if (from == "add-challenge"){
+      navigate('/add-challenge/content', {
+        state: { visibility, inviteCode },
+      });
+    } else{
+      // 챌린지 정보 확인 및 참여 목적 초대코드 입력 시시
+    }
   };
 
   return (
@@ -68,11 +75,11 @@ export default function InviteCode() {
         <Header />
 
         {/* 본문 */}
-        <div className="p-4 pt-20">
-          <h2 className="text-[24px] font-bold mb-6 text-[#4A483F]">
+        <div className="p-[18px] pt-20">
+          <h2 className="text-[24px] px-1 font-bold mb-6 text-[#4A483F]">
             초대 코드를 설정해주세요!
           </h2>
-          <h3 className="text-[#3D3D3D] text-[15px] mb-6">친구들을 초대할 수 있는 초대 코드를 만들어주세요</h3>
+          <h3 className="text-[#3D3D3D] text-[15px] px-1 mb-6">친구들을 초대할 수 있는 초대 코드를 만들어주세요</h3>
 
           {/* 초대 코드 입력 필드 위에 라벨과 에러 함께 표시 */}
             <FieldError
