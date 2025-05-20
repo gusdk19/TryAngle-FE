@@ -12,6 +12,9 @@ import FindEmail from './pages/findEmail';
 import FindPW from './pages/findPW';
 import Home from './pages/Home';
 import Alarm from './pages/Alarm';
+import ChallengeAdd from "./pages/ChallengeAdd";
+import Add from "./pages/Add";
+import InviteCode from "./pages/InviteCode";
 
 function App() {
   return (
@@ -29,6 +32,9 @@ function App() {
         <Route path='/mychallenge' element={<MyChallenge />} />
         <Route path='/challenge/:id' element={<ChallengeDetail />} />
         <Route path='/challenge/:id/recommend' element={<Recommend />} />                                                                
+        <Route path="/add-challenge/public" element={<ChallengeAdd />} />
+        <Route path="/add-challenge/content" element={<Add />} />
+        <Route path="/add-challenge/invite" element={<InviteCode />} />
       </Routes>
   </BrowserRouter>
   );

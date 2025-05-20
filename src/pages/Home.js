@@ -127,7 +127,7 @@ const Home = () => {
           </div>
           <button 
             className="w-[23px] h-[22px] bg-[#FDF8ED] rounded-[2px] border-b border-[#4A483F] text-[#4A483F] text-sm font-bold flex items-center justify-center shadow hover:bg-yellow-200"
-            onClick={() => navigate('/add-challenge')}
+            onClick={() => navigate('/add-challenge/public')}
           >
             +
           </button>
