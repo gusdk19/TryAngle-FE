@@ -18,16 +18,44 @@ export default function Login(){
     const [isValid, setIsValid] = useState(true);
     const [errors, setErrors] = useState([]);
 
+    // API 연동 결과 저장
+    const [token, setToken] = useState(''); // Login api token
+    const [error, setError] = useState(''); // 로그인 성공 여부
+
     const validateEmail = (value) => {
         // 간단한 이메일 정규표현식
         const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return regex.test(value);
     };
 
-    const handleClick = ()=>{
+    const handleClick = async ()=>{
+         try {
+            const res = await fetch('http://localhost:8080/user/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email: email, password : pw }),
+            });
+
+            const data = await res.json();
+
+            if (data.isSuccess) {
+                setToken(data.result.token);
+                setError('');
+            } else {
+                setError(data.message || '로그인 실패');
+            }
+            } catch (err) {
+            setError('서버 오류');
+        }
+        
+        console.log("token", token);
+        console.log("error", error);
+        
         // if 로그인 성공
-        navigate("/mypage", {state:{success:true}});
         login();
+        // navigate("/mypage", {state:{success:true}});
         // if 로그인 실패
         // const newErrors = [];
 

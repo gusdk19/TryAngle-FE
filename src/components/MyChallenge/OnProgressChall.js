@@ -51,7 +51,7 @@ export default function OnProgressChall({onProgressChallengeList, dueChallengeLi
                         const dayDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
 
                         return(
-                            <div className="card" onClick={()=>{navigate(`/challenge/${challenge.challenge_id}`, {state:{
+                            <div className="card" key={challenge.challenge_id} onClick={()=>{navigate(`/challenge/${challenge.challenge_id}`, {state:{
                                 tab: "info",
                             }})}}>
                                 <div className='card-image flex flex-col'>
