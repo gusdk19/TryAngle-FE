@@ -33,7 +33,9 @@ const Home = () => {
       start_date: '2025-05-03',
       end_date: '2025-05-10',
       tag: '#아침 운동',
-      image: dumbell
+      image: dumbell,
+      challenge_public: false, //테스트용
+      invite_code: '123456' //테스트용
     },
     {
       id: 2,
