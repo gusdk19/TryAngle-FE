@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import "../../styles/user/user.css";
 
-export default function SUStepOne({email, setEmail, errors, setErrors}){
+export default function SUStepOne({email, setEmail, errors, setErrors, setEmailExisted}){
 
     const navigate = useNavigate();
 
@@ -14,13 +14,35 @@ export default function SUStepOne({email, setEmail, errors, setErrors}){
         return regex.test(value);
     };
 
-    const changeEmail = (e)=>{
-        setEmail(e.target.value); 
-        setIsValid(validateEmail(e.target.value));
+    const changeEmail = async (e)=>{
+        setEmail((e.target.value).trim()); 
+        setIsValid(validateEmail((e.target.value).trim()));
         const newErrors = [];
 
         if (!isValid) {
             newErrors.push("⚠ 이메일 형식이 올바르지 않습니다.");
+        }else{
+            // try {
+            //     const res = await fetch('http://localhost:8080/user/checkEmail', {
+            //         method: 'POST',
+            //         headers: {
+            //             'Content-Type': 'application/json',
+            //         },
+            //         body: JSON.stringify({ email: (e.target.value).trim() }),
+            //     });
+
+            //     const data = await res.json();
+            //     console.log("email check", data.isSuccess, data.message);
+
+            //     if(data.isSuccess){
+            //         setEmailExisted(false);
+            //     } else{
+            //         setEmailExisted(true);
+            //         newErrors.push(`⚠ ${data.message}`);
+            //     }
+            // } catch (error) {
+            //     console.error('이메일 확인 오류:', error);
+            // }
         }
     
         setErrors(newErrors);

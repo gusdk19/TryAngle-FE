@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import "../../styles/user/user.css";
 
-export default function SUStepFour({nickname, setNickname, errors, setErrors}){
+export default function SUStepFour({nickname, setNickname, errors, setErrors, setNicknameIsExisted}){
 
     const navigate = useNavigate();
 
@@ -15,15 +15,37 @@ export default function SUStepFour({nickname, setNickname, errors, setErrors}){
         return length >= 2 && length <= 10;
     };
 
-    const changeNickname = (e)=>{
-        setNickname(e.target.value); 
-        setIsValid(validateNickname(e.target.value));
+    const changeNickname = async (e)=>{
+        setNickname((e.target.value).trim()); 
+        setIsValid(validateNickname((e.target.value).trim()));
         const newErrors = [];
 
         if (!isValid) {
             newErrors.push("⚠ 닉네임은 2~10글자로 설정해주세요");
+        } else{
+            const token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0cnlhbmdsZWVlQGdhaWxhc2YuY29tIiwiYXV0aCI6IlJPTEVfVVNFUiIsImV4cCI6MTc0NjYwNTM4NX0.XaL3GDa6EzxYfz4R3bXvQOBUKmnc23rG2th1VMn1u6cwMCh60QY6fKk3RO8IiHzFUfJFAutLmaeNMsVkaARhtg';
+            try {
+                const res = await fetch('http://localhost:8080/user/checkNickname', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ nickname: (e.target.value).trim() }),
+                });
+
+                const data = await res.json();
+                console.log("nickname check", data.isSuccess)
+                if(data.isSuccess){
+                    setNicknameIsExisted(false);
+                } else{
+                    setNicknameIsExisted(true);
+                    newErrors.push(`⚠ ${data.message}`);
+                }
+            } catch (error) {
+                console.error('닉네임 확인 오류:', error);
+            }
         }
-    
         setErrors(newErrors);
     }
 

@@ -11,7 +11,7 @@ export default function Login(){
 
     const navigate = useNavigate();
 
-    const { login } = useAuthStore();
+    const { user, login } = useAuthStore();
     
     const [email, setEmail] = useState("");
     const [pw, setPW] = useState("");
@@ -29,6 +29,7 @@ export default function Login(){
     };
 
     const handleClick = async ()=>{
+         console.log("tray post login")
          try {
             const res = await fetch('http://localhost:8080/user/login', {
                 method: 'POST',
@@ -39,14 +40,25 @@ export default function Login(){
             });
 
             const data = await res.json();
+            console.log("data", data);
 
             if (data.isSuccess) {
                 setToken(data.result.token);
                 setError('');
+
+                login(data.result.token);
+                navigate("/mypage", {state:{success:true}});
             } else {
                 setError(data.message || '로그인 실패');
+                const newErrors = [];
+
+                newErrors.push(`⚠ ${data.message}`);
+            
+                setErrors(newErrors);
+                setEmail("");
+                setPW("");
             }
-            } catch (err) {
+        } catch (err) {
             setError('서버 오류');
         }
         
@@ -54,7 +66,6 @@ export default function Login(){
         console.log("error", error);
         
         // if 로그인 성공
-        login();
         // navigate("/mypage", {state:{success:true}});
         // if 로그인 실패
         // const newErrors = [];
@@ -67,8 +78,8 @@ export default function Login(){
     }
 
     const changeEmail = (e)=>{
-        setEmail(e.target.value); 
-        setIsValid(validateEmail(e.target.value));
+        setEmail((e.target.value).trim()); 
+        setIsValid(validateEmail((e.target.value).trim()));
         const newErrors = [];
 
         if (!isValid) {
@@ -100,11 +111,11 @@ export default function Login(){
                         <label className="pl-[3px]" for="email">비밀번호</label>
                         <input 
                             id="email" 
-                            className="input" 
+                            className="password-input pr-[10px]" 
                             type="password" 
                             placeholder="비밀번호를 입력해주세요"
                             value={pw}
-                            onChange={(e)=>{setPW(e.target.value);}}/>
+                            onChange={(e)=>{setPW((e.target.value).trim());}}/>
                     </div>
 
                     {/* 에러 메세지 */}

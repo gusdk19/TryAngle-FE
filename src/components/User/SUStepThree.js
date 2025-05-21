@@ -19,7 +19,7 @@ export default function SUStepThree({name, setName, phoneNumber, setPhoneNumber,
     const [sendCN, setSendCN] = useState(false);
 
     const changePhoneNumber = (e)=>{
-        const value = e.target.value;
+        const value = (e.target.value).trim();
         setPhoneNumber(value); 
 
         const str = String(value);
@@ -38,7 +38,7 @@ export default function SUStepThree({name, setName, phoneNumber, setPhoneNumber,
     }
 
     const changeCN = (e)=>{
-        const value = e.target.value;
+        const value = (e.target.value).trim();
         setCN(value); 
         setIsCNValid(randomCN === value);
 
@@ -95,7 +95,7 @@ export default function SUStepThree({name, setName, phoneNumber, setPhoneNumber,
                         type="text" 
                         placeholder="이름을 입력해주세요"
                         value={name}
-                        onChange={(e)=>{setName(e.target.value)}}/>
+                        onChange={(e)=>{setName((e.target.value).trim())}}/>
                 </div>
                 
             </div>
