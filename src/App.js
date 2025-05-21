@@ -15,6 +15,7 @@ import Alarm from './pages/Alarm';
 import ChallengeAdd from "./pages/ChallengeAdd";
 import Add from "./pages/Add";
 import InviteCode from "./pages/InviteCode";
+import Ranking from "./pages/Ranking";
 import ProtectedRoute from "./components/ProtectRoute";
 
 function App() {
@@ -36,6 +37,7 @@ function App() {
         <Route path="/add-challenge/public" element={<ProtectedRoute><ChallengeAdd /></ProtectedRoute>} />
         <Route path="/add-challenge/content" element={<ProtectedRoute><Add /></ProtectedRoute>} />
         <Route path="/add-challenge/invite" element={<ProtectedRoute><InviteCode /></ProtectedRoute>} />
+        <Route path="/rank" element={<Ranking />} />
       </Routes>
   </BrowserRouter>
   );
