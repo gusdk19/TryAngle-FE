@@ -20,7 +20,7 @@ export default function InviteCodeModal({ onClose, challengeId, correctCode }) {
             onClose();
         } else {
             // 실패
-            setErrorMessage('올바르지 않은 초대 코드입니다. 다시 입력해주세요.');
+            setErrorMessage('올바르지 않은 초대 코드입니다.');
         }
     };
 
@@ -32,7 +32,7 @@ export default function InviteCodeModal({ onClose, challengeId, correctCode }) {
         <p className="mb-6 text-sm text-gray-600 whitespace-pre-line">비공개 챌린지예요👀 {"\n"}챌린지 초대 코드를 입력해주세요</p>
 
         {/* 6자리 코드 입력 UI */}
-        <div className="flex gap-2 justify-center mb-20">
+        <div className="flex gap-2 justify-center mb-4">
           {[...Array(6)].map((_, idx) => (
             <input
                 key={idx}
@@ -43,7 +43,10 @@ export default function InviteCodeModal({ onClose, challengeId, correctCode }) {
             />
             ))}
         </div>
-        {errorMessage && <FieldError label="" error={errorMessage} />}
+        {errorMessage && (<div className="mb-10">
+          <FieldError label="" error={errorMessage} />
+          </div>
+        )}
 
         <button
             onClick={handleVerify}
