@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "../../styles/friend/friend.css";
 import "../../styles/friend/follower.css"; //follower와 사용하는 css 동일해서 따로 만들지 않고 재사용.
 
-export default function AddFriend({searchValue, setFollowings, allUsers, setAllUsers, setUserFollowing}){
+export default function AddFriend({searchValue, setFollowings, allUsers, setAllUsers, setUserFollowing, user_token}){
 
     // const [allUsers, setAllUsers] = useState([
     //     {
@@ -61,6 +61,48 @@ export default function AddFriend({searchValue, setFollowings, allUsers, setAllU
               return [...prevFollowings, user];
             }
         });
+
+        const follow = async ()=>{
+            try {
+                const res = await fetch('http://localhost:8080/user/follow', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${user_token}`
+                    },
+                    body: JSON.stringify({ nickname: targetUser.nickname }),
+                });
+
+                const data = await res.json();
+                console.log("follow check", data.isSuccess, data.message)
+            } catch (error) {
+                console.error('팔로우 오류:', error);
+            }
+        }
+
+        const unfollow = async ()=>{
+            try {
+                const res = await fetch('http://localhost:8080/user/unfollow', {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${user_token}`
+                    },
+                    body: JSON.stringify({ nickname: targetUser.nickname }),
+                });
+
+                const data = await res.json();
+                console.log("unfollow check", data.isSuccess, data.message)
+            } catch (error) {
+                console.error('언팔로우 오류:', error);
+            }
+        }
+
+        if(targetUser.isFollowing){
+            unfollow();
+        }else{
+            follow();
+        }
         
     };
 

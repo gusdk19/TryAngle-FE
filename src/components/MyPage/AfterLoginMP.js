@@ -85,7 +85,7 @@ export default function AfterLoginMP({logout}) {
       getUserData();
        // 최소 0.4초 대기
       const elapsed = Date.now() - start;
-      const delay = Math.max(400 - elapsed, 0); // 0.4초보다 적게 걸렸다면 남은 시간만큼 대기
+      const delay = Math.max(600 - elapsed, 0); // 0.4초보다 적게 걸렸다면 남은 시간만큼 대기
       setTimeout(() => setLoading(false), delay);
     } else console.warn('토큰이 없습니다.');
   }, []);

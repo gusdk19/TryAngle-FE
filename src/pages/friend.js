@@ -190,11 +190,11 @@ export default function Friend() {
 
             {/* Main Content */}
             {tab === "follower" ?
-             <Follower searchValue={searchValue} setUserFollower={setUserFollower} followers={followers} setFollowers={setFollowers}/>
+             <Follower searchValue={searchValue} setUserFollower={setUserFollower} followers={followers} setFollowers={setFollowers} user_token={user_token}/>
             : tab === "following" ?
-             <Following searchValue={searchValue} followings={followings} setFollowings={setFollowings} setAllUsers={setAllUsers} setUserFollowing={setUserFollowing} />
+             <Following searchValue={searchValue} followings={followings} setFollowings={setFollowings} setAllUsers={setAllUsers} setUserFollowing={setUserFollowing} user_token={user_token} />
             : tab === "add" ?
-             <AddFriend searchValue={searchValue} allUsers={allUsers} setFollowings={setFollowings} setAllUsers={setAllUsers} setUserFollowing={setUserFollowing} />
+             <AddFriend searchValue={searchValue} allUsers={allUsers} setFollowings={setFollowings} setAllUsers={setAllUsers} setUserFollowing={setUserFollowing} user_token={user_token} />
             : ""}
             
     
