@@ -178,7 +178,7 @@ export default function Friend() {
         <div className="bg-white flex flex-row justify-center w-full">
             <div className="bg-white w-[393px] h-[852px] relative">
             {/* Header */}
-            <Header title={"친구"} following={userFollowing} follower={userFollower} userData={userData}/>
+            <Header title={"친구"} following={userFollowing} follower={userFollower} userData={modifiedUD}/>
             <hr className="m-0"/>
             
             {/* Navigator */}

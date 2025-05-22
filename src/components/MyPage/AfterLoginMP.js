@@ -97,13 +97,13 @@ export default function AfterLoginMP({logout}) {
   
   // 친구 페이지 변경사항 업데이트
   // console.log("follower/following",follower, following)
-  useEffect(()=>{
-    setUserData(prevData => ({
-      ...prevData,
-      followers: follower ? follower : userData.followers,
-      followees: following ? following : userData.followees
-    }));
-  }, [following, follower])
+  // useEffect(()=>{
+  //   setUserData(prevData => ({
+  //     ...prevData,
+  //     followers: follower ? follower : userData.followers,
+  //     followees: following ? following : userData.followees
+  //   }));
+  // }, [following, follower])
 
   useEffect(()=>{
     setUserData(prevData => ({
