@@ -2,6 +2,7 @@
 User-agent: *
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 Disallow:
 =======
 Disallow:
@@ -9,3 +10,7 @@ Disallow:
 =======
 Disallow:
 >>>>>>> 70c2b56e381223bb18bb6a30eb35350873f36c25
+=======
+Disallow:
+
+>>>>>>> 0ec66fa2fac525c22387d4963ce130da23a973d5

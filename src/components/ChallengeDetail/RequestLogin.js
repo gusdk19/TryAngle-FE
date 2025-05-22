@@ -4,7 +4,7 @@ import "../../styles/finance/withdrawalModal.css";
 
 import { IoMdClose } from "react-icons/io";
 
-export default function RequestLogin({onClose, onVoteUser}){
+export default function RequestLogin({onClose, purpose}){
 
     const navigate = useNavigate();
 
@@ -19,7 +19,7 @@ export default function RequestLogin({onClose, onVoteUser}){
             <div className="modal-sq w-full h-full">
                 {/* Title */}
                 <h2 className="flex justify-center text-[16px] text-[#6e6053] font-semibold text-center pt-[1px]">
-                    <div className="flex-none my-auto">챌린지 참가 요건</div>
+                    <div className="flex-none my-auto">챌린지 {purpose} 요건</div>
                 </h2>
                 
                 {/* Close Button */}
@@ -32,7 +32,7 @@ export default function RequestLogin({onClose, onVoteUser}){
                 <div className="mx-auto my-[15px] flex flex-col justify-between gap-2 text-center">
                     <span htmlFor="withdrawal" className="ml-[2px] mt-[2px] flex-none text-[#6e6053] text-[15px]">
                         <span className="flex flex-col">
-                            <span className="text-[14px]">챌린지에 참가하려면 <span className="font-bold">로그인</span>이 필요합니다.</span>
+                            <span className="text-[14px]">챌린지에 {purpose}하려면 <span className="font-bold">로그인</span>이 필요합니다.</span>
                             <span><span className="font-bold text-[red]">로그인</span>하시겠습니까?</span>
                         </span>
                     </span>

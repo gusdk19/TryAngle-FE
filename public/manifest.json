@@ -1,6 +1,9 @@
 {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 0ec66fa2fac525c22387d4963ce130da23a973d5
   "short_name": "React App",
   "name": "Create React App Sample",
   "icons": [
@@ -25,6 +28,7 @@
   "theme_color": "#000000",
   "background_color": "#ffffff"
 }
+<<<<<<< HEAD
 =======
 =======
 >>>>>>> 70c2b56e381223bb18bb6a30eb35350873f36c25
@@ -57,3 +61,5 @@
 =======
   }
 >>>>>>> 70c2b56e381223bb18bb6a30eb35350873f36c25
+=======
+>>>>>>> 0ec66fa2fac525c22387d4963ce130da23a973d5

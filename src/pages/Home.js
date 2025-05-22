@@ -8,11 +8,17 @@ import water from '../assets/images/finace/water.png';
 import sun from '../assets/images/finace/Sun.png';
 import bannerImage from '../assets/images/common/bannerimage.png';
 import ChallengeCard from "../components/Challenge/ChallengeCard";
+import useAuthStore from "../components/User/UseAuthStore.js";
+import RequestLogin from "../components/ChallengeDetail/RequestLogin";
+
 import "../styles/Challenge/ChallengeCard.css";
 import "../styles/Home/Home.css";
 import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+
+  const { isLoggedIn } = useAuthStore();
+
   const [activeTab, setActiveTab] = useState('participating');
   const [activeCategory, setActiveCategory] = useState('전체');
   const [query, setQuery] = useState("");
@@ -27,7 +33,9 @@ const Home = () => {
       start_date: '2025-05-03',
       end_date: '2025-05-10',
       tag: '#아침 운동',
-      image: dumbell
+      image: dumbell,
+      challenge_public: false, //테스트용
+      invite_code: '123456' //테스트용
     },
     {
       id: 2,
@@ -88,6 +96,9 @@ const Home = () => {
     c.description?.toLowerCase().includes(query)
   );
 
+  const [requestLogin, setRequestLogin] = useState(false);
+  
+
   return (
     <div className="bg-white flex flex-row justify-center w-full">
       {/* 모바일 프레임 */}
@@ -126,8 +137,13 @@ const Home = () => {
             </button>
           </div>
           <button 
-            className="w-[23px] h-[22px] bg-[#FDF8ED] rounded-[2px] border-b border-[#4A483F] text-[#4A483F] text-sm font-bold flex items-center justify-center shadow hover:bg-yellow-200"
-            onClick={() => navigate('/add-challenge')}
+            className="w-[23px] h-[22px] bg-[#FDF8ED] rounded-[2px] border-b border-[#4A483F] text-[#4A483F] text-[16px] font-bold flex items-center justify-center shadow hover:bg-yellow-200"
+            onClick={() => {
+              if(isLoggedIn){
+                navigate('/add-challenge/public');
+              } else{
+                setRequestLogin(true);
+              }}}
           >
             +
           </button>
@@ -161,7 +177,7 @@ const Home = () => {
 
         <Footer page="home" />
       </div>
-      
+      {!isLoggedIn && requestLogin ? <RequestLogin onClose={setRequestLogin} purpose={"생성"}/> : "" }
     </div>
   );
 };
