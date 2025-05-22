@@ -1,9 +1,4 @@
 {
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 0ec66fa2fac525c22387d4963ce130da23a973d5
   "short_name": "React App",
   "name": "Create React App Sample",
   "icons": [
@@ -28,38 +23,3 @@
   "theme_color": "#000000",
   "background_color": "#ffffff"
 }
-<<<<<<< HEAD
-=======
-=======
->>>>>>> 70c2b56e381223bb18bb6a30eb35350873f36c25
-    "short_name": "React App",
-    "name": "Create React App Sample",
-    "icons": [
-      {
-        "src": "favicon.ico",
-        "sizes": "64x64 32x32 24x24 16x16",
-        "type": "image/x-icon"
-      },
-      {
-        "src": "logo192.png",
-        "type": "image/png",
-        "sizes": "192x192"
-      },
-      {
-        "src": "logo512.png",
-        "type": "image/png",
-        "sizes": "512x512"
-      }
-    ],
-    "start_url": ".",
-    "display": "standalone",
-    "theme_color": "#000000",
-    "background_color": "#ffffff"
-<<<<<<< HEAD
-  }
->>>>>>> 56fe2123c242a7363dddb3f22a4d27b85aab5b07
-=======
-  }
->>>>>>> 70c2b56e381223bb18bb6a30eb35350873f36c25
-=======
->>>>>>> 0ec66fa2fac525c22387d4963ce130da23a973d5

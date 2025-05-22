@@ -30,6 +30,7 @@ function App() {
         <Route path='/findPW' element={<FindPW />} />            
         <Route path='/mychallenge' element={<MyChallenge />} />
         <Route path='/challenge/:id' element={<ChallengeDetail />} />
+        <Route path="/rank" element={<Ranking />} />
         <Route path="/alarm" element={<ProtectedRoute><Alarm /></ProtectedRoute>} />                                      
         <Route path='/friend' element={<ProtectedRoute><Friend /></ProtectedRoute>} />      
         <Route path='/finance' element={<ProtectedRoute><Finance /></ProtectedRoute>} />
@@ -37,7 +38,6 @@ function App() {
         <Route path="/add-challenge/public" element={<ProtectedRoute><ChallengeAdd /></ProtectedRoute>} />
         <Route path="/add-challenge/content" element={<ProtectedRoute><Add /></ProtectedRoute>} />
         <Route path="/add-challenge/invite" element={<ProtectedRoute><InviteCode /></ProtectedRoute>} />
-        <Route path="/rank" element={<Ranking />} />
       </Routes>
   </BrowserRouter>
   );
