@@ -30,64 +30,68 @@ export default function AfterLoginMP({logout}) {
 
   const location = useLocation();
 
-  const { following, follower, totalReturn } = location.state || {};
+  const { following, follower, totalReturn, origUserData } = location.state || {};
 
   const { user_token } = useAuthStore();
 
   // User data
-  const [userData, setUserData] = useState(false);
+  const [userData, setUserData] = useState(origUserData ? origUserData : false);
 
   // Loading
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(origUserData ? false : true);
 
   // 회원 정보 GET
   useEffect(()=>{
-    const getUserData = async ()=>{
-      try {
-          const res = await fetch('http://localhost:8080/user/mypage', {
-              method: 'GET',
-              headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${user_token}`
-              },
-          });
+    if(origUserData){
+      setLoading(false);
+    }else{
+        const getUserData = async ()=>{
+        try {
+            const res = await fetch('http://localhost:8080/user/mypage', {
+                method: 'GET',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${user_token}`
+                },
+            });
 
-          const data = await res.json();
-          console.log("user Data check", data.isSuccess, data.result);
+            const data = await res.json();
+            console.log("user Data check", data.isSuccess, data.result);
 
-          if(data.isSuccess){
-              setUserData(data.result);
-          } else{
-              console.log(`⚠ ${data.message}`);
+            if(data.isSuccess){
+                setUserData(data.result);
+            } else{
+                console.log(`⚠ ${data.message}`);
 
-              setUserData({
-                userId: 1,
-                email: "tryangle@gmail.com",
-                name: "이현아",
-                phone: "01012345678",
-                description: "화이팅!",
-                nickname: "효나츄",
-                profileImage: bpi_12,
-                challengeMoney: 300000,
-                returnMoney: totalReturn ? totalReturn : 120000,
-                followers: follower ? follower : 2,
-                followees: following ? following : 2,
-                badgeDescription: "챌린지 중독자",
-              })
-          }
-      } catch (error) {
-          console.error('마이페이지 조회 오류:', error);
+                setUserData({
+                  userId: 1,
+                  email: "tryangle@gmail.com",
+                  name: "이현아",
+                  phone: "01012345678",
+                  description: "화이팅!",
+                  nickname: "효나츄",
+                  profileImage: bpi_12,
+                  challengeMoney: 300000,
+                  returnMoney: totalReturn ? totalReturn : 120000,
+                  followers: follower ? follower : 2,
+                  followees: following ? following : 2,
+                  badgeDescription: "챌린지 중독자",
+                })
+            }
+        } catch (error) {
+            console.error('마이페이지 조회 오류:', error);
+        }
       }
-    }
 
-    if (user_token) {
-      const start = Date.now();
-      getUserData();
-       // 최소 0.4초 대기
-      const elapsed = Date.now() - start;
-      const delay = Math.max(600 - elapsed, 0); // 0.4초보다 적게 걸렸다면 남은 시간만큼 대기
-      setTimeout(() => setLoading(false), delay);
-    } else console.warn('토큰이 없습니다.');
+      if (user_token) {
+        const start = Date.now();
+        getUserData();
+        // 최소 0.4초 대기
+        const elapsed = Date.now() - start;
+        const delay = Math.max(600 - elapsed, 0); // 0.4초보다 적게 걸렸다면 남은 시간만큼 대기
+        setTimeout(() => setLoading(false), delay);
+      } else console.warn('토큰이 없습니다.');
+    } 
   }, []);
 
   
@@ -175,6 +179,7 @@ export default function AfterLoginMP({logout}) {
                     state: {
                       follower: userData.followers,
                       following: userData.followees,
+                      userData: userData,
                     },
                   });}}/>
               </button>

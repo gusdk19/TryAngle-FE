@@ -42,6 +42,10 @@
     color: #B8AA96;
 }
 
+.deposit-title{
+    margin-top:3px;
+}
+
 .chevron-right{
     flex:none;
 }

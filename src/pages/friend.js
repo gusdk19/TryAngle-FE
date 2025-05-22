@@ -14,7 +14,7 @@ import useAuthStore from "../components/User/UseAuthStore";
 export default function Friend() {
     const location = useLocation();
 
-    const { following, follower } = location.state || {};
+    const { following, follower, userData } = location.state || {};
 
     const { user_token } = useAuthStore();
 
@@ -22,12 +22,21 @@ export default function Friend() {
 
     const [userFollowing, setUserFollowing] = useState(following == null ? 2 : following);
     const [userFollower, setUserFollower] = useState(follower == null ? 2 : follower);
+    const [modifiedUD, setModifiedUD] = useState(userData);
 
     const [followers, setFollowers] = useState([]);
     
     const [followings, setFollowings] = useState([]);
 
     const [allUsers, setAllUsers] = useState([]);
+
+    useEffect(()=>{
+        setModifiedUD(prevData => ({
+            ...prevData,
+            followers: userFollower,
+            followees: userFollowing
+        }));
+    }, [userFollowing, userFollower]);
 
     // followers, following, allUsers api 호출 필요
     useEffect(()=>{
@@ -169,7 +178,7 @@ export default function Friend() {
         <div className="bg-white flex flex-row justify-center w-full">
             <div className="bg-white w-[393px] h-[852px] relative">
             {/* Header */}
-            <Header title={"친구"} following={userFollowing} follower={userFollower}/>
+            <Header title={"친구"} following={userFollowing} follower={userFollower} userData={userData}/>
             <hr className="m-0"/>
             
             {/* Navigator */}

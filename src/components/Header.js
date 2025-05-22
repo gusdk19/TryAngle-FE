@@ -12,6 +12,7 @@ export default function Header(props){
     const title = props.title ? props.title : "";
     const following = props.following ? props.following : "";
     const follower = props.follower ? props.follower : "";
+    const userData = props.userData ? props.userData : {};
     const totalReturn = props.totalReturn ? props.totalReturn : "";
     const id = props.id ? props.id : "";
 
@@ -37,6 +38,7 @@ export default function Header(props){
                                   follower: follower,
                                   following: following,
                                   success:true,
+                                  origUserData : userData,
                                 },
                             });
                         } 
