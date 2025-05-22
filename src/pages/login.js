@@ -47,6 +47,7 @@ export default function Login(){
                 setError('');
 
                 login(data.result.token);
+                // console.log("token", data.result.token)
                 navigate("/mypage", {state:{success:true}});
             } else {
                 setError(data.message || '로그인 실패');
@@ -62,8 +63,6 @@ export default function Login(){
             setError('서버 오류');
         }
         
-        console.log("token", token);
-        console.log("error", error);
         
         // if 로그인 성공
         // navigate("/mypage", {state:{success:true}});

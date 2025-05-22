@@ -24,6 +24,7 @@ import React, {useEffect, useState} from "react";
 import { useNavigate, useLocation } from 'react-router-dom'; 
 import SuccessRateSection from "./SuccessRateSection";
 import ProfileEditModal from "./ProfileEditModal";
+import useAuthStore from "../User/UseAuthStore";
 
 export default function AfterLoginMP({logout}) {
 
@@ -31,30 +32,72 @@ export default function AfterLoginMP({logout}) {
 
   const { following, follower, totalReturn } = location.state || {};
 
+  const { user_token } = useAuthStore();
+
   // User data
-  const [userData, setUserData] = useState({
-    userId: 1,
-    email: "tryangle@gmail.com",
-    name: "이현아",
-    phone: "01012345678",
-    description: "화이팅!",
-    nickname: "효나츄",
-    profileImage: bpi_12,
-    challenge_money: 300000,
-    return_money: totalReturn ? totalReturn : 120000,
-    follower: follower ? follower : 2,
-    following: following ? following : 2,
-    title: "챌린지 중독자",
-  });
+  const [userData, setUserData] = useState(false);
+
+  // Loading
+  const [loading, setLoading] = useState(true);
+
+  // 회원 정보 GET
+  useEffect(()=>{
+    const getUserData = async ()=>{
+      try {
+          const res = await fetch('http://localhost:8080/user/mypage', {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${user_token}`
+              },
+          });
+
+          const data = await res.json();
+          console.log("user Data check", data.isSuccess, data.result);
+
+          if(data.isSuccess){
+              setUserData(data.result);
+          } else{
+              console.log(`⚠ ${data.message}`);
+
+              setUserData({
+                userId: 1,
+                email: "tryangle@gmail.com",
+                name: "이현아",
+                phone: "01012345678",
+                description: "화이팅!",
+                nickname: "효나츄",
+                profileImage: bpi_12,
+                challengeMoney: 300000,
+                returnMoney: totalReturn ? totalReturn : 120000,
+                followers: follower ? follower : 2,
+                followees: following ? following : 2,
+                badgeDescription: "챌린지 중독자",
+              })
+          }
+      } catch (error) {
+          console.error('마이페이지 조회 오류:', error);
+      }
+    }
+
+    if (user_token) {
+      const start = Date.now();
+      getUserData();
+       // 최소 0.4초 대기
+      const elapsed = Date.now() - start;
+      const delay = Math.max(400 - elapsed, 0); // 0.4초보다 적게 걸렸다면 남은 시간만큼 대기
+      setTimeout(() => setLoading(false), delay);
+    } else console.warn('토큰이 없습니다.');
+  }, []);
 
   
-  // 친구 페이지 변경사항 업데이트트
-  console.log("follower/following",follower, following)
+  // 친구 페이지 변경사항 업데이트
+  // console.log("follower/following",follower, following)
   useEffect(()=>{
     setUserData(prevData => ({
       ...prevData,
-      follower: follower ? follower : userData.follower,
-      following: following ? following : userData.following
+      followers: follower ? follower : userData.followers,
+      followees: following ? following : userData.followees
     }));
   }, [following, follower])
 
@@ -73,6 +116,12 @@ export default function AfterLoginMP({logout}) {
   const goToMyCHallenge = () => {                                    // 3
     navigate('/mychallenge');
   };
+
+  if(!userData || loading){
+    return(<div className="w-full h-[734px] grid items-center">
+      <div className="spinner"></div>
+    </div>)
+  }
 
 
   return (
@@ -103,18 +152,18 @@ export default function AfterLoginMP({logout}) {
               </button>
             </div>
             <h2 className="text-[13px] font-bold text-[#6E6053] ">
-              {userData.title}
+              {userData.badgeDescription}
             </h2>
             <div className="flex items-center gap-3 text-xs text-[#6E6053]">
               <span>
                 팔로워 
-                <span className="ml-[7px] font-bold">{userData.follower}</span>
+                <span className="ml-[7px] font-bold">{userData.followers}</span>
               </span>
               {/* Separator */}
               <hr orientation="vertical" className="h-[10px] mt-[4px] border-[#6E6053] border-l-[0.1px]" />
               <span>
                 팔로잉 
-                <span className="ml-[7px] font-bold">{userData.following}</span>
+                <span className="ml-[7px] font-bold">{userData.followees}</span>
               </span>
               <button
                 variant="outline"
@@ -124,8 +173,8 @@ export default function AfterLoginMP({logout}) {
                 <UserPlus className="h-[13px] w-[13px] stroke-[#6E6053] stroke-[2px]"  
                   onClick={()=>{navigate("/friend", {
                     state: {
-                      follower: userData.follower,
-                      following: userData.following,
+                      follower: userData.followers,
+                      following: userData.followees,
                     },
                   });}}/>
               </button>
@@ -142,10 +191,10 @@ export default function AfterLoginMP({logout}) {
         </div>
 
         {/* User Deposit/Reward Section */}
-        <UserDepositReward deposit={userData.challenge_money} reward={userData.return_money} />
+        <UserDepositReward deposit={userData.challengeMoney} reward={userData.returnMoney} />
 
         {/* Activity Badges Section */}
-        <ActivityBadgesSection />
+        <ActivityBadgesSection user_token={user_token}/>
 
         {/* Challenge Management */}
         <div className="mt-[23px] mb-4">

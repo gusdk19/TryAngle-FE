@@ -15,9 +15,13 @@ import bpi_10 from "../../assets/images/mypage/basic_profile_image/basic_profile
 import bpi_11 from "../../assets/images/mypage/basic_profile_image/basic_profile_image_11.png";
 import bpi_12 from "../../assets/images/mypage/basic_profile_image/basic_profile_image_12.png";
 
+import useAuthStore from "../User/UseAuthStore";
+
 import { IoMdClose } from "react-icons/io";
 
 export default function ProfileEditModal({origNickname, onClose, changeUserData, origPI, origDescription}){
+    const { user_token } = useAuthStore();
+    
     const [profileImage, setProfileImage] = useState(origPI);
     const [prePI, setPrePI] = useState(origPI);
 
@@ -42,8 +46,8 @@ export default function ProfileEditModal({origNickname, onClose, changeUserData,
         }
     };
 
-    const handleInputChange = (e) => {
-        const value = e.target.value;
+    const handleInputChange = async (e) => {
+        const value = (e.target.value).trim();
         setNickname(value);
 
         const newErrors = [];
@@ -52,14 +56,73 @@ export default function ProfileEditModal({origNickname, onClose, changeUserData,
         newErrors.push("⚠ 닉네임은 2~10글자로 설정해주세요.");
         }
 
-        if (usableNickname != "사용 가능한 닉네임입니다.") {
-        newErrors.push("⚠ 이미 존재하는 닉네임입니다.");
+        try {
+            const res = await fetch('http://localhost:8080/user/checkNickname', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ nickname: value }),
+            });
+
+            const data = await res.json();
+            console.log("nickname check", data.isSuccess)
+            if(data.isSuccess){
+            } else{
+                if(value != origNickname){
+                    newErrors.push(`⚠ ${data.message}`);
+                }
+            }
+        } catch (error) {
+            console.error('닉네임 확인 오류:', error);
         }
+
+        // if (usableNickname != "사용 가능한 닉네임입니다.") {
+        // newErrors.push("⚠ 이미 존재하는 닉네임입니다.");
+        // }
 
         setErrors(newErrors);
     };
 
-    const handleChange=()=>{
+    const handleDescriptionChange = (e)=>{
+        setDescription(e.target.value);
+    }
+
+    const handleChange= async () => {
+        try {
+            const res = await fetch('http://localhost:8080/user/modify', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${user_token}`
+                },
+                body: JSON.stringify({ nickname: nickname, profileImage: profileImage }),
+            });
+
+            const data = await res.json();
+            console.log("modify nickname & profileImage check", data.isSuccess, data.message);
+
+        } catch (error) {
+            console.error('회원정보 수정(닉네임, 프로필 사진) 오류:', error);
+        }
+
+        try {
+            const res = await fetch('http://localhost:8080/user/modify/description', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${user_token}`
+                },
+                body: JSON.stringify({ description: description }),
+            });
+
+            const data = await res.json();
+            console.log("modify description check", data.isSuccess, data.message);
+
+        } catch (error) {
+            console.error('회원정보 수정(오늘의 한 마디) 오류:', error);
+        }
+
         changeUserData(prevData => ({
             ...prevData,
             nickname: nickname,
@@ -145,7 +208,7 @@ export default function ProfileEditModal({origNickname, onClose, changeUserData,
                             className="text-[12px] h-[25px] rounded-md text-[#6e6053] pl-2 align-middle"
                             type="input"
                             value={description}
-                            onChange={(e)=>setDescription(e.target.value)}
+                            onChange={(e)=>handleDescriptionChange(e)}
                         />
                     </div>
 
