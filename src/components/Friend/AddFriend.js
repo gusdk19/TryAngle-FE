@@ -6,22 +6,22 @@ export default function AddFriend({searchValue, setFollowings, allUsers, setAllU
 
     // const [allUsers, setAllUsers] = useState([
     //     {
-    //         "user_id": 2,
+    //         "userId": 2,
     //         "nickname": "고은츄",
     //         "profileImage": "https://i.namu.wiki/i/w7GkIKr6Qac-0SCYEn7DdYBpkpZed9FaVNTBFE7aIQvm7p39bo7gs2Pb1ZWfX3dPVd0JmA3oX50T5kl-MU7wfw.webp",
-    //         "following":true,
+    //         "isFollowing":true,
     //     },
     //     {
-    //         "user_id": 3,
+    //         "userId": 3,
     //         "nickname": "혜원츄",
     //         "profileImage": "https://i.namu.wiki/i/w7GkIKr6Qac-0SCYEn7DdYBpkpZed9FaVNTBFE7aIQvm7p39bo7gs2Pb1ZWfX3dPVd0JmA3oX50T5kl-MU7wfw.webp",
-    //         "following":true,
+    //         "isFollowing":true,
     //     },
     //     {
-    //         "user_id": 4,
+    //         "userId": 4,
     //         "nickname": "다연츄",
     //         "profileImage": "https://i.namu.wiki/i/w7GkIKr6Qac-0SCYEn7DdYBpkpZed9FaVNTBFE7aIQvm7p39bo7gs2Pb1ZWfX3dPVd0JmA3oX50T5kl-MU7wfw.webp",
-    //         "following":false,
+    //         "isFollowing":false,
     //     },
     // ]);
 
@@ -39,24 +39,24 @@ export default function AddFriend({searchValue, setFollowings, allUsers, setAllU
 
         setAllUsers((prevUsers) =>
             prevUsers.map((user) =>
-              user.user_id === targetUser.user_id
-                ? { ...user, following: !user.following }
+              user.userId === targetUser.userId
+                ? { ...user, isFollowing: !(user.isFollowing) }
                 : user
             )
         );   
 
         setFollowings((prevFollowings) => {
-            const exists = prevFollowings.some((following) => following.user_id === targetUser.user_id);
+            const exists = prevFollowings.some((following) => following.userId === targetUser.userId);
             if (exists) {
               // 삭제
-              return prevFollowings.filter((following) => following.user_id !== targetUser.user_id);
+              return prevFollowings.filter((following) => following.userId !== targetUser.userId);
             } else {
               //추가
               const user={
-                "user_id": targetUser.user_id,
+                "userId": targetUser.userId,
                 "nickname": targetUser.nickname,
                 "profileImage": targetUser.profileImage,
-                "following":true,
+                "isFollowing":true,
               }
               return [...prevFollowings, user];
             }
@@ -69,12 +69,12 @@ export default function AddFriend({searchValue, setFollowings, allUsers, setAllU
         <div className="main h-[612px] px-[20px] flex flex-col gap-[13px] overflow-scroll">
             {(searchValue != "" ? filteredUsers:allUsers).map((user, index)=>{
                 return(
-                    <div key={user.user_id} className="flex flex-row gap-4 py-auto align-center">
-                        <img className="flex-none w-[43px] h-[43px] rounded-full p-[1px] border-[0.5px] border-[#D9D9D9]" src={user.profileImage} alt={`${user.user_id}-profileImage`}/>
+                    <div key={user.userId} className="flex flex-row gap-4 py-auto align-center">
+                        <img className="flex-none w-[43px] h-[43px] rounded-full p-[1px] border-[0.5px] border-[#D9D9D9]" src={user.profileImage} alt={`${user.userId}-profileImage`}/>
                         <span className="flex-1 my-auto text-[15px] text-[#6E6053] font-medium">{user.nickname}</span>
-                        <button className={`follow-cancel-btn flex-none h-fit py-[5px] my-auto text-[13px] font-medium  text-[#4A483F] ${user.following ? "bg-[#F4F4F4] px-5":"bg-[#FAB809]  px-8"} rounded-lg`}
-                          onClick={()=>{handleFollow(user, user.following)}}>
-                            {user.following ? "팔로우 취소":"팔로우"}
+                        <button className={`follow-cancel-btn flex-none h-fit py-[5px] my-auto text-[13px] font-medium  text-[#4A483F] ${user.isFollowing ? "bg-[#F4F4F4] px-5":"bg-[#FAB809]  px-8"} rounded-lg`}
+                          onClick={()=>{handleFollow(user, user.isFollowing)}}>
+                            {user.isFollowing ? "팔로우 취소":"팔로우"}
                         </button>
                     </div>
                 );

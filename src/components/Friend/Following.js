@@ -6,12 +6,12 @@ export default function Following({searchValue, followings, setFollowings, setAl
 
     // const [followings, setFollowings] = useState([
     //     {
-    //         "user_id": 2,
+    //         "userId": 2,
     //         "nickname": "고은츄",
     //         "profileImage": "https://i.namu.wiki/i/w7GkIKr6Qac-0SCYEn7DdYBpkpZed9FaVNTBFE7aIQvm7p39bo7gs2Pb1ZWfX3dPVd0JmA3oX50T5kl-MU7wfw.webp"
     //     },
     //     {
-    //         "user_id": 3,
+    //         "userId": 3,
     //         "nickname": "혜원츄",
     //         "profileImage": "https://i.namu.wiki/i/w7GkIKr6Qac-0SCYEn7DdYBpkpZed9FaVNTBFE7aIQvm7p39bo7gs2Pb1ZWfX3dPVd0JmA3oX50T5kl-MU7wfw.webp"
     //     }
@@ -24,14 +24,14 @@ export default function Following({searchValue, followings, setFollowings, setAl
     const cancelFollow = (targetId) => {
         setAllUsers((prevUsers) =>
             prevUsers.map((user) =>
-              user.user_id === targetId
+              user.userId === targetId
                 ? { ...user, following: !user.following }
                 : user
             )
         );   
 
         setFollowings((preFollowing) =>
-          preFollowing.filter((following) => following.user_id !== targetId)
+          preFollowing.filter((following) => following.userId !== targetId)
         );
 
         setUserFollowing((prev)=>(prev-1))
@@ -42,11 +42,11 @@ export default function Following({searchValue, followings, setFollowings, setAl
         <div className="main h-[612px] px-[20px] flex flex-col gap-[13px] overflow-scroll">
             {(searchValue != "" ? filteredFollowings:followings).map((following, index)=>{
                 return(
-                    <div key={following.user_id} className="flex flex-row gap-4 py-auto align-center">
-                        <img className="flex-none w-[43px] h-[43px] rounded-full p-[1px] border-[0.5px] border-[#D9D9D9]" src={following.profileImage} alt={`${following.user_id}-profileImage`}/>
+                    <div key={following.userId} className="flex flex-row gap-4 py-auto align-center">
+                        <img className="flex-none w-[43px] h-[43px] rounded-full p-[1px] border-[0.5px] border-[#D9D9D9]" src={following.profileImage} alt={`${following.userId}-profileImage`}/>
                         <span className="flex-1 my-auto text-[15px] text-[#6E6053] font-medium">{following.nickname}</span>
                         <button className="follow-cancel-btn flex-none h-fit px-5 py-[6px] my-auto text-[13px] font-medium  text-[#4A483F] bg-[#F4F4F4] rounded-lg"
-                          onClick={()=>{cancelFollow(following.user_id)}}>
+                          onClick={()=>{cancelFollow(following.userId)}}>
                             팔로우 취소
                         </button>
                     </div>

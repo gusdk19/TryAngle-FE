@@ -6,12 +6,12 @@ export default function Follower({searchValue, setUserFollower, followers, setFo
 
     // const [followers, setFollowers] = useState([
     //     {
-    //         user_id: 2,
+    //         userId: 2,
     //         nickname: "고은츄",
     //         profileImage: "https://i.namu.wiki/i/w7GkIKr6Qac-0SCYEn7DdYBpkpZed9FaVNTBFE7aIQvm7p39bo7gs2Pb1ZWfX3dPVd0JmA3oX50T5kl-MU7wfw.webp"
     //     },
     //     {
-    //         user_id: 3,
+    //         userId: 3,
     //         nickname: "혜원츄",
     //         profileImage: "https://i.namu.wiki/i/w7GkIKr6Qac-0SCYEn7DdYBpkpZed9FaVNTBFE7aIQvm7p39bo7gs2Pb1ZWfX3dPVd0JmA3oX50T5kl-MU7wfw.webp"
     //     }
@@ -24,7 +24,7 @@ export default function Follower({searchValue, setUserFollower, followers, setFo
     const cancelFollow = (targetId) => {
         setUserFollower((prev)=>(prev-1));
         setFollowers((prevFollowers) =>
-          prevFollowers.filter((follower) => follower.user_id !== targetId)
+          prevFollowers.filter((follower) => follower.userId !== targetId)
         );
       };
 
@@ -33,11 +33,11 @@ export default function Follower({searchValue, setUserFollower, followers, setFo
         <div className="main h-[612px] px-[20px] flex flex-col gap-[13px] overflow-scroll">
             {(searchValue != "" ? filteredFollowers:followers).map((follower, index)=>{
                 return(
-                    <div key={follower.user_id} className="flex flex-row gap-4 py-auto align-center">
-                        <img className="flex-none w-[43px] h-[43px] rounded-full p-[1px] border-[0.5px] border-[#D9D9D9]" src={follower.profileImage} alt={`${follower.user_id}-profileImage`}/>
+                    <div key={follower.userId} className="flex flex-row gap-4 py-auto align-center">
+                        <img className="flex-none w-[43px] h-[43px] rounded-full p-[1px] border-[0.5px] border-[#D9D9D9]" src={follower.profileImage} alt={`${follower.userId}-profileImage`}/>
                         <span className="flex-1 my-auto text-[15px] text-[#6E6053] font-medium">{follower.nickname}</span>
                         <button className="follow-cancel-btn flex-none h-fit px-5 py-[6px] my-auto text-[13px] font-medium  text-[#4A483F] bg-[#F4F4F4] rounded-lg"
-                          onClick={()=>{cancelFollow(follower.user_id)}}>
+                          onClick={()=>{cancelFollow(follower.userId)}}>
                             팔로우 취소
                         </button>
                     </div>

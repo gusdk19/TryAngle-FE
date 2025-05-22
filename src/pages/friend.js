@@ -9,66 +9,151 @@ import "../styles/friend/friend.css"
 import Follower from "../components/Friend/Follower";
 import Following from "../components/Friend/Following";
 import AddFriend from "../components/Friend/AddFriend";
-
+import useAuthStore from "../components/User/UseAuthStore";
 
 export default function Friend() {
     const location = useLocation();
 
     const { following, follower } = location.state || {};
 
-    // following, follower 리스트트 변경에 따라 userData following, follower 수 업데이트 필요
+    const { user_token } = useAuthStore();
 
-    const [userFollowing, setUserFollowing] = useState(following);
-    const [userFollower, setUserFollower] = useState(follower);
+    // following, follower 리스트 변경에 따라 userData following, follower 수 업데이트 필요
 
-    // followers, following, allUsers api 호출 필요요
+    const [userFollowing, setUserFollowing] = useState(following == null ? 2 : following);
+    const [userFollower, setUserFollower] = useState(follower == null ? 2 : follower);
 
-    const [followers, setFollowers] = useState([
-        {
-            user_id: 2,
-            nickname: "고은츄",
-            profileImage: "https://i.namu.wiki/i/w7GkIKr6Qac-0SCYEn7DdYBpkpZed9FaVNTBFE7aIQvm7p39bo7gs2Pb1ZWfX3dPVd0JmA3oX50T5kl-MU7wfw.webp"
-        },
-        {
-            user_id: 3,
-            nickname: "혜원츄",
-            profileImage: "https://i.namu.wiki/i/w7GkIKr6Qac-0SCYEn7DdYBpkpZed9FaVNTBFE7aIQvm7p39bo7gs2Pb1ZWfX3dPVd0JmA3oX50T5kl-MU7wfw.webp"
-        }
-    ]);
+    const [followers, setFollowers] = useState([]);
     
-    const [followings, setFollowings] = useState([
-        {
-            "user_id": 2,
-            "nickname": "고은츄",
-            "profileImage": "https://i.namu.wiki/i/w7GkIKr6Qac-0SCYEn7DdYBpkpZed9FaVNTBFE7aIQvm7p39bo7gs2Pb1ZWfX3dPVd0JmA3oX50T5kl-MU7wfw.webp"
-        },
-        {
-            "user_id": 3,
-            "nickname": "혜원츄",
-            "profileImage": "https://i.namu.wiki/i/w7GkIKr6Qac-0SCYEn7DdYBpkpZed9FaVNTBFE7aIQvm7p39bo7gs2Pb1ZWfX3dPVd0JmA3oX50T5kl-MU7wfw.webp"
-        }
-    ]);
+    const [followings, setFollowings] = useState([]);
 
-    const [allUsers, setAllUsers] = useState([
-        {
-            "user_id": 2,
-            "nickname": "고은츄",
-            "profileImage": "https://i.namu.wiki/i/w7GkIKr6Qac-0SCYEn7DdYBpkpZed9FaVNTBFE7aIQvm7p39bo7gs2Pb1ZWfX3dPVd0JmA3oX50T5kl-MU7wfw.webp",
-            "following":true,
-        },
-        {
-            "user_id": 3,
-            "nickname": "혜원츄",
-            "profileImage": "https://i.namu.wiki/i/w7GkIKr6Qac-0SCYEn7DdYBpkpZed9FaVNTBFE7aIQvm7p39bo7gs2Pb1ZWfX3dPVd0JmA3oX50T5kl-MU7wfw.webp",
-            "following":true,
-        },
-        {
-            "user_id": 4,
-            "nickname": "다연츄",
-            "profileImage": "https://i.namu.wiki/i/w7GkIKr6Qac-0SCYEn7DdYBpkpZed9FaVNTBFE7aIQvm7p39bo7gs2Pb1ZWfX3dPVd0JmA3oX50T5kl-MU7wfw.webp",
-            "following":false,
-        },
-    ]);
+    const [allUsers, setAllUsers] = useState([]);
+
+    // followers, following, allUsers api 호출 필요
+    useEffect(()=>{
+        const getFollowers = async ()=>{
+          try {
+              const res = await fetch('http://localhost:8080/user/followers', {
+                  method: 'GET',
+                  headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${user_token}`
+                  },
+              });
+    
+              const data = await res.json();
+              console.log("Followers List check", data.isSuccess, data.result);
+    
+              if(data.isSuccess){
+                  setFollowers(data.result);
+              } else{
+                  console.log(`⚠ ${data.message}`);
+    
+                  setFollowers([
+                    {
+                        userId: 2,
+                        nickname: "고은츄",
+                        profileImage: "https://i.namu.wiki/i/w7GkIKr6Qac-0SCYEn7DdYBpkpZed9FaVNTBFE7aIQvm7p39bo7gs2Pb1ZWfX3dPVd0JmA3oX50T5kl-MU7wfw.webp"
+                    },
+                    {
+                        userId: 3,
+                        nickname: "혜원츄",
+                        profileImage: "https://i.namu.wiki/i/w7GkIKr6Qac-0SCYEn7DdYBpkpZed9FaVNTBFE7aIQvm7p39bo7gs2Pb1ZWfX3dPVd0JmA3oX50T5kl-MU7wfw.webp"
+                    }
+                ])
+              }
+          } catch (error) {
+              console.error('팔로워 리스트 조회 오류:', error);
+          }
+        }
+
+        const getFollowings = async ()=>{
+          try {
+              const res = await fetch('http://localhost:8080/user/followings', {
+                  method: 'GET',
+                  headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${user_token}`
+                  },
+              });
+    
+              const data = await res.json();
+              console.log("Followings List check", data.isSuccess, data.result);
+    
+              if(data.isSuccess){
+                  setFollowings(data.result);
+              } else{
+                  console.log(`⚠ ${data.message}`);
+    
+                  setFollowings([
+                    {
+                        "userId": 2,
+                        "nickname": "고은츄",
+                        "profileImage": "https://i.namu.wiki/i/w7GkIKr6Qac-0SCYEn7DdYBpkpZed9FaVNTBFE7aIQvm7p39bo7gs2Pb1ZWfX3dPVd0JmA3oX50T5kl-MU7wfw.webp"
+                    },
+                    {
+                        "userId": 3,
+                        "nickname": "혜원츄",
+                        "profileImage": "https://i.namu.wiki/i/w7GkIKr6Qac-0SCYEn7DdYBpkpZed9FaVNTBFE7aIQvm7p39bo7gs2Pb1ZWfX3dPVd0JmA3oX50T5kl-MU7wfw.webp"
+                    }
+                ])
+              }
+          } catch (error) {
+              console.error('팔로워 리스트 조회 오류:', error);
+          }
+        }
+
+        const getAllUsers = async ()=>{
+          try {
+              const res = await fetch('http://localhost:8080/user/userlist', {
+                  method: 'GET',
+                  headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${user_token}`
+                  },
+              });
+    
+              const data = await res.json();
+              console.log("All User List check", data.isSuccess, data.result);
+    
+              if(data.isSuccess){
+                  setAllUsers(data.result);
+              } else{
+                  console.log(`⚠ ${data.message}`);
+    
+                  setAllUsers([
+                    {
+                        "userId": 2,
+                        "nickname": "고은츄",
+                        "profileImage": "https://i.namu.wiki/i/w7GkIKr6Qac-0SCYEn7DdYBpkpZed9FaVNTBFE7aIQvm7p39bo7gs2Pb1ZWfX3dPVd0JmA3oX50T5kl-MU7wfw.webp",
+                        "isFollowing":true,
+                    },
+                    {
+                        "userId": 3,
+                        "nickname": "혜원츄",
+                        "profileImage": "https://i.namu.wiki/i/w7GkIKr6Qac-0SCYEn7DdYBpkpZed9FaVNTBFE7aIQvm7p39bo7gs2Pb1ZWfX3dPVd0JmA3oX50T5kl-MU7wfw.webp",
+                        "isFollowing":true,
+                    },
+                    {
+                        "userId": 4,
+                        "nickname": "다연츄",
+                        "profileImage": "https://i.namu.wiki/i/w7GkIKr6Qac-0SCYEn7DdYBpkpZed9FaVNTBFE7aIQvm7p39bo7gs2Pb1ZWfX3dPVd0JmA3oX50T5kl-MU7wfw.webp",
+                        "isFollowing":false,
+                    },
+                ])
+              }
+          } catch (error) {
+              console.error('팔로워 리스트 조회 오류:', error);
+          }
+        }
+    
+        if (user_token) {
+          getFollowers();
+          getFollowings();
+          getAllUsers();
+        } else console.warn('토큰이 없습니다.');
+    }, []);
+    
 
     const page="friend";
 
