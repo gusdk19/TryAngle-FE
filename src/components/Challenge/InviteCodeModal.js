@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import FieldError from '../FieldError';
+import { useNavigate } from 'react-router-dom';
 
 
 export default function InviteCodeModal({ onClose, challengeId, correctCode }) {
+    const navigate = useNavigate();
     const [code, setCode] = useState(['', '', '', '', '', '']);
     const [errorMessage, setErrorMessage] = useState('');
 
@@ -17,6 +19,9 @@ export default function InviteCodeModal({ onClose, challengeId, correctCode }) {
         if (inputCode === correctCode) {
             // 성공
             setErrorMessage('');
+            navigate(`/challenge/${challengeId}`, {
+              state: { tab: 'info' },
+            });
             onClose();
         } else {
             // 실패

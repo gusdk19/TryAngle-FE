@@ -21,6 +21,7 @@ export default function Login(){
     // API 연동 결과 저장
     const [token, setToken] = useState(''); // Login api token
     const [error, setError] = useState(''); // 로그인 성공 여부
+    const [loading, setLoading] = useState(false);
 
     const validateEmail = (value) => {
         // 간단한 이메일 정규표현식
@@ -29,7 +30,8 @@ export default function Login(){
     };
 
     const handleClick = async ()=>{
-         console.log("tray post login")
+         console.log("tray post login");
+         setLoading(true);
          try {
             const res = await fetch('http://localhost:8080/user/login', {
                 method: 'POST',
@@ -40,7 +42,7 @@ export default function Login(){
             });
 
             const data = await res.json();
-            console.log("data", data);
+            // console.log("data", data);
 
             if (data.isSuccess) {
                 setToken(data.result.token);
@@ -50,6 +52,7 @@ export default function Login(){
                 // console.log("token", data.result.token)
                 navigate("/mypage", {state:{success:true}});
             } else {
+                setLoading(false);
                 setError(data.message || '로그인 실패');
                 const newErrors = [];
 
@@ -88,6 +91,16 @@ export default function Login(){
         setErrors(newErrors);
     }
 
+    if(loading){
+        return(<div>
+            {/* <Header title={"로그인"} />
+            <div className="mx-[34px]"></div> */}
+            <div className="w-full h-[852px] grid items-center">    
+                <div className="spinner"></div>
+            </div>
+        </div>)
+    }
+
     return(
         <div>
             <Header title={"로그인"} />
@@ -97,7 +110,7 @@ export default function Login(){
                 {/* Login */}
                 <div className="flex flex-col gap-[9px] mt-[40px]">
                     <div className="flex flex-col gap-1">
-                        <label className="pl-[3px]" for="email">이메일</label>
+                        <label className="pl-[3px]" htmlFor="email">이메일</label>
                         <input 
                             id="email" 
                             className="input" 
@@ -107,9 +120,9 @@ export default function Login(){
                             onChange={(e)=>{changeEmail(e)}}/>
                     </div>
                     <div className="flex flex-col gap-1">
-                        <label className="pl-[3px]" for="email">비밀번호</label>
+                        <label className="pl-[3px]" htmlFor="password">비밀번호</label>
                         <input 
-                            id="email" 
+                            id="password" 
                             className="password-input pr-[10px]" 
                             type="password" 
                             placeholder="비밀번호를 입력해주세요"

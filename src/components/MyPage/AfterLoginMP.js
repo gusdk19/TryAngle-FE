@@ -50,7 +50,7 @@ export default function AfterLoginMP({logout}) {
             const res = await fetch('http://localhost:8080/user/mypage', {
                 method: 'GET',
                 headers: {
-                  'Content-Type': 'application/json',
+                  // 'Content-Type': 'application/json',
                   'Authorization': `Bearer ${user_token}`
                 },
             });
@@ -78,18 +78,19 @@ export default function AfterLoginMP({logout}) {
                   badgeDescription: "챌린지 중독자",
                 })
             }
+            setLoading(false);
         } catch (error) {
             console.error('마이페이지 조회 오류:', error);
         }
       }
 
       if (user_token) {
-        const start = Date.now();
+        // const start = Date.now();
         getUserData();
         // 최소 0.4초 대기
-        const elapsed = Date.now() - start;
-        const delay = Math.max(600 - elapsed, 0); // 0.4초보다 적게 걸렸다면 남은 시간만큼 대기
-        setTimeout(() => setLoading(false), delay);
+        // const elapsed = Date.now() - start;
+        // const delay = Math.max(600 - elapsed, 0); // 0.4초보다 적게 걸렸다면 남은 시간만큼 대기
+        // setTimeout(() => setLoading(false), delay);
       } else console.warn('토큰이 없습니다.');
     } 
   }, []);
@@ -121,7 +122,7 @@ export default function AfterLoginMP({logout}) {
     navigate('/mychallenge');
   };
 
-  if(!userData || loading){
+  if(loading){
     return(<div className="w-full h-[734px] grid items-center">
       <div className="spinner"></div>
     </div>)

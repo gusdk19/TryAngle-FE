@@ -7,6 +7,9 @@ import InviteCodeModal from "./InviteCodeModal";
 export default function ChallengeCard({challenge}) {
 
   const navigate = useNavigate();
+
+  const correctCode="123456";
+
   const now = new Date();
   const startDate = new Date(challenge.start_date);
   const endDate = new Date(challenge.end_date);
@@ -59,6 +62,7 @@ export default function ChallengeCard({challenge}) {
         <InviteCodeModal
           onClose={() => setShowInviteModal(false)}
           challengeId={challenge.challenge_id}
+          correctCode={correctCode}
         />
       )}
   </>
