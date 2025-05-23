@@ -18,6 +18,8 @@ export default function Friend() {
 
     const { user_token } = useAuthStore();
 
+    const [loading, setLoading] = useState(true);
+
     // following, follower 리스트 변경에 따라 userData following, follower 수 업데이트 필요
 
     const [userFollowing, setUserFollowing] = useState(following == null ? 2 : following);
@@ -40,7 +42,7 @@ export default function Friend() {
 
     // followers, following, allUsers api 호출 필요
     useEffect(()=>{
-        const getFollowers = async ()=>{
+        const getFriendData = async ()=>{
           try {
               const res = await fetch('http://localhost:8080/user/followers', {
                   method: 'GET',
@@ -71,14 +73,8 @@ export default function Friend() {
                     }
                 ])
               }
-          } catch (error) {
-              console.error('팔로워 리스트 조회 오류:', error);
-          }
-        }
-
-        const getFollowings = async ()=>{
-          try {
-              const res = await fetch('http://localhost:8080/user/followings', {
+              
+              const res2 = await fetch('http://localhost:8080/user/followings', {
                   method: 'GET',
                   headers: {
                     'Content-Type': 'application/json',
@@ -86,13 +82,13 @@ export default function Friend() {
                   },
               });
     
-              const data = await res.json();
-              console.log("Followings List check", data.isSuccess, data.result);
+              const data2 = await res2.json();
+              console.log("Followings List check", data2.isSuccess, data2.result);
     
-              if(data.isSuccess){
-                  setFollowings(data.result);
+              if(data2.isSuccess){
+                  setFollowings(data2.result);
               } else{
-                  console.log(`⚠ ${data.message}`);
+                  console.log(`⚠ ${data2.message}`);
     
                   setFollowings([
                     {
@@ -106,15 +102,9 @@ export default function Friend() {
                         "profileImage": "https://i.namu.wiki/i/w7GkIKr6Qac-0SCYEn7DdYBpkpZed9FaVNTBFE7aIQvm7p39bo7gs2Pb1ZWfX3dPVd0JmA3oX50T5kl-MU7wfw.webp"
                     }
                 ])
-              }
-          } catch (error) {
-              console.error('팔로워 리스트 조회 오류:', error);
-          }
-        }
-
-        const getAllUsers = async ()=>{
-          try {
-              const res = await fetch('http://localhost:8080/user/userlist', {
+              };
+              
+              const res3 = await fetch('http://localhost:8080/user/userlist', {
                   method: 'GET',
                   headers: {
                     'Content-Type': 'application/json',
@@ -122,13 +112,13 @@ export default function Friend() {
                   },
               });
     
-              const data = await res.json();
-              console.log("All User List check", data.isSuccess, data.result);
+              const data3 = await res3.json();
+              console.log("All User List check", data3.isSuccess, data3.result);
     
-              if(data.isSuccess){
-                  setAllUsers(data.result);
+              if(data3.isSuccess){
+                  setAllUsers(data3.result);
               } else{
-                  console.log(`⚠ ${data.message}`);
+                  console.log(`⚠ ${data3.message}`);
     
                   setAllUsers([
                     {
@@ -150,16 +140,15 @@ export default function Friend() {
                         "isFollowing":false,
                     },
                 ])
-              }
+            };
+            setLoading(false);
           } catch (error) {
               console.error('팔로워 리스트 조회 오류:', error);
           }
         }
     
         if (user_token) {
-          getFollowers();
-          getFollowings();
-          getAllUsers();
+          getFriendData();
         } else console.warn('토큰이 없습니다.');
     }, []);
     
@@ -173,6 +162,16 @@ export default function Friend() {
     useEffect(()=>{
         setSearchValue("");
     },[tab]);
+
+    if(loading){
+        return(<div>
+            <Header title={"친구"} following={userFollowing} follower={userFollower} userData={modifiedUD}/>
+            <hr className="m-0"/>
+            <div className="w-full h-[752px] grid items-center">   
+                <div className="spinner"></div>
+            </div>
+        </div>)
+    }
 
     return(
         <div className="bg-white flex flex-row justify-center w-full">

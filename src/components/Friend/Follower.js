@@ -47,7 +47,7 @@ export default function Follower({searchValue, setUserFollower, followers, setFo
 
         // unfollow();
         
-      };
+    };
 
 
     return(
