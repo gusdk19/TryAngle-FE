@@ -29,8 +29,8 @@ function App() {
         <Route path='/findEmail' element={<FindEmail />} />            
         <Route path='/findPW' element={<FindPW />} />            
         <Route path='/mychallenge' element={<MyChallenge />} />
-        <Route path='/challenge/:id' element={<ChallengeDetail />} />
         <Route path="/rank" element={<Ranking />} />
+        <Route path='/challenge/:id' element={<ProtectedRoute link="/"><ChallengeDetail /></ProtectedRoute>} />
         <Route path="/alarm" element={<ProtectedRoute><Alarm /></ProtectedRoute>} />                                      
         <Route path='/friend' element={<ProtectedRoute><Friend /></ProtectedRoute>} />      
         <Route path='/finance' element={<ProtectedRoute><Finance /></ProtectedRoute>} />
