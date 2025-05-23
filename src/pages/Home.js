@@ -128,7 +128,7 @@ const Home = () => {
             <button
                 className={`text-lg font-semibold ${
                 activeTab === 'ongoing'
-                    ? 'border-b-2 border-yellow-400 text-[#4A483F]'
+                    ? 'border-b-2 border-[#4A483F] text-[#4A483F]'
                     : 'text-[#4A483F]'
                 }`}
                 onClick={() => setActiveTab('ongoing')}
