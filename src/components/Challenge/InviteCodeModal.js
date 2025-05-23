@@ -50,7 +50,7 @@ export default function InviteCodeModal({ onClose, challengeId, correctCode }) {
 
         <button
             onClick={handleVerify}
-            className="w-full bg-yellow-400 py-2 rounded font-bold text-white"
+            className="w-full bg-[#FFC421] py-2 rounded font-bold text-white"
             >
             초대 코드 확인
         </button>
