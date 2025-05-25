@@ -56,9 +56,11 @@ export default function Finance() {
 
     const [withdrawal, setWithdrawal] = useState(0);
 
-    const totalDeposit = financeStatus.reduce((sum, item) => sum + item.deposit, 0);
-    const totalReturn = financeStatus.reduce((sum, item) => sum + item.return, 0) - withdrawal;
-    
+    // const totalDeposit = financeStatus.reduce((sum, item) => sum + item.deposit, 0);
+    // const totalReturn = financeStatus.reduce((sum, item) => sum + item.return, 0) - withdrawal;
+    const totalDeposit = deposit;
+    const totalReturn = reward;
+
     // Whether to display withdrawal modal window
     const [wdModal, setWdModal] = useState(false);
 

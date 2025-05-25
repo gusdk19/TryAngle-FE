@@ -100,20 +100,22 @@ const Home = () => {
   
 
   return (
-    <div className="bg-white flex flex-row justify-center w-full">
+    <div className="bg-white flex flex-row justify-center w-full h-[852px] relative">
       {/* 모바일 프레임 */}
-      <div className="bg-white w-[393px] h-[852px] relative">
-        <Header className="flex-none" title="홈"/>
+      <div className="flex flex-col bg-white w-[393px] h-[790px] ">
+        <div className="flex-none">
+          <Header title="홈"/>
+        </div>
         {/* 배너 이미지 삽입*/}
         <img src={bannerImage} alt="banner" className="w-full" /> 
 
         {/* 검색창 */}
-        <div className="px-4 mt-4">
+        <div className="flex-none px-4 mt-4">
             <SearchBar query={query} setQuery={setQuery} />
         </div>
                   
         {/* 탭 영역 */}
-        <div className="flex justify-between items-center px-4 mt-[43px]">
+        <div className="flex-none flex justify-between items-center px-4 mt-[43px]">
           <div className="flex space-x-10">
             <button
                 className={`text-lg font-semibold ${
@@ -150,11 +152,11 @@ const Home = () => {
         </div>
 
         {/* 카테고리 */}
-        <div className="flex justify-center gap-3 mt-[29px]">
+        <div className="flex-none flex justify-center gap-3 mt-[20px]">
           {categories.map((category) => (
             <button
               key={category}
-              className={`px-3 py-1 rounded-[5px] text-sm mb-[25px] ${
+              className={`px-3 py-1 rounded-[5px] text-sm ${
                 activeCategory === category
                   ? 'bg-[#6E6053] text-white'
                   : 'bg-white text-[#4A483F]'
@@ -167,7 +169,7 @@ const Home = () => {
         </div>
 
         {/* 챌린지 카드 */}
-        <div className=" flex-1 overflow-y-auto p-4 pb-[18px] main max-h-[440px] overflow-scroll">
+        <div className="flex-1 overflow-y-auto p-4 pb-[18px] main overflow-scroll">
           <div className="grid grid-cols-2 gap-4">
           {filteredChallenges.map((challenge) => (
             <ChallengeCard key={challenge.id} challenge={challenge} />
@@ -175,8 +177,9 @@ const Home = () => {
           </div>
         </div>
 
-        <Footer page="home" />
+        
       </div>
+      <Footer page="home" />
       {!isLoggedIn && requestLogin ? <RequestLogin onClose={setRequestLogin} purpose={"생성"}/> : "" }
     </div>
   );

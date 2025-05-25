@@ -36,7 +36,7 @@ export default function InquiryModal({onClose}){
                 </button>
 
                 
-                {/* 출금액 입력 */}
+                {/* 문의 입력 */}
                 <div className="mx-auto mt-[12px] flex flex-col justify-between gap-2">
                     <label htmlFor="withdrawal" className="ml-[2px] mt-[2.5px] flex-none text-[#6e6053]">
                         <span className={`text-[#6E6053] font-bold text-[15px]`}>문의사항</span>
@@ -45,13 +45,13 @@ export default function InquiryModal({onClose}){
                         id="withdrawal"
                         className="text-[13px] h-[20px] flex-1 rounded-md text-[#6e6053] px-[12px] py-[9px] align-middle resize-none"
                         rows={5}
-                        placeholder="문의사항을을 입력하세요"
+                        placeholder="문의사항을 입력하세요"
                         value={inquiry}
                         onChange={(e)=>handleInputChange(e)}
                     />
                 </div>
 
-                {/* 출금 금액 에러 */}
+                {/* 에러 */}
                 {/* {errors.length > 0 && (
                     <ul className="mt-[6px] px-[5px] text-[12px] text-left text-[red]">
                     {errors.map((err, idx) => (
@@ -60,7 +60,7 @@ export default function InquiryModal({onClose}){
                     </ul>
                 )} */}
 
-                {/* 변경 버튼 */}
+                {/* 문의하기 버튼 */}
                 <div className="w-full grid items-center">
                     <button className={`mx-auto w-full h-[38px] mt-[20px] mb-[5px] py-2 rounded-md 
                     text-white font-medium text-[15px] text-center items-center 

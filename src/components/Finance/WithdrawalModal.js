@@ -2,8 +2,15 @@ import React, {useState, useEffect} from "react";
 import "../../styles/finance/withdrawalModal.css";
 
 import { IoMdClose } from "react-icons/io";
+import useAuthStore from "../User/UseAuthStore";
 
 export default function WithdrawalModal({onClose, setWithdrawal, totalReturn}){
+    
+    const {user_token} = useAuthStore();
+
+    // API result
+    const [success, setSuccess] = useState(false);
+    const [result, setResult] = useState("");
 
     const [wdValue, setWdValue] = useState();
     
@@ -38,9 +45,66 @@ export default function WithdrawalModal({onClose, setWithdrawal, totalReturn}){
         setErrors(newErrors);
     };
 
-    const handleChange=()=>{
+    const handleChange= async ()=>{
         setWithdrawal((prev)=>(prev + wdValue));
-        onClose(false);
+
+        try {
+            const res = await fetch('http://localhost:8080/user/withdrawal', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${user_token}`
+                },
+                body: JSON.stringify({ amount: wdValue }),
+            });
+
+            const data = await res.json();
+            console.log("withdrawal check", data.isSuccess, data.message)
+
+            if(data.isSuccess){
+                setSuccess(true);
+                setResult(data.result);
+            } else{
+                setWdValue();
+                setErrors((prev)=>(["출금에 실패하였습니다. 다시 시도해주세요.", ...prev]))
+            }
+        } catch (error) {
+            console.error('출금 오류:', error);
+        }
+    }
+
+    if(success){
+        return(
+            <>
+                <div className="inner-backdrop" onClick={onClose}></div>
+                <div className="inner-modal">
+                    <div className="modal-sq w-full h-full">
+                        {/* Title */}
+                        <h2 className="text-[16px] text-[#6e6053] font-semibold text-center pt-[1px]">출금하기</h2>
+                        
+                        {/* Close Button */}
+                        <button className="close-btn" onClick={()=>{onClose(false)}}>
+                            <IoMdClose className="text-[#6e6053] w-[25px] h-[25px]" color="#6e6053"/>
+                        </button>
+                        
+                        <div className="flex flex-col gap-2 my-[10px] px-[5px] pt-[12px] text-center ">
+                            <p className="text-[16px] text-[red] font-semibold">출금이 완료되었습니다.</p>
+                            <p className="text-[14px] text-[#6e6053]  font-medium">({result})</p>
+                        </div>
+
+                        {/* 변경 버튼 */}
+                        <div className="w-full grid items-center">
+                            <button className={`mx-auto w-[192px] h-[38px] mt-[15px] mb-[5px] py-1 rounded-md 
+                            text-white font-medium text-[15px] text-center items-center bg-[#FFC421] cursor-pointer`}
+                                onClick={()=>{onClose(false)}} >
+                                확인
+                            </button>
+                        </div>
+                        
+                    </div>
+                </div>
+                </>
+        )
     }
 
     return (
