@@ -29,7 +29,8 @@ export default function BeforeLoginMP(){
 
             {/* Contact Link */}
             <div className="flex justify-end mt-[7px] mr-[2px]">
-                <div className="text-[12px] [-webkit-text-stroke:0.1px_#838687] font-m3-label-medium text-[#838687] whitespace-nowrap underline cursor-pointer">
+                <div className="text-[12px] [-webkit-text-stroke:0.1px_#838687] font-m3-label-medium text-[#838687] whitespace-nowrap underline cursor-pointer"
+                    onClick={()=>{setInquiryModal(true);}}>
                 문의하기
                 </div>
             </div>

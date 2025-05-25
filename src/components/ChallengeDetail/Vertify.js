@@ -54,7 +54,7 @@ export default function Vertify({vertifyMethod}){
                         screenshotFormat="image/jpeg"
                         hidden={vtMethod=="camera" ? false : true}
                     />
-                    <FaRegCircle className="w-[40px] h-[40px] m-3 mx-auto text-[#D9D9D9]" onClick={capture} 
+                    <FaRegCircle className="w-[40px] h-[40px] m-3 mx-auto text-[#D9D9D9] cursor-pointer" onClick={capture} 
                         hidden={vtMethod=="camera" ? false : true}/>
                   </>
                 : <>

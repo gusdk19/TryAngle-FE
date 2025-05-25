@@ -30,9 +30,38 @@ export default function FindPW(){
         setErrors(newErrors);
     }
 
-    const handleClick = ()=>{
-        // 비밀번호 재설정 api 
-        setOpenModal(true);
+    const handleClick = async ()=>{
+        const newErrors = [];
+
+        try {
+            const res = await fetch('http://localhost:8080/user/checkEmail', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email: email }),
+            });
+
+            const data = await res.json();
+            console.log("email check", data.isSuccess, data.message);
+
+            if(!(data.isSuccess)){
+                if (email.length <= 0){
+                    newErrors.push("⚠ 이메일을 입력해주세요.");
+                    setEmail("");
+                } else if(email.length > 0 && errors.length == 0){
+                    // 비밀번호 재설정 api 
+                    setOpenModal(true);
+                }
+            } else{
+                newErrors.push(`⚠ 사용자를 찾을 수 없습니다.`);
+                setEmail("");
+            }
+        } catch (error) {
+            console.error('이메일 확인 오류:', error);
+        }
+
+        setErrors(newErrors);
     }
     
 
@@ -74,7 +103,7 @@ export default function FindPW(){
                 </div>
             </div>
 
-            {openModal ? <ChangePWModal setOpenModal={setOpenModal} /> : ""}
+            {openModal ? <ChangePWModal onClose={setOpenModal} /> : ""}
         </div>
     )
 }

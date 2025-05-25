@@ -35,6 +35,11 @@ export default function SUStepThree({name, setName, phoneNumber, setPhoneNumber,
         }
     
         setErrors(newErrors);
+
+        if(!isElevenDigits){
+            setSendCN(false);
+            setCN("");
+        }
     }
 
     const changeCN = (e)=>{
@@ -95,10 +100,18 @@ export default function SUStepThree({name, setName, phoneNumber, setPhoneNumber,
                         type="text" 
                         placeholder="이름을 입력해주세요"
                         value={name}
-                        onChange={(e)=>{setName((e.target.value).trim())}}/>
+                        onChange={(e)=>{
+                            const value = (e.target.value).trim();
+                            setName(value);
+                        }}/>
                 </div>
                 
             </div>
+
+            {/* {name.length == 0 && 
+                <ul className="mt-[0px] px-[5px] text-[12px] text-left text-[red]">
+                    <li>⚠ 이름을 입력해주세요.</li>
+                </ul>} */}
 
             <h1 className="mt-[30px] text-[25px] font-bold">휴대폰 번호를 인증해주세요</h1>
             <div className="flex flex-col gap-[9px] mt-[10px]">
@@ -118,7 +131,8 @@ export default function SUStepThree({name, setName, phoneNumber, setPhoneNumber,
                         <button className={`flex-none py-[8px] px-[10px] text-[14px] rounded-lg
                             ${!isPNValid || phoneNumber.length == 0 ? "bg-[#d9d9d9] text-[#838687] cursor-default" : "bg-[#FAB809] text-white cursor-pointer"}`}
                             onClick={()=>{
-                                setSendCN(true); 
+                                setSendCN(true);
+                                setCN(""); 
                                 startTimer();
                                 // generateRandomNumber();
                                 }}>

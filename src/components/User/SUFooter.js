@@ -109,7 +109,7 @@ export default function SUFooter({nickname, email, pw, checkPW, name, phoneNumbe
     return(
         <footer className={`absolute w-full h-[70px] bottom-0 left-0 text-[16px] font-semibold
             grid items-center text-center
-            ${email.length == 0 || errors.length > 0 ? "bg-[#d9d9d9] text-[#838687] cursor-default" : "bg-[#FAB809] text-white cursor-pointer"}`}
+            ${(step == 4 && nickname.length == 0) || (step == 3 && name.length == 0 && phoneNumber.length == 0) || email.length == 0 || errors.length > 0 ? "bg-[#d9d9d9] text-[#838687] cursor-default" : "bg-[#FAB809] text-white cursor-pointer"}`}
             onClick={()=>{handleStep();}}>
             <div className="">
                 다음 <span>{step}</span> / 4
