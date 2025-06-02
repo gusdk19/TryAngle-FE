@@ -15,12 +15,49 @@ import bpi_5 from "../assets/images/mypage/basic_profile_image/basic_profile_ima
 
 
 const sampleRankingData = [
-  { rank: 1, name: "다연츄", description: "챌린지 중독자!", profileImage: bpi_1 },
-  { rank: 2, name: "효나츄", description: "꾸준히 도전 중", profileImage: bpi_2 },
-  { rank: 3, name: "혜원츄", description: "열정 만수르", profileImage: bpi_3 },
-  { rank: 4, name: "고은츄", description: "도전 초보", profileImage: bpi_4 },
-  { rank: 5, name: "타타", description: "도전자", profileImage: bpi_5},
+  {
+    name: "다연츄",
+    description: "챌린지 중독자!",
+    profileImage: bpi_1,
+    total_success_rate: 96,
+    totalChallenges: 20,
+  },
+  {
+    name: "효나츄",
+    description: "꾸준히 도전 중",
+    profileImage: bpi_2,
+    total_success_rate: 96,
+    totalChallenges: 15,
+  },
+  {
+    name: "혜원츄",
+    description: "열정 만수르",
+    profileImage: bpi_3,
+    total_success_rate: 82,
+    totalChallenges: 25,
+  },
+  {
+    name: "고은츄",
+    description: "도전 초보",
+    profileImage: bpi_4,
+    total_success_rate: 60,
+    totalChallenges: 10,
+  },
+  {
+    name: "타타",
+    description: "도전자",
+    profileImage: bpi_5,
+    total_success_rate: 60,
+    totalChallenges: 5,
+  },
 ];
+
+const sortedRanking = [...sampleRankingData].sort((a, b) => {
+  if (b.total_success_rate !== a.total_success_rate) {
+    return b.total_success_rate - a.total_success_rate;
+  }
+  return b.totalChallenges - a.totalChallenges;
+});
 
 const Ranking = () => {
 
@@ -69,16 +106,16 @@ const Ranking = () => {
         </div>
         {/* 랭킹 */}
          <main className="main h-[593px] overflow-auto px-5 mt-[20px] pb-6">
-            {sampleRankingData.map((user) => (
-                <div key={user.rank} className="flex items-center space-x-3 mb-4">
+            {sampleRankingData.map((user, index) => (
+                <div key={index} className="flex items-center space-x-3 mb-4">
                 {/* 순위 동그라미 */}
                 <div className="relative w-11 h-11 flex items-center justify-center">
                     {/* 바깥 원 */}
                     <div className={`
                         absolute inset-0 rounded-full z-0
-                        ${user.rank === 1 ? 'bg-[#FDE39D]' :
-                        user.rank === 2 ? 'bg-[#E1E0E1]' :
-                        user.rank === 3 ? 'bg-[#DFC891]' :
+                        ${index +1 === 1 ? 'bg-[#FDE39D]' :
+                        index +1=== 2 ? 'bg-[#E1E0E1]' :
+                        index +1 === 3 ? 'bg-[#DFC891]' :
                         'bg-[#D9D9D9]'}
                     `} />
 
@@ -86,30 +123,34 @@ const Ranking = () => {
                     {/* 안쪽 원 (기존 내용) */}
                     <div className={`
                         w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg z-10
-                        ${user.rank === 1 ? 'bg-[#FED20D] text-white' :
-                        user.rank === 2 ? 'bg-[#C2C4C5] text-white' :
-                        user.rank === 3 ? 'bg-[#D3B05C] text-white' :
+                        ${index +1 === 1 ? 'bg-[#FED20D] text-white' :
+                        index +1 === 2 ? 'bg-[#C2C4C5] text-white' :
+                        index +1 === 3 ? 'bg-[#D3B05C] text-white' :
                         'bg-[#FFFFFF] text-[#838687]'}
                     `}>
-                        {user.rank}
+                        {index +1}
                     </div>
                 </div>
 
                 {/* 유저 카드 */}
-                <div className="flex-1 bg-[#FFFAF0] p-3 rounded-xl flex items-center justify-between">
-                    <div className="flex items-center space-x-3">
-                    <img src={user.profileImage} alt="profile" className="w-10 h-10 rounded-full" />
-                    <div>
-                        <p className="font-bold">{user.name}</p>
-                        <p className="text-sm text-gray-500">{user.description}</p>
+                <div className="w-[293px] h-[80px] flex-1 bg-[#FFFAF0] p-3 rounded-xl flex items-center">
+                  <div className="flex items-start space-x-3 w-full">
+                    <img src={user.profileImage} alt="profile" className="w-[40px] h-[40px] rounded-full" />
+                    <div className="flex flex-col w-full">
+                      {/* 이름과 설명 가로로 */}
+                      <div className="flex space-x-2 items-baseline">
+                        <p className="font-bold text-base whitespace-nowrap">{user.name}</p>
+                        <p className="text-sm text-gray-500 truncate">{user.description}</p>
+                      </div>
+                      {/* 진행률 바 */}
+                      <div className="mt-2 w-full bg-[#ffc42164] rounded-full h-2">
+                        <div
+                          className="bg-[#FFC421] h-2 rounded-full"
+                          style={{ width: `${user.total_success_rate}%` }}
+                        />
+                      </div>
                     </div>
-                    </div>
-                    {/* 예: 점수 뱃지 (3등만 예시로 있음) */}
-                    {user.score && (
-                    <span className="bg-red-500 text-white text-sm px-2 py-0.5 rounded-md font-semibold">
-                        {user.score}
-                    </span>
-                    )}
+                  </div>
                 </div>
                 </div>
             ))}
