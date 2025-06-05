@@ -14,16 +14,19 @@ export default function ChallengeFooter({status, challengeID, setChallengeData, 
                     return;
                 }
 
-                if(status == 1){
+                if(status === 0){
                     setChallengeData((prev)=>({
                         ...prev,
-                        status : 0,
+                        status : -1,
                     }))
                 }
-                else if(status == 0){
-                    setChallengeData((prev)=>({
+                else if(status === -1){
+                    navigate (`/challenge/${challengeID}/fee`);
+                }
+                else if(status === 1) {
+                    setChallengeData((prev) => ({
                         ...prev,
-                        status : 1,
+                        status: 0,
                     }))
                 }
             }}>
