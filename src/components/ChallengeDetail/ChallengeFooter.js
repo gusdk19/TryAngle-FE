@@ -21,10 +21,7 @@ export default function ChallengeFooter({status, challengeID, setChallengeData, 
                     }))
                 }
                 else if(status == -1){
-                    setChallengeData((prev)=>({
-                        ...prev,
-                        status : 0,
-                    }))
+                    navigate (`/challenge/${challengeID}/fee`);
                 }
             }}>
             {status == -1 ? "참가하기" :

@@ -17,6 +17,7 @@ import Add from "./pages/Add";
 import InviteCode from "./pages/InviteCode";
 import Ranking from "./pages/Ranking";
 import ProtectedRoute from "./components/ProtectRoute";
+import ChallengeFeeRefund from './pages/ChallengeFeeRefund';
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
         <Route path="/add-challenge/public" element={<ProtectedRoute><ChallengeAdd /></ProtectedRoute>} />
         <Route path="/add-challenge/content" element={<ProtectedRoute><Add /></ProtectedRoute>} />
         <Route path="/add-challenge/invite" element={<ProtectedRoute><InviteCode /></ProtectedRoute>} />
+        <Route path='/challenge/:id/fee' element={<ProtectedRoute><ChallengeFeeRefund /></ProtectedRoute>} />
       </Routes>
   </BrowserRouter>
   );
