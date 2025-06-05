@@ -14,19 +14,25 @@ export default function ChallengeFooter({status, challengeID, setChallengeData, 
                     return;
                 }
 
-                if(status == 1){
+                if(status === 0){
                     setChallengeData((prev)=>({
                         ...prev,
-                        status : 0,
+                        status : -1,
                     }))
                 }
-                else if(status == -1){
+                else if(status === -1){
                     navigate (`/challenge/${challengeID}/fee`);
                 }
+                else if(status === 1) {
+                    setChallengeData((prev) => ({
+                        ...prev,
+                        status: 0,
+                    }))
+                }
             }}>
-            {status == -1 ? "참가하기" :
-             status == 0 ? "참여취소" : 
-             status == 1 ? "참가중" : "참가완료"}
+            {status === -1 ? "참가하기" :
+             status === 0 ? "참여취소" : 
+             status === 1 ? "참가중" : "참가완료"}
           </button>
           <button className="flex-1 font-semibold text-[20px] bg-[#FAB809] text-[#4A483F]"
             onClick={()=>{
