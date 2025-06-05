@@ -28,7 +28,7 @@
     height:190px;
     background:#B8AA96;
     border-radius:5px;
-    cursor: pointer;
+    /* cursor: pointer; */
 }
 
 .card-success{
@@ -36,7 +36,7 @@
     height:190px;
     background:#FAB809;
     border-radius:5px;
-    cursor: pointer;
+    /* cursor: pointer; */
 }
 
 .card-fail{
@@ -44,7 +44,7 @@
     height:190px;
     background:#D9D9D9;
     border-radius:5px;
-    cursor: pointer;
+    /* cursor: pointer; */
 }
 
 .card-image{

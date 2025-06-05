@@ -27,9 +27,9 @@ export default function ChallengeFooter({status, challengeID, setChallengeData, 
                     }))
                 }
             }}>
-            {status == -1 ? "참가하기" :
-             status == 0 ? "참여취소" : 
-             status == 1 ? "참가중" : "참가완료"}
+            {status == 0 ? "참가하기" :
+             status == 1 ? "참여취소" : 
+             status == 2 ? "참가중" : "참가완료"}
           </button>
           <button className="flex-1 font-semibold text-[20px] bg-[#FAB809] text-[#4A483F]"
             onClick={()=>{

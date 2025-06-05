@@ -49,6 +49,7 @@ const Home = () => {
       start_date: '2025-05-02',
       end_date: '2025-05-05',
       tag: '#공부',
+      challenge_public: true,
       image: books
     },
     {
@@ -57,6 +58,7 @@ const Home = () => {
       start_date: '2025-05-04',
       end_date: '2025-05-09',
       tag: '#생활',
+      challenge_public: true,
       image: water
     },
     {
@@ -65,6 +67,7 @@ const Home = () => {
       start_date: '2025-05-06',
       end_date: '2025-05-12',
       tag: '#생활',
+      challenge_public: true,
       image: sun
     },
     {
@@ -73,6 +76,7 @@ const Home = () => {
       start_date: '2025-05-06',
       end_date: '2025-05-12',
       tag: '#생활',
+      challenge_public: true,
       image: sun
     },
     {
@@ -81,6 +85,7 @@ const Home = () => {
       start_date: '2025-05-06',
       end_date: '2025-05-12',
       tag: '#생활',
+      challenge_public: true,
       image: sun
     },
     {
@@ -89,6 +94,7 @@ const Home = () => {
       start_date: '2025-05-06',
       end_date: '2025-05-12',
       tag: '#생활',
+      challenge_public: true,
       image: sun
     }
   ];

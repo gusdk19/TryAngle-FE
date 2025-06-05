@@ -17,6 +17,7 @@ import Add from "./pages/Add";
 import InviteCode from "./pages/InviteCode";
 import Ranking from "./pages/Ranking";
 import ProtectedRoute from "./components/ProtectRoute";
+import EditChallenge from './pages/EditChallenge';
 
 function App() {
   return (
@@ -30,7 +31,8 @@ function App() {
         <Route path='/findPW' element={<FindPW />} />            
         <Route path='/mychallenge' element={<MyChallenge />} />
         <Route path="/rank" element={<Ranking />} />
-        <Route path='/challenge/:id' element={<ProtectedRoute link="/"><ChallengeDetail /></ProtectedRoute>} />
+        <Route path='/challenge/:id' element={<ChallengeDetail />} />
+        <Route path='/challenge/:id/edit' element={<ProtectedRoute link="/"><EditChallenge /></ProtectedRoute>} />
         <Route path="/alarm" element={<ProtectedRoute><Alarm /></ProtectedRoute>} />                                      
         <Route path='/friend' element={<ProtectedRoute><Friend /></ProtectedRoute>} />      
         <Route path='/finance' element={<ProtectedRoute><Finance /></ProtectedRoute>} />

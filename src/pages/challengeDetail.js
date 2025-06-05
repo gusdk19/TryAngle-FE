@@ -1,7 +1,7 @@
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import React, { useState, useEffect } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import "../styles/challengeDetail/challengeDetail.css";
 
 import DetailNav from "../components/ChallengeDetail/DetailNav";
@@ -19,6 +19,7 @@ export default function ChallengeDetail() {
   const location = useLocation();
 
   const { tab, challenge } = location.state || {};
+  console.log("challenge",challenge);
 
   const { isLoggedIn, user_token, user_name } = useAuthStore();
 
@@ -28,6 +29,7 @@ export default function ChallengeDetail() {
   const [loading, setLoading] = useState(challenge && !isLoggedIn ? false : true);
   const [challengeData, setChallengeData] = useState(challenge ? challenge : {});
   const [userChallengeData, setUserChallengeData] = useState({});
+  console.log("loading", loading, "challengeData", challengeData);
 
   const dummyChallengeData = {
     "challenge_id" : 1,
@@ -64,6 +66,7 @@ export default function ChallengeDetail() {
 
   useEffect(()=>{
     const getChallengeData = async()=>{
+      console.log("getChallengeData");
       try {
         const res = await fetch(`http://localhost:8080/challenge/${id}`, {
             method: 'GET',
@@ -92,6 +95,7 @@ export default function ChallengeDetail() {
 
     const getUserChallengeData = async()=>{
       try {
+        console.log("getUserChallengeData");
         const res = await fetch(`http://localhost:8080/challenge/my/${id}`, {
             method: 'GET',
             headers: {
@@ -116,7 +120,7 @@ export default function ChallengeDetail() {
     }
     
 
-    if(challengeData == {}){
+    if(challenge == undefined){
       getChallengeData();
     }
 
@@ -126,6 +130,8 @@ export default function ChallengeDetail() {
   }, [])
 
   const page = "challengeDetail";
+
+  const navigate = useNavigate();
 
   const [navTab, setNavTab] = useState(tab ? tab : "vertify");
   const [requestLogin, setRequestLogin] = useState(false);
@@ -143,23 +149,19 @@ export default function ChallengeDetail() {
   const status = now < startDate ? 0 : now > endDate ? 2 : 1; // 0 : 예정, 1 : 진행중, 2 : 진행 완료료 
 
   const editChallenge = ()=>{
-
+    navigate(`/challenge/${id}/edit`, {challenge: challengeData});
   }
 
-  if(loading){
-      return(
-      <div className="bg-white flex flex-row justify-center w-full">
-          <div className="bg-white w-[393px] h-[852px] relative">
-              {/* Header */}
-              <Header title={challengeData.challenge_name} page={page}/>
-              <hr className="m-0"/>
-              
-              <div className="w-full h-[770px] grid items-center">
-                  <div className="spinner"></div>
-              </div>
-          </div>
-      </div>)
-  }
+  // if(loading){
+  //     return(
+  //     <div className="bg-white flex flex-row justify-center w-full">
+  //         <div className="bg-white w-[393px] h-[852px] relative">
+  //             <div className="w-full h-full grid items-center">
+  //                 <div className="spinner"></div>
+  //             </div>
+  //         </div>
+  //     </div>)
+  // }
 
   return (
     <div className="bg-white flex flex-row justify-center w-full">
@@ -179,17 +181,21 @@ export default function ChallengeDetail() {
           
           {/* Title */}
           <div className="flex justify-between">
-            <div className="flex-1 flex px-5 gap-4">
-              <div className="flex-none text-[20px] text-[#4A483F] font-bold">
-                {challengeData.challenge_name}
-                {status == 0 && user_name == challengeData.leader_nickname && 
-                  <button onClick={editChallenge}>
-                    수정
-                  </button>}
+            <div className="flex-1 flex px-5 justify-between">
+              <div className="flex-none flex gap-4">
+                <div className="flex-none text-[20px] text-[#4A483F] font-bold">
+                  {challengeData.challenge_name}
+                </div>
+                <button className="flex-none my-auto mt-[6px] rounded-md px-1 text-[11px] w-[60px] h-[20px] text-white bg-[#6E6053] cursor-default">
+                  {status == 0 ? "예정" : status == 1 ? "진행중" : "진행완료"}
+                </button>
               </div>
-              <button className="flex-none my-auto mt-[6px] rounded-md px-1 text-[11px] w-[60px] h-[20px] text-white bg-[#6E6053] cursor-default">
-                {status == 0 ? "예정" : status == 1 ? "진행중" : "진행완료"}
-              </button>
+              {status == 0 && user_name == challengeData.leader_nickname && challengeData.now_people == 1 &&
+                <button className="flex-none rounded-md text-[13px] font-semibold px-4 mt-[3px] my-[2.75px] py-[0.5px] border-solid border-[#6E6053] border-[2px]" 
+                  onClick={editChallenge}>
+                  수정
+                </button>
+              }
             </div>
             <div className="flex-none">
               {dayDiff > 0 && <div className='due-date'>D-{dayDiff}</div>}

@@ -50,13 +50,13 @@ export default function Header(props){
                                 },
                             });
                         }
-                        else if(title == "권유하기"){
-                            navigate(`/challenge/${id}`, {
-                                state: {
-                                  tab: "info",
-                                },
-                            });
-                        } 
+                        // else if(title == "권유하기"){
+                        //     navigate(`/challenge/${id}`, {
+                        //         state: {
+                        //           tab: "info",
+                        //         },
+                        //     });
+                        // } 
                         else if(title == "로그인"){
                             if(back){
                                 navigate(-1);
@@ -64,6 +64,9 @@ export default function Header(props){
                                 navigate('/mypage');
                             }
                         } 
+                        // else if(page == "challengeDetail"){
+                        //     navigate('/');
+                        // }
                         else{
                             navigate(-1);
                         }

@@ -103,11 +103,15 @@ export default function CreateChall({leaderChallengeList, setChallengeList}){
 
                         return(
                             // <div className={`card ${now > endDate && (challenge.participation_success ? "card-success": "card-fail")}`} 
-                            <div className={`card`}     
-                                onClick={()=>{navigate(`/challenge/${challenge.challenge_id}`, {state:{
-                                    tab: "info",
-                                    challenge: challenge,
-                            }})}}>
+                            <div className={`card ${challenge.challenge_id != undefined ? "cursor-pointer" : "cursor-default"}`}     
+                                key={challenge.challenge_id} 
+                                onClick={()=>{
+                                    if(challenge.challenge_id != undefined){
+                                        navigate(`/challenge/${challenge.challenge_id}`, {state:{
+                                            tab: "info",
+                                            challenge: challenge,
+                                    }})
+                                }}}>
                                 <div className='card-image flex flex-col'>
                                     <div className='chall-title flex-none'>{challenge.challenge_name}</div>
                                     <img className='chall-thumbnail flex-1' src={challenge.challenge_thumbnail} />
@@ -136,7 +140,7 @@ export default function CreateChall({leaderChallengeList, setChallengeList}){
                 </div>
 
                 {filter == "recruiting" && <button className='more-btn flex flex-row justify-center gap-[4px] mt-3 w-full text-center'
-                    onClick={()=>{navigate("/createchall")}}>
+                    onClick={()=>{navigate("/add-challenge/public")}}>
                     <span className=""> 나만의 챌린지 만들기 </span>
                     <FiPlus className='my-auto' color="#B8AA96"/>
                 </button>}

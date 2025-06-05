@@ -16,7 +16,7 @@ export default function InviteCodeModal({ onClose, challengeId, correctCode }) {
             inputs.current[index + 1].focus();
           }
         }
-        
+
         const newCode = [...code];
         newCode[index] = value;
         setCode(newCode);
@@ -27,9 +27,12 @@ export default function InviteCodeModal({ onClose, challengeId, correctCode }) {
         if (inputCode === correctCode) {
             // 성공
             setErrorMessage('');
-            navigate(`/challenge/${challengeId}`, {
+            navigate(`/challenge/1`, {
               state: { tab: 'info' },
             });
+            // navigate(`/challenge/${challengeId}`, {
+            //   state: { tab: 'info' },
+            // });
             onClose();
         } else {
             // 실패

@@ -21,7 +21,7 @@ export default function MyChallenge(){
     const [tab, setTab] = useState("onProgress") // tab(3) - onProgress(참여중), finish(참여완료), create(개설)
     const [loading, setLoading] = useState(true);
 
-    const { isLoggedIn, login, logout, user_token } = useAuthStore();
+    const { isLoggedIn, login, logout, user_token, user_name } = useAuthStore();
 
     const [challengeList, setChallengeList] = useState([]);
     const dummyChallengeList = [
@@ -45,7 +45,7 @@ export default function MyChallenge(){
             "min_deposit": 1000,
             "return_type": 1,
             "auth_frequency": "참여빈도",
-            "leader":1,
+            "leader_nickname":"test",
             "participation_success":0,
         },
         {
@@ -68,7 +68,7 @@ export default function MyChallenge(){
             "min_deposit": 1000,
             "return_type": 1,
             "auth_frequency": "참여빈도",
-            "leader":0,
+            "leader_nickname":"test",
             "participation_success":1,
         },
         {
@@ -91,7 +91,7 @@ export default function MyChallenge(){
             "min_deposit": 1000,
             "return_type": 1,
             "auth_frequency": "참여빈도",
-            "leader":1,
+            "leader_nickname":"hyewon",
             "participation_success":0,
         },
         {
@@ -114,7 +114,7 @@ export default function MyChallenge(){
             "min_deposit": 1000,
             "return_type": 1,
             "auth_frequency": "참여빈도",
-            "leader":1,
+            "leader_nickname":"hyewon",
             "participation_success":1,
         },
         {
@@ -137,7 +137,7 @@ export default function MyChallenge(){
             "min_deposit": 1000,
             "return_type": 1,
             "auth_frequency": "참여빈도",
-            "leader":1,
+            "leader_nickname":"hyewon",
             "participation_success":0,
         },
         {
@@ -160,7 +160,7 @@ export default function MyChallenge(){
             "min_deposit": 1000,
             "return_type": 1,
             "auth_frequency": "참여빈도",
-            "leader":0,
+            "leader_nickname":"test",
             "participation_success":1,
         },
         {
@@ -183,7 +183,7 @@ export default function MyChallenge(){
             "min_deposit": 1000,
             "return_type": 1,
             "auth_frequency": "참여빈도",
-            "leader":1,
+            "leader_nickname":"hyewon",
             "participation_success":0,
         },
         {
@@ -206,7 +206,7 @@ export default function MyChallenge(){
             "min_deposit": 1000,
             "return_type": 1,
             "auth_frequency": "참여빈도",
-            "leader":0,
+            "leader_nickname":"test",
             "participation_success":0,
         },
         {
@@ -229,7 +229,7 @@ export default function MyChallenge(){
             "min_deposit": 1000,
             "return_type": 1,
             "auth_frequency": "참여빈도",
-            "leader":1,
+            "leader_nickname":"hyewon",
             "participation_success":0,
         },
         {
@@ -252,7 +252,7 @@ export default function MyChallenge(){
             "min_deposit": 1000,
             "return_type": 1,
             "auth_frequency": "참여빈도",
-            "leader":0,
+            "leader_nickname":"test",
             "participation_success":0,
         },
         {
@@ -275,7 +275,7 @@ export default function MyChallenge(){
             "min_deposit": 1000,
             "return_type": 1,
             "auth_frequency": "참여빈도",
-            "leader":1,
+            "leader_nickname":"hyewon",
             "participation_success":0,
         },
         {
@@ -298,7 +298,7 @@ export default function MyChallenge(){
             "min_deposit": 1000,
             "return_type": 1,
             "auth_frequency": "참여빈도",
-            "leader":1,
+            "leader_nickname":"hyewon",
             "participation_success":0,
         },
         {
@@ -321,7 +321,7 @@ export default function MyChallenge(){
             "min_deposit": 1000,
             "return_type": 1,
             "auth_frequency": "참여빈도",
-            "leader":1,
+            "leader_nickname":"hyewon",
             "participation_success":0,
         },
     ];
@@ -387,7 +387,7 @@ export default function MyChallenge(){
                 finishedList.push(challenge);
             }
 
-            if (challenge.leader) {
+            if (challenge.leader_nickname == user_name) {
                 leaderList.push(challenge);
             }
         });
@@ -401,6 +401,11 @@ export default function MyChallenge(){
         setOnProgressChallengeList(onProgressSortedList);
         setFinishedChallengeList(finishedList);
         setLeaderChallengeList(leaderList);
+
+        console.log("finished List", finishedList);
+        console.log("onProgressSortedList", onProgressSortedList);
+        console.log("dueList", dueList);
+        console.log("leaderList", leaderList);
     }, [challengeList])
     
     if(isLoggedIn && loading){
