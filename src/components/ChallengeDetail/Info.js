@@ -4,7 +4,11 @@ export default function Info({challengeData}){
     
     const left_people = challengeData.max_people - challengeData.now_people;
 
-    const application_period = new Date(challengeData.start_date) - 1;
+    const application_period = challengeData.start_date ? new Date(challengeData.start_date) : "";
+    if(application_period){
+        application_period.setDate(application_period.getDate()-1);
+    }
+    // console.log("application_period", challengeData.start_date, application_period)
 
     const [tab, setTab] = useState("basic_info");
 
@@ -48,7 +52,7 @@ export default function Info({challengeData}){
                     <div className="flex flex-col gap-2 px-2 text-[#6E6053] font-medium">
                         <div className="flex flex-row gap-1 text-[13px]">
                             <div className="w-[100px] font-semibold">신청기간</div>
-                            <div className="text-[#B8AA96]">~{application_period}</div>
+                            <div className="text-[#B8AA96]">~{application_period ? application_period.toISOString().split('T')[0]: ''}</div>
                         </div>
                         <div className="flex flex-row gap-1 text-[13px]">
                             <div className="w-[100px] font-semibold">인증기간</div>

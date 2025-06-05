@@ -19,17 +19,17 @@ export default function ChallengeDetail() {
   const location = useLocation();
 
   const { tab, challenge } = location.state || {};
-  console.log("challenge",challenge);
+  // console.log("challenge",challenge);
 
   const { isLoggedIn, user_token, user_name } = useAuthStore();
 
   const { id } = useParams(); // URL에 있는 id 값(challenge_id) 가져오기
-  console.log("challengeID",id);
+  // console.log("challengeID",id);
 
   const [loading, setLoading] = useState(challenge && !isLoggedIn ? false : true);
   const [challengeData, setChallengeData] = useState(challenge ? challenge : {});
-  const [userChallengeData, setUserChallengeData] = useState({});
-  console.log("loading", loading, "challengeData", challengeData);
+  const [userChallengeData, setUserChallengeData] = useState({"status": 0});
+  // console.log("loading", loading, "challengeData", challengeData);
 
   const dummyChallengeData = {
     "challenge_id" : 1,
@@ -39,8 +39,8 @@ export default function ChallengeDetail() {
     "challenge_descripton": "챌린지 1 입니다",
     "category": "STUDY",
     "challenge_public": true,
-    "start_date": "2025-02-21",
-    "end_date": "2025-05-21",
+    "start_date": "2025-06-08",
+    "end_date": "2025-06-21",
     "auth_time_start": "06:00",
     "auth_time_end": "22:00",
     "max_people": 10,
@@ -55,7 +55,7 @@ export default function ChallengeDetail() {
   };
 
   const dummyUserChallengeData = {
-    "status": 1, // 0: ready, 1: progress, 2: completed
+    "status": 0, // 0: ready, 1: progress, 2: completed
     "participaton_success": true,
     "deposit_amount": 10000,
     "deposit_status": 2, // 0: refunded, 1: donated, 2: not_refunded_yet
@@ -66,7 +66,6 @@ export default function ChallengeDetail() {
 
   useEffect(()=>{
     const getChallengeData = async()=>{
-      console.log("getChallengeData");
       try {
         const res = await fetch(`http://localhost:8080/challenge/${id}`, {
             method: 'GET',
@@ -95,7 +94,6 @@ export default function ChallengeDetail() {
 
     const getUserChallengeData = async()=>{
       try {
-        console.log("getUserChallengeData");
         const res = await fetch(`http://localhost:8080/challenge/my/${id}`, {
             method: 'GET',
             headers: {
@@ -152,16 +150,16 @@ export default function ChallengeDetail() {
     navigate(`/challenge/${id}/edit`, {challenge: challengeData});
   }
 
-  // if(loading){
-  //     return(
-  //     <div className="bg-white flex flex-row justify-center w-full">
-  //         <div className="bg-white w-[393px] h-[852px] relative">
-  //             <div className="w-full h-full grid items-center">
-  //                 <div className="spinner"></div>
-  //             </div>
-  //         </div>
-  //     </div>)
-  // }
+  if(loading){
+      return(
+      <div className="bg-white flex flex-row justify-center w-full">
+          <div className="bg-white w-[393px] h-[852px] relative">
+              <div className="w-full h-full grid items-center">
+                  <div className="spinner"></div>
+              </div>
+          </div>
+      </div>)
+  }
 
   return (
     <div className="bg-white flex flex-row justify-center w-full">
@@ -216,7 +214,7 @@ export default function ChallengeDetail() {
       
         {/* Footer Navigation */}
         {navTab == "info" ?
-        <ChallengeFooter status={userChallengeData.status} challengeID={id} setChallengeData={setChallengeData} participant_list={challengeData.participant_list} isLoggedIn={isLoggedIn} setRequestLogin={setRequestLogin}/> : ""}
+        <ChallengeFooter chall_status={status} status={userChallengeData.status} challengeID={id} setChallengeData={setChallengeData} participant_list={challengeData.participant_list} isLoggedIn={isLoggedIn} setRequestLogin={setRequestLogin}/> : ""}
       </div>
 
       {!isLoggedIn && requestLogin ? <RequestLogin onClose={setRequestLogin} purpose="참가"/> : "" }

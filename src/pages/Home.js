@@ -34,7 +34,7 @@ const Home = () => {
 
   const challenges = [
     {
-      id: 1,
+      challenge_id: 1,
       title: '하루 30분 운동',
       start_date: '2025-05-03',
       end_date: '2025-05-10',
@@ -44,7 +44,7 @@ const Home = () => {
       invite_code: '123456' //테스트용
     },
     {
-      id: 2,
+      challenge_id: 2,
       title: '30분 독서',
       start_date: '2025-05-02',
       end_date: '2025-05-05',
@@ -53,7 +53,7 @@ const Home = () => {
       image: books
     },
     {
-      id: 3,
+      challenge_id: 3,
       title: '일어나서 물 한 잔',
       start_date: '2025-05-04',
       end_date: '2025-05-09',
@@ -62,7 +62,7 @@ const Home = () => {
       image: water
     },
     {
-      id: 4,
+      challenge_id: 4,
       title: '아침 8시 기상',
       start_date: '2025-05-06',
       end_date: '2025-05-12',
@@ -71,7 +71,7 @@ const Home = () => {
       image: sun
     },
     {
-      id: 4,
+      challenge_id: 4,
       title: '아침 8시 기상',
       start_date: '2025-05-06',
       end_date: '2025-05-12',
@@ -80,7 +80,7 @@ const Home = () => {
       image: sun
     },
     {
-      id: 4,
+      challenge_id: 4,
       title: '아침 8시 기상',
       start_date: '2025-05-06',
       end_date: '2025-05-12',
@@ -89,7 +89,7 @@ const Home = () => {
       image: sun
     },
     {
-      id: 4,
+      challenge_id: 4,
       title: '아침 8시 기상',
       start_date: '2025-05-06',
       end_date: '2025-05-12',
