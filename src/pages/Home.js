@@ -10,6 +10,7 @@ import bannerImage from '../assets/images/common/bannerimage.png';
 import ChallengeCard from "../components/Challenge/ChallengeCard";
 import useAuthStore from "../components/User/UseAuthStore.js";
 import RequestLogin from "../components/ChallengeDetail/RequestLogin";
+import InviteCodeModal from '../components/Challenge/InviteCodeModal.js';
 
 import "../styles/Challenge/ChallengeCard.css";
 import "../styles/Home/Home.css";
@@ -22,6 +23,11 @@ const Home = () => {
   const [activeTab, setActiveTab] = useState('participating');
   const [activeCategory, setActiveCategory] = useState('전체');
   const [query, setQuery] = useState("");
+
+  const [showInviteModal, setShowInviteModal] = useState(false);
+  const [challengeID, setChallengeID] = useState("");
+  const [correctCode, setCorrectCode] = useState("123456");
+
   const navigate = useNavigate();
 
   const categories = ['전체', '운동', '공부', '생활', '기타'];
@@ -153,9 +159,9 @@ const Home = () => {
 
         {/* 카테고리 */}
         <div className="flex-none flex justify-center gap-3 mt-[20px]">
-          {categories.map((category) => (
+          {categories.map((category, idx) => (
             <button
-              key={category}
+              key={idx}
               className={`px-3 py-1 rounded-[5px] text-sm ${
                 activeCategory === category
                   ? 'bg-[#6E6053] text-white'
@@ -172,7 +178,8 @@ const Home = () => {
         <div className="flex-1 overflow-y-auto p-4 pb-[18px] main overflow-scroll">
           <div className="grid grid-cols-2 gap-4">
           {filteredChallenges.map((challenge) => (
-            <ChallengeCard key={challenge.id} challenge={challenge} />
+            <ChallengeCard key={challenge.id} challenge={challenge} 
+              setShowInviteModal={setShowInviteModal} setCorrectCode={setCorrectCode} setChallengeID={setChallengeID}/>
           ))}
           </div>
         </div>
@@ -181,6 +188,14 @@ const Home = () => {
       </div>
       <Footer page="home" />
       {!isLoggedIn && requestLogin ? <RequestLogin onClose={setRequestLogin} purpose={"생성"}/> : "" }
+    
+      {showInviteModal && (
+        <InviteCodeModal
+          onClose={() => setShowInviteModal(false)}
+          challengeId={challengeID}
+          correctCode={correctCode}
+        />
+      )}
     </div>
   );
 };

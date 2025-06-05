@@ -25,6 +25,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import SuccessRateSection from "./SuccessRateSection";
 import ProfileEditModal from "./ProfileEditModal";
 import useAuthStore from "../User/UseAuthStore";
+import SecedeModal from "./SecedeModal";
 
 export default function AfterLoginMP({logout}) {
 
@@ -115,6 +116,7 @@ export default function AfterLoginMP({logout}) {
     
 
   const [showPEModal, setShowPEModal] = useState(false);
+  const [showSEModal, setShowSEModal] = useState(false);
 
   const navigate = useNavigate();
 
@@ -222,12 +224,15 @@ export default function AfterLoginMP({logout}) {
           <h3 className="text-sm font-semibold text-[#6e6053] ml-[2px]">
             이용 안내
           </h3>
-          <button className="text-xs text-[#6e6053] mt-1 ml-1" >1:1 문의</button>
-          <button className="text-xs text-[#6e6053] mt-1 ml-1" >약관 및 정책</button>
+          <div className="flex flex-col">
+            <button className="text-xs text-[#6e6053] text-left mt-1 ml-1" >1:1 문의</button>
+            <button className="text-xs text-[#6e6053] text-left mt-1 ml-1" >약관 및 정책</button>
+            <button className="text-xs text-[#6e6053] text-left mt-1 ml-1" onClick={()=>{setShowSEModal(true)}} >탈퇴하기</button>
+          </div>
         </div>
 
         {showPEModal && <ProfileEditModal origNickname={userData.nickname} origPI={userData.profileImage} origDescription={userData.description} onClose={setShowPEModal} changeUserData={setUserData}/>}
-
+        {showSEModal && <SecedeModal onClose={setShowSEModal} user_token={user_token} logout={logout}/>}
       </main>
   );
 }

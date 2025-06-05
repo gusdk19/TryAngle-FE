@@ -2,8 +2,11 @@ import React, {useState, useEffect} from 'react';
 import Header from '../components/Header';
 import { useNavigate } from 'react-router-dom';
 import "../styles/user/user.css";
+import useAuthStore from '../components/User/UseAuthStore';
 
 export default function FindEmail(){
+
+    const {user_token} = useAuthStore();
 
     const navigate = useNavigate();
     
@@ -36,6 +39,8 @@ export default function FindEmail(){
         const newErrors = isCNValid ? [] : ["⚠ 인증번호가 올바르지 않습니다"];
 
         if (!isPNValid) {
+            setSendCN(false);
+            setCN("");
             newErrors.push("⚠ 전화번호 형식이 올바르지 않습니다.");
         }
     
@@ -91,12 +96,35 @@ export default function FindEmail(){
     const [findEmailSuccess, setFindEmailSuccess] = useState(false);
     const [findEmail, setFindEmail] = useState("");
 
-    const handleClick=()=>{
+    const handleClick=async()=>{
         // 이메일 찾기 api
+        try {
+            const res = await fetch('http://localhost:8080/user/findId', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${user_token}`
+                },
+                body: JSON.stringify({ name: name, phone: phoneNumber }),
+            });
+
+            const data = await res.json();
+            console.log("find Email check", data.isSuccess, data.message)
+
+            if(data.isSuccess){
+                setFindEmail(data.result.email); 
+                setFindEmailSuccess(true);  
+            } else{
+                setFindEmail("fail");
+                setFindEmailSuccess(false);  
+            }
+        } catch (error) {
+            console.error('이메일 찾기 오류:', error);
+        }
         // 있으면
-        const getEmail = "example@gmail.com"; 
-        setFindEmail(getEmail); 
-        setFindEmailSuccess(true);     
+        // const getEmail = "example@gmail.com"; 
+        // setFindEmail(getEmail); 
+        // setFindEmailSuccess(true);     
 
         // 없으면
         // const getEmail = "none"; 
@@ -147,7 +175,7 @@ export default function FindEmail(){
                                         startTimer();
                                         // generateRandomNumber();
                                         }}>
-                                    {sendCN ? "재요청" : "인증요청"}
+                                    {sendCN && isPNValid ? "재요청" : "인증요청"}
                                 </button>
                             </div>
                         </div>

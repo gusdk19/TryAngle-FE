@@ -26,7 +26,7 @@ export default function ProfileEditModal({origNickname, onClose, changeUserData,
     const [prePI, setPrePI] = useState(origPI);
 
     useEffect(()=>{
-        setPrePI(prePI);
+        setPrePI(profileImage);
     }, [profileImage]);
 
     const basic_profile_image = [bpi_1, bpi_2, bpi_3, bpi_4, bpi_5, bpi_6, bpi_7, bpi_8, bpi_9, bpi_10, bpi_11, bpi_12];

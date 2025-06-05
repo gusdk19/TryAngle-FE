@@ -1,14 +1,22 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import FieldError from '../FieldError';
 import { useNavigate } from 'react-router-dom';
 
 
 export default function InviteCodeModal({ onClose, challengeId, correctCode }) {
+    const inputs = useRef([]);
+  
     const navigate = useNavigate();
     const [code, setCode] = useState(['', '', '', '', '', '']);
     const [errorMessage, setErrorMessage] = useState('');
 
     const handleChange = (value, index) => {
+        if (/^\d$/.test(value)) {
+          if (index < 5) {
+            inputs.current[index + 1].focus();
+          }
+        }
+        
         const newCode = [...code];
         newCode[index] = value;
         setCode(newCode);
@@ -29,8 +37,14 @@ export default function InviteCodeModal({ onClose, challengeId, correctCode }) {
         }
     };
 
+    const handleKeyDown = (e, index) => {
+      if (e.key === "Backspace" && !e.target.value && index > 0) {
+        inputs.current[index - 1].focus();
+      }
+    };
+
     return (
-    <div className="fixed inset-0 bg-white bg-opacity-80 flex justify-center items-center z-50">
+    <div className="absolute top-0 left-0 w-full h-full bg-white bg-opacity-80 flex justify-center items-center z-50">
       <div className="bg-[#FDF8ED] p-10 rounded w-[364px] h-[400px] relative">
         <button onClick={onClose} className=" text-[#6E6053] absolute top-3 right-3 w-8 h-8 text-2xl z-10 flex items-center justify-center hover:text-black">×</button>
         <h2 className=" text-[#6E6053] text-center text-[15px] font-bold mb-6">초대 코드</h2>
@@ -41,10 +55,12 @@ export default function InviteCodeModal({ onClose, challengeId, correctCode }) {
           {[...Array(6)].map((_, idx) => (
             <input
                 key={idx}
+                ref={(el) => (inputs.current[idx] = el)}
                 maxLength={1}
                 className="bg-[#D9D9D9] w-[40px] h-[40px] border rounded text-center text-lg"
                 value={code[idx]}
                 onChange={(e) => handleChange(e.target.value, idx)}
+                onKeyDown={(e) => handleKeyDown(e, idx)}
             />
             ))}
         </div>

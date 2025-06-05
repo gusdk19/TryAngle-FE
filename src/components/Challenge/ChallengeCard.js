@@ -1,21 +1,21 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import "../../styles/Challenge/ChallengeCard.css";
-import InviteCodeModal from "./InviteCodeModal";
+// import InviteCodeModal from "./InviteCodeModal";
 
-export default function ChallengeCard({challenge}) {
+export default function ChallengeCard({challenge, setShowInviteModal, setCorrectCode, setChallengeID}){
 
   const navigate = useNavigate();
 
-  const correctCode="123456";
+  // const correctCode="123456";
 
   const now = new Date();
   const startDate = new Date(challenge.start_date);
   const endDate = new Date(challenge.end_date);
   const timeDiff = startDate.getTime() - now.getTime();
   const dayDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
-  const [showInviteModal, setShowInviteModal] = useState(false);
+  // const [showInviteModal, setShowInviteModal] = useState(false);
 
   const statusLabel =
     now < startDate
@@ -33,6 +33,11 @@ export default function ChallengeCard({challenge}) {
       });
     }
   }
+
+  useEffect(()=>{
+    setCorrectCode("123456");
+    setChallengeID(challenge.challenge_id);
+  }, []);
 
   return (
     <>
@@ -58,13 +63,13 @@ export default function ChallengeCard({challenge}) {
         </div>
 
     </div>
-    {showInviteModal && (
+    {/* {showInviteModal && (
         <InviteCodeModal
           onClose={() => setShowInviteModal(false)}
           challengeId={challenge.challenge_id}
           correctCode={correctCode}
         />
-      )}
+      )} */}
   </>
   );
 }

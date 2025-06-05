@@ -13,6 +13,12 @@
     pointer-events : auto;
 }
 
+.react-calendar__navigation__label:hover,
+.react-calendar__navigation__arrow:hover{
+    border-radius : 20px;
+    background: inherit;
+}
+
 .react-calendar__navigation__label__labelText{
     font-weight: bold;
 }

@@ -8,6 +8,8 @@ export default function FindPW(){
     const navigate = useNavigate();
 
     const [email, setEmail] = useState("");
+    const [tempPW, setTempPW] = useState("");
+    const [message, setMessage] = useState("");
     const [isValid, setIsValid] = useState(true);
     const [errors, setErrors] = useState([]);
     const [openModal, setOpenModal] = useState(false);
@@ -50,15 +52,38 @@ export default function FindPW(){
                     newErrors.push("⚠ 이메일을 입력해주세요.");
                     setEmail("");
                 } else if(email.length > 0 && errors.length == 0){
-                    // 비밀번호 재설정 api 
-                    setOpenModal(true);
+                    // 비밀번호 재설정 api
+                    try {
+                        const res = await fetch('http://localhost:8080/user/resetPassword', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({ email: email }),
+                        });
+
+                        const data = await res.json();
+                        console.log("set new password check", data.isSuccess, data.message);
+
+                        if(data.isSuccess){
+                            setTempPW(data.result);
+                            setMessage(data.message);
+                            setOpenModal(true);
+                        } else{
+                            newErrors.push(data.message);
+                            setEmail("");
+                        }
+                    } catch (error) {
+                        console.error('비밀번호 변경 확인 오류:', error);
+                    }
                 }
             } else{
-                newErrors.push(`⚠ 사용자를 찾을 수 없습니다.`);
+                newErrors.push(`⚠ 비밀번호를 변경할 수 없습니다. 다시 시도해주십시오.\n`);
+                newErrors.push(`\u00A0\u00A0\u00A0\u00A0(변경 불가 사유 : 사용자를 찾을 수 없습니다.)`);
                 setEmail("");
             }
         } catch (error) {
-            console.error('이메일 확인 오류:', error);
+            console.error('임시 비밀번호 이메일 전달 오류:', error);
         }
 
         setErrors(newErrors);
@@ -72,7 +97,7 @@ export default function FindPW(){
             <div className="mx-[34px]">
                 <div className="flex flex-col gap-[9px] mt-[20px]">
                     <div className="flex flex-col gap-1">
-                        <label className="pl-[3px] mb-[5px] text-[#838687] font-bold text-[14px]" for="email">이메일 주소</label>
+                        <label className="pl-[3px] mb-[5px] text-[#838687] font-bold text-[14px]" htmlFor="email">이메일 주소</label>
                         <input 
                             id="email" 
                             className="input text-[#838687] placeholder-[#d9d9d9]" 
@@ -103,7 +128,7 @@ export default function FindPW(){
                 </div>
             </div>
 
-            {openModal ? <ChangePWModal onClose={setOpenModal} /> : ""}
+            {openModal ? <ChangePWModal onClose={setOpenModal} tempPW={tempPW} setTempPw={setTempPW} setEmail={setEmail} message={message} email={email}/> : ""}
         </div>
     )
 }

@@ -324,6 +324,31 @@ export default function MyChallenge(){
         },
     ])
 
+    useEffect(()=>{
+        const getChallengeList = async ()=>{
+            try {
+                const res = await fetch('http://localhost:8080/challenge/my', {
+                    method: 'GET',
+                    headers: {
+                        // 'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${user_token}`
+                    },
+                });
+    
+                const data = await res.json();
+                console.log("user Data check", data.isSuccess, data.result);
+    
+                if(data.isSuccess){
+                    setChallengeList(data.result);
+                } else{
+                    console.log(`⚠ ${data.message}`);
+                }
+            } catch (error) {
+                console.error('마이페이지 조회 오류:', error);
+            }
+            }
+    }, []);
+
     // 모든 챌린지를 start_date 기준으로 역순 정렬
     const sortedChallengeList = [...challengeList].sort(
         (a, b) => new Date(b.start_date) - new Date(a.start_date)
