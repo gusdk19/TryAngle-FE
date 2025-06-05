@@ -10,7 +10,7 @@ export default function MyPage() {
 
   const location = useLocation();
 
-  const { isLoggedIn, login, logout } = useAuthStore();
+  const { isLoggedIn, login, logout, setUserName } = useAuthStore();
   // const {success} = location.state || {};
 
   console.log(isLoggedIn, "isLoggedIn");
@@ -27,7 +27,7 @@ export default function MyPage() {
         {/* Main Content */}
         {!isLoggedIn ? 
           <BeforeLoginMP />
-          :<AfterLoginMP logout={logout}/>}
+          :<AfterLoginMP logout={logout} setUserName={setUserName}/>}
         
 
         {/* Footer Navigation */}

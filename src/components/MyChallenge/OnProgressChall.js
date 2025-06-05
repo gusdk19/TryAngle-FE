@@ -53,6 +53,7 @@ export default function OnProgressChall({onProgressChallengeList, dueChallengeLi
                         return(
                             <div className="card" key={challenge.challenge_id} onClick={()=>{navigate(`/challenge/${challenge.challenge_id}`, {state:{
                                 tab: "info",
+                                challenge: challenge,
                             }})}}>
                                 <div className='card-image flex flex-col'>
                                     <div className='chall-title flex-none'>{challenge.challenge_name}</div>

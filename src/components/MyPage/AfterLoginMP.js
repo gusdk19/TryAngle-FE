@@ -27,7 +27,7 @@ import ProfileEditModal from "./ProfileEditModal";
 import useAuthStore from "../User/UseAuthStore";
 import SecedeModal from "./SecedeModal";
 
-export default function AfterLoginMP({logout}) {
+export default function AfterLoginMP({logout, setUserName}) {
 
   const location = useLocation();
 
@@ -37,6 +37,21 @@ export default function AfterLoginMP({logout}) {
 
   // User data
   const [userData, setUserData] = useState(origUserData ? origUserData : false);
+
+  const dummyUserData = {
+    userId: 1,
+    email: "tryangle@gmail.com",
+    name: "이현아",
+    phone: "01012345678",
+    description: "화이팅!",
+    nickname: "효나츄",
+    profileImage: bpi_12,
+    challengeMoney: 300000,
+    returnMoney: totalReturn ? totalReturn : 120000,
+    followers: follower ? follower : 2,
+    followees: following ? following : 2,
+    badgeDescription: "챌린지 중독자",
+  };
 
   // Loading
   const [loading, setLoading] = useState(origUserData ? false : true);
@@ -61,23 +76,12 @@ export default function AfterLoginMP({logout}) {
 
             if(data.isSuccess){
                 setUserData(data.result);
+                setUserName(data.result.name);
             } else{
                 console.log(`⚠ ${data.message}`);
 
-                setUserData({
-                  userId: 1,
-                  email: "tryangle@gmail.com",
-                  name: "이현아",
-                  phone: "01012345678",
-                  description: "화이팅!",
-                  nickname: "효나츄",
-                  profileImage: bpi_12,
-                  challengeMoney: 300000,
-                  returnMoney: totalReturn ? totalReturn : 120000,
-                  followers: follower ? follower : 2,
-                  followees: following ? following : 2,
-                  badgeDescription: "챌린지 중독자",
-                })
+                setUserData(dummyUserData);
+                setUserName(dummyUserData.name);
             }
             setLoading(false);
         } catch (error) {
