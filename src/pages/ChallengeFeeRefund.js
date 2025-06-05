@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
-import { useParams } from 'react-router-dom';
+import "../styles/Challenge/ChallengeFeeRefund.css";
 
 export default function ChallengeFeeRefund() {
 
@@ -29,7 +29,7 @@ export default function ChallengeFeeRefund() {
 
   const isValidAmount = (amountStr) => {
     const amount = parseInt(removeCommas(amountStr), 10);
-    return amount >= 1000 && amount <= 200000 && amount % 10000 === 0;
+    return amount >= 1000 && amount <= 200000 && amount % 1000 === 0;
   }
 
   const handleCharge = () => {
@@ -41,10 +41,13 @@ export default function ChallengeFeeRefund() {
     }
 
     if (!isValidAmount(inputAmount)) {
-      setError('⚠ 1천원 이상 20만원 이하, 1만원 단위로 입력해주세요');
+      setError('⚠ 1천원 이상 20만원 이하, 1천원 단위로 입력해주세요');
       return;
     }
 
+    // status(참여상태) : 1로 바꾸는 api post 또는 put 요청 필요
+
+    navigate(`/challenge/${challengeID}`, {state:{tab: "info", updatedStatus : 1}});
   }
 
   return (
@@ -54,7 +57,7 @@ export default function ChallengeFeeRefund() {
         <Header title="참가비 설정" />
 
         {/* 안내 문구 및 입력 영역 */}
-        <main className="flex-1 max-h-[690px] overflow-scroll px-4 pb-4">
+        <main className="flex-1 max-h-[690px] overflow-scroll scrollbar-hide px-4 pb-4">
           <div className="flex flex-col gap-6">
             <section>
               <h2 className="pt-8 text-[26px] font-bold">챌린지 비용 💰</h2>
@@ -68,7 +71,7 @@ export default function ChallengeFeeRefund() {
                 type="text"                
                 value={inputAmount}
                 onChange={handleInputChange}
-                className="w-full text-lg py-2 outline-none border-b border-black block"
+                className="w-full text-[25px] text-center font-bold py-2 outline-none border-b border-black block"
               />
               <p className='text-sm mt-1 text-[#5C5C5C]'>
                 최소 1,000원 ~ 최대 200,000원 (1천원, 1만원 단위 가능)

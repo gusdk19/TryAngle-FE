@@ -61,6 +61,10 @@ export default function Add() {
     const [depositTypeError, setDepositTypeError] = useState(false);
     const [amountError, setAmountError] = useState(false);
 
+
+    const [depositManageMethod, setDepositManageMethod] = useState('');
+    const [depositManageMethodError, setDepositManageMethodError] = useState('');
+    
     const [challAuth, setChallAuth] = useState('');
     const [challAuthError, setChallAuthError] = useState('');
 
@@ -174,6 +178,11 @@ export default function Add() {
         if (amount.trim() === '') {
         setAmountError(true);
         hasError = true;
+        }
+
+        if(depositManageMethod.trim() === ''){
+            setDepositManageMethodError(true);
+            hasError = true;
         }
 
         if (challAuth.trim() === '') {
@@ -477,6 +486,11 @@ export default function Add() {
                                 {/* 선택한 방식에 따라 동적으로 안내 문구 변경 */}
                                 <textarea
                                     className="w-full border rounded-md px-3 py-2 text-sm"
+                                    value={challAuth}
+                                    onChange={(e) => {
+                                    setChallAuth(e.target.value);
+                                    setChallAuthError(false);
+                                    }}
                                     placeholder={
                                     depositType === '예치금'
                                         ? '예치금 관리 방식을 설명해주세요.'

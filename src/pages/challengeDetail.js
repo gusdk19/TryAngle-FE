@@ -18,7 +18,7 @@ export default function ChallengeDetail() {
 
   const location = useLocation();
 
-  const { tab, challenge } = location.state || {};
+  const { tab, challenge, updatedStatus } = location.state || {};
   // console.log("challenge",challenge);
 
   const { isLoggedIn, user_token, user_name } = useAuthStore();
@@ -28,7 +28,7 @@ export default function ChallengeDetail() {
 
   const [loading, setLoading] = useState(challenge && !isLoggedIn ? false : true);
   const [challengeData, setChallengeData] = useState(challenge ? challenge : {});
-  const [userChallengeData, setUserChallengeData] = useState({"status": 0});
+  const [userChallengeData, setUserChallengeData] = useState({"status": updatedStatus || 0});
   // console.log("loading", loading, "challengeData", challengeData);
 
   const dummyChallengeData = {
@@ -55,7 +55,7 @@ export default function ChallengeDetail() {
   };
 
   const dummyUserChallengeData = {
-    "status": 0, // 0: ready, 1: progress, 2: completed
+    "status": updatedStatus || 0, // 0: ready, 1: progress, 2: completed
     "participaton_success": true,
     "deposit_amount": 10000,
     "deposit_status": 2, // 0: refunded, 1: donated, 2: not_refunded_yet
@@ -106,7 +106,7 @@ export default function ChallengeDetail() {
         console.log("challenge User Data check", id, data.isSuccess, data.result);
 
           if(data.isSuccess){
-              setUserChallengeData(data.result);
+              setUserChallengeData(updatedStatus ? {...data.result, status : updatedStatus} : data.result);
           } else{
               console.log(`⚠ ${data.message}`);
               setUserChallengeData(dummyUserChallengeData);
@@ -187,16 +187,16 @@ export default function ChallengeDetail() {
                 <button className="flex-none my-auto mt-[6px] rounded-md px-1 text-[11px] w-[60px] h-[20px] text-white bg-[#6E6053] cursor-default">
                   {status == 0 ? "예정" : status == 1 ? "진행중" : "진행완료"}
                 </button>
-              </div>
+                <div className="flex-none">
+                  {status == 0 && dayDiff > 0 && <div className='cd-due-date'>D-{dayDiff}</div>}
+                </div>
+              </div>              
               {status == 0 && user_name == challengeData.leader_nickname && challengeData.now_people == 1 &&
                 <button className="flex-none rounded-md text-[13px] font-semibold px-4 mt-[3px] my-[2.75px] py-[0.5px] border-solid border-[#6E6053] border-[2px]" 
                   onClick={editChallenge}>
                   수정
                 </button>
               }
-            </div>
-            <div className="flex-none">
-              {dayDiff > 0 && <div className='due-date'>D-{dayDiff}</div>}
             </div>
           </div>
 

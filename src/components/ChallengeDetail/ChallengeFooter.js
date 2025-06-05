@@ -23,10 +23,10 @@ export default function ChallengeFooter({status, challengeID, setChallengeData, 
                     }))
                 }
                 else if(status === 0){
-                    setChallengeData((prev) => ({
-                        ...prev,
-                        status: 1,
-                    }))
+                    // setChallengeData((prev) => ({
+                    //     ...prev,
+                    //     status: 1,
+                    // }))
                     navigate (`/challenge/${challengeID}/fee`);
                     // fee 부분에서 status 값이 1로 바뀌도록 해야함.
                 }
