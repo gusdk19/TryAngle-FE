@@ -44,6 +44,7 @@ export default function FinishChall({finishedChallengeList }){
                     return(
                         <div className={`${challenge.participation_success ? "card-success" : "card-fail"}`} onClick={()=>{navigate(`/challenge/${challenge.challenge_id}`, {state:{
                             tab: "info",
+                            challenge: challenge,
                         }})}}>
                             <div className='card-image flex flex-col'>
                                 <div className='chall-title flex-none'>{challenge.challenge_name}</div>

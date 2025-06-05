@@ -19,10 +19,12 @@ export default function MyChallenge(){
     const page = "myChallenge";
 
     const [tab, setTab] = useState("onProgress") // tab(3) - onProgress(참여중), finish(참여완료), create(개설)
+    const [loading, setLoading] = useState(true);
 
-    const { isLoggedIn, login, logout } = useAuthStore();
+    const { isLoggedIn, login, logout, user_token } = useAuthStore();
 
-    const [challengeList, setChallengeList] = useState([
+    const [challengeList, setChallengeList] = useState([]);
+    const dummyChallengeList = [
         {
             "challenge_id" : 0,
             "challenge_name": "챌린지 0",
@@ -322,7 +324,7 @@ export default function MyChallenge(){
             "leader":1,
             "participation_success":0,
         },
-    ])
+    ];
 
     useEffect(()=>{
         const getChallengeList = async ()=>{
@@ -342,11 +344,15 @@ export default function MyChallenge(){
                     setChallengeList(data.result);
                 } else{
                     console.log(`⚠ ${data.message}`);
+                    setChallengeList(dummyChallengeList);
                 }
+                setLoading(false);
             } catch (error) {
                 console.error('마이페이지 조회 오류:', error);
             }
-            }
+        }
+        
+        getChallengeList();
     }, []);
 
     // 모든 챌린지를 start_date 기준으로 역순 정렬
@@ -397,6 +403,22 @@ export default function MyChallenge(){
         setLeaderChallengeList(leaderList);
     }, [challengeList])
     
+    if(isLoggedIn && loading){
+        return(
+        <div className="bg-white flex flex-row justify-center w-full">
+            <div className="bg-white w-[393px] h-[852px] relative">
+                {/* Header */}
+                <Header title={"마이챌린지"}/>
+                
+                <div className="w-full h-[700px] grid items-center">
+                    <div className="spinner"></div>
+                </div>
+
+                {/* Footer Navigation */}
+                <Footer page={page}/>
+            </div>
+        </div>)
+    }
 
     return(
         <div className="bg-white flex flex-row justify-center w-full">
