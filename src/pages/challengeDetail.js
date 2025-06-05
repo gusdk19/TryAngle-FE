@@ -106,6 +106,7 @@ export default function ChallengeDetail() {
         console.log("challenge User Data check", id, data.isSuccess, data.result);
 
           if(data.isSuccess){
+              // challengeFeeRefund에서 post만 제대로 되면 data.result 저장하는 것만으로 충분
               setUserChallengeData(updatedStatus ? {...data.result, status : updatedStatus} : data.result);
           } else{
               console.log(`⚠ ${data.message}`);
