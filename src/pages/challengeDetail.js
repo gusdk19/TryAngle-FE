@@ -21,7 +21,7 @@ export default function ChallengeDetail() {
   const { tab, challenge, updatedStatus, prevPage } = location.state || {};
   // console.log("challenge",challenge);
 
-  const { isLoggedIn, user_token, user_name } = useAuthStore();
+  const { isLoggedIn, user_token, user_nickName } = useAuthStore();
 
   const { id } = useParams(); // URL에 있는 id 값(challenge_id) 가져오기
   // console.log("challengeID",id);
@@ -44,11 +44,11 @@ export default function ChallengeDetail() {
     "auth_time_start": "06:00",
     "auth_time_end": "22:00",
     "max_people": 10,
-    "now_people" : 8,
+    "now_people" : 1,
     "min_deposit": 1000,
     "return_type": 1,
     "auth_frequency": "참여빈도",
-    "leader_nickname" : "test",
+    "leader_nickname" : "hyewon",
     "vertify_method" : "인증방법 소개글 + 참가 멤버 인증 투표 안내",
     "description": "챌린지 내용 + 예치금 관련 공지",
     "participant_list" : [3],
@@ -199,7 +199,7 @@ export default function ChallengeDetail() {
                   {status == 0 && dayDiff > 0 && <div className='cd-due-date'>D-{dayDiff}</div>}
                 </div>
               </div>              
-              {status == 0 && user_name == challengeData.leader_nickname && challengeData.now_people == 1 &&
+              {status == 0 && user_nickName == challengeData.leader_nickname && challengeData.now_people == 1 &&
                 <button className="flex-none rounded-md text-[13px] font-semibold px-4 mt-[3px] my-[2.75px] py-[0.5px] border-solid border-[#6E6053] border-[2px]" 
                   onClick={editChallenge}>
                   수정

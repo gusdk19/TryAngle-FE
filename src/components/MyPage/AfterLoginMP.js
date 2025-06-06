@@ -27,7 +27,7 @@ import ProfileEditModal from "./ProfileEditModal";
 import useAuthStore from "../User/UseAuthStore";
 import SecedeModal from "./SecedeModal";
 
-export default function AfterLoginMP({logout, setUserName}) {
+export default function AfterLoginMP({logout, setUserNickName}) {
 
   const location = useLocation();
 
@@ -76,12 +76,12 @@ export default function AfterLoginMP({logout, setUserName}) {
 
             if(data.isSuccess){
                 setUserData(data.result);
-                setUserName(data.result.name);
+                setUserNickName(data.result.nickname);
             } else{
                 console.log(`⚠ ${data.message}`);
 
                 setUserData(dummyUserData);
-                setUserName(dummyUserData.name);
+                setUserNickName(dummyUserData.nickname);
             }
             setLoading(false);
         } catch (error) {
