@@ -1,6 +1,6 @@
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import "../styles/challengeDetail/challengeDetail.css";
 
@@ -18,7 +18,7 @@ export default function ChallengeDetail() {
 
   const location = useLocation();
 
-  const { tab, challenge, updatedStatus } = location.state || {};
+  const { tab, challenge, updatedStatus, prevPage } = location.state || {};
   // console.log("challenge",challenge);
 
   const { isLoggedIn, user_token, user_name } = useAuthStore();
@@ -65,6 +65,8 @@ export default function ChallengeDetail() {
   };
 
   useEffect(()=>{
+    const start = Date.now();
+
     const getChallengeData = async()=>{
       try {
         const res = await fetch(`http://localhost:8080/challenge/${id}`, {
@@ -85,7 +87,10 @@ export default function ChallengeDetail() {
         }
 
         if(!isLoggedIn){
-          setLoading(false);
+          //최소 0.4초 대기
+          const elapsed = Date.now() - start;
+          const delay = Math.max(600 - elapsed, 0); // 0.4초보다 적게 걸렸다면 남은 시간만큼 대기
+          setTimeout(() => setLoading(false), delay);
         }
       } catch (error) {
           console.error('개별 챌린지 조회 오류:', error);
@@ -112,12 +117,14 @@ export default function ChallengeDetail() {
               console.log(`⚠ ${data.message}`);
               setUserChallengeData(dummyUserChallengeData);
           }
-          setLoading(false);
+          //최소 0.4초 대기
+          const elapsed = Date.now() - start;
+          const delay = Math.max(600 - elapsed, 0); // 0.4초보다 적게 걸렸다면 남은 시간만큼 대기
+          setTimeout(() => setLoading(false), delay);
       } catch (error) {
           console.error('개별 챌린지에 관한 유저 참여 정보 조회 오류:', error);
       }
     }
-    
 
     if(challenge == undefined){
       getChallengeData();
@@ -148,7 +155,7 @@ export default function ChallengeDetail() {
   const status = now < startDate ? 0 : now > endDate ? 2 : 1; // 0 : 예정, 1 : 진행중, 2 : 진행 완료료 
 
   const editChallenge = ()=>{
-    navigate(`/challenge/${id}/edit`, {challenge: challengeData});
+    navigate(`/challenge/${id}/edit`, {challenge: challengeData, prePage: 'home'});
   }
 
   if(loading){
@@ -166,7 +173,7 @@ export default function ChallengeDetail() {
     <div className="bg-white flex flex-row justify-center w-full">
       <div className="bg-white w-[393px] h-[852px] relative">
         {/* Header */}
-        <Header title={challengeData.challenge_name} page={page}/>
+        <Header title={challengeData.challenge_name} page={page} prevPage={prevPage} id={challengeData.challenge_id}/>
         <hr className="m-0"/>
         {isLoggedIn ? <DetailNav tab={navTab} setTab={setNavTab}/> 
         : <div className="my-3"></div>}
@@ -215,7 +222,7 @@ export default function ChallengeDetail() {
       
         {/* Footer Navigation */}
         {navTab == "info" ?
-        <ChallengeFooter chall_status={status} status={userChallengeData.status} challengeID={id} setChallengeData={setChallengeData} participant_list={challengeData.participant_list} isLoggedIn={isLoggedIn} setRequestLogin={setRequestLogin}/> : ""}
+        <ChallengeFooter chall_status={status} status={userChallengeData.status} challengeID={id} setUserChallengeData={setUserChallengeData} participant_list={challengeData.participant_list} isLoggedIn={isLoggedIn} setRequestLogin={setRequestLogin} prevPage={prevPage} /> : ""}
       </div>
 
       {!isLoggedIn && requestLogin ? <RequestLogin onClose={setRequestLogin} purpose="참가"/> : "" }

@@ -28,7 +28,7 @@ export default function EditChallenge() {
 
     const location = useLocation();
 
-    const { challenge } = location.state || {};
+    const { challenge, prevPage } = location.state || {};
 
     const [updatedChallenge, setUpdatedChallenge] = useState(challenge || {});
 
@@ -239,7 +239,8 @@ export default function EditChallenge() {
                 deposit_manage_method: depositManageMethod,
                 auth_method: challAuth,
                 vote_method : challVote
-            }}});
+            },
+            prevPage: prevPage}});
         }
         
 
