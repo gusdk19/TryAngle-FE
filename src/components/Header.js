@@ -68,7 +68,7 @@ export default function Header(props){
                             }
                         } 
                         else if(page == "challengeDetail"){
-                            navigate(prevPage == 'fee' || prevPage == 'edit' ? '/' : -1);
+                            navigate(prevPage == 'home' ? '/' : -1);
                         }
                         else{
                             navigate(-1);

@@ -29,7 +29,7 @@ export default function ChallengeCard({challenge, setShowInviteModal, setCorrect
       setShowInviteModal(true);
     } else {
       navigate(`/challenge/${challenge.challenge_id}`, {
-        state: { tab: 'info' },
+        state: { tab: 'info', prevPage: 'home' },
       });
     }
   }

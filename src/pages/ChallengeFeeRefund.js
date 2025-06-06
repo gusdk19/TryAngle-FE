@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 import "../styles/Challenge/ChallengeFeeRefund.css";
 
 export default function ChallengeFeeRefund() {
+
+  const location = useLocation();
+
+  const {prevPage} = location.state || {};
 
   const [inputAmount, setInputAmount] = useState('');
   const [error, setError] = useState('');
@@ -47,7 +51,7 @@ export default function ChallengeFeeRefund() {
 
     // status(참여상태) : 1로 바꾸는 api post 또는 put 요청 필요
 
-    navigate(`/challenge/${challengeID}`, {state:{tab: "info", updatedStatus : 1, prevPage:"fee"}});
+    navigate(`/challenge/${challengeID}`, {state:{tab: "info", updatedStatus : 1, prevPage: prevPage}});
   }
 
   return (

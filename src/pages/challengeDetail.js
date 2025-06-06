@@ -155,7 +155,7 @@ export default function ChallengeDetail() {
   const status = now < startDate ? 0 : now > endDate ? 2 : 1; // 0 : 예정, 1 : 진행중, 2 : 진행 완료료 
 
   const editChallenge = ()=>{
-    navigate(`/challenge/${id}/edit`, {challenge: challengeData});
+    navigate(`/challenge/${id}/edit`, {challenge: challengeData, prePage: 'home'});
   }
 
   if(loading){
@@ -222,7 +222,7 @@ export default function ChallengeDetail() {
       
         {/* Footer Navigation */}
         {navTab == "info" ?
-        <ChallengeFooter chall_status={status} status={userChallengeData.status} challengeID={id} setUserChallengeData={setUserChallengeData} participant_list={challengeData.participant_list} isLoggedIn={isLoggedIn} setRequestLogin={setRequestLogin}/> : ""}
+        <ChallengeFooter chall_status={status} status={userChallengeData.status} challengeID={id} setUserChallengeData={setUserChallengeData} participant_list={challengeData.participant_list} isLoggedIn={isLoggedIn} setRequestLogin={setRequestLogin} prevPage={prevPage} /> : ""}
       </div>
 
       {!isLoggedIn && requestLogin ? <RequestLogin onClose={setRequestLogin} purpose="참가"/> : "" }
