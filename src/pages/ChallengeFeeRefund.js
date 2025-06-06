@@ -55,7 +55,6 @@ export default function ChallengeFeeRefund() {
       return;
     }
 
-
     // status(참여상태) : 1로 바꾸는 api post 또는 put 요청 필요
 
     navigate(`/challenge/${challengeID}`, {state:{tab: "info", updatedStatus : 1, prevPage: prevPage}});
