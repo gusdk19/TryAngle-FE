@@ -15,6 +15,9 @@ export default function Header(props){
     const userData = props.userData ? props.userData : {};
     const totalReturn = props.totalReturn ? props.totalReturn : "";
     const id = props.id ? props.id : "";
+    const prevPage = props.prevPage ? props.prevPage : -1;
+
+    console.log('prevPage',prevPage);
 
     const location = useLocation();
 
@@ -64,9 +67,9 @@ export default function Header(props){
                                 navigate('/mypage');
                             }
                         } 
-                        // else if(page == "challengeDetail"){
-                        //     navigate('/');
-                        // }
+                        else if(page == "challengeDetail"){
+                            navigate(prevPage == 'fee' || prevPage == 'edit' ? '/' : -1);
+                        }
                         else{
                             navigate(-1);
                         }

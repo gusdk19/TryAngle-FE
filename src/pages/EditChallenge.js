@@ -239,7 +239,8 @@ export default function EditChallenge() {
                 deposit_manage_method: depositManageMethod,
                 auth_method: challAuth,
                 vote_method : challVote
-            }}});
+            },
+            prevPage: "edit"}});
         }
         
 
