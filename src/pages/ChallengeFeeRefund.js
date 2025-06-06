@@ -33,17 +33,24 @@ export default function ChallengeFeeRefund() {
   }
 
   const handleCharge = () => {
-    const amount = removeCommas(inputAmount);
+    const amountStr = removeCommas(inputAmount);
+    const amount = parseInt(amountStr, 10);
 
-    if (!amount) {
+    if (!amountStr) {
       setError('⚠ 챌린지 비용을 입력해주세요');
       return;
     }
 
-    if (!isValidAmount(inputAmount)) {
-      setError('⚠ 1천원 이상 20만원 이하, 1천원 단위로 입력해주세요');
+    if (amount < 1000 || amount > 200000) {
+      setError('⚠ 1천원 이상 20만원 이하로 입력해주세요');
       return;
     }
+
+    if (amount % 1000 !== 0) {
+      setError('⚠ 1천원, 1만원 단위로 입력해주세요');
+      return;
+    }
+
 
     // status(참여상태) : 1로 바꾸는 api post 또는 put 요청 필요
 
