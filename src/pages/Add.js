@@ -107,6 +107,7 @@ export default function Add() {
     const [profileImageError, setProfileImageError] = useState('');
     const [prePI, setPrePI] = useState('');
     const [choiceBasicImage, setChoiceBasicImage] = useState(false);
+    const [imageFile, setImageFile] = useState(null);
 
     const navigate = useNavigate();
 
@@ -116,12 +117,11 @@ export default function Add() {
     ];
 
     const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
+        const file = e.target.files[0];
+        if (file) {
+        setImageFile(file);
         setProfileImage(URL.createObjectURL(file));
-        setPrePI('');
-        setProfileImageError(false);
-    }
+        }
     };
 
     useEffect(()=>{
@@ -151,8 +151,7 @@ export default function Add() {
 
         let hasError = false;
         //API 로직
-        const imageFile = document.getElementById('imageUpload')?.files[0];
-
+        
         const challengeData = {
             challenge_name: challengeName,
             challenge_shortintro: shortIntro,
