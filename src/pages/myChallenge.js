@@ -338,7 +338,7 @@ export default function MyChallenge(){
                 });
     
                 const data = await res.json();
-                console.log("user Data check", data.isSuccess, data.result);
+                console.log("my challenge Data check", data.isSuccess, data.result);
     
                 if(data.isSuccess){
                     setChallengeList(data.result);
@@ -348,7 +348,7 @@ export default function MyChallenge(){
                 }
                 setLoading(false);
             } catch (error) {
-                console.error('마이페이지 조회 오류:', error);
+                console.error('마이챌린지 페이지 조회 오류:', error);
             }
         }
         

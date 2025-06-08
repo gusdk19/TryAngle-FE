@@ -15,7 +15,7 @@ export default function Info({challengeData}){
     return(
         <div className="">
             <div className='pl-1 text-[12px] text-[#6E6053]'>
-                #{challengeData.challenge_shrotintro}
+                #{challengeData.challenge_shortintro}
             </div>
 
             {/* 모집 현황 */}
@@ -37,7 +37,7 @@ export default function Info({challengeData}){
             <div className="px-1 my-3">
                 <div className='flex gap-3 mb-2'>
                     <button className={`flex-none text-[11px] rounded-lg w-[85px] h-[20px] py-auto pt-[2px] text-center font-semibold
-                        ${tab=="vertify" ? "text-[#6E6053] bg-[#FDF8ED] font-medium" : "text-[#FDF8ED] bg-[#6E6053]"}`}
+                        ${tab=="basic_info" ? "text-[#FDF8ED] bg-[#6E6053]" : "text-[#6E6053] bg-[#FDF8ED] font-medium"}`}
                         onClick={()=>{setTab("basic_info")}}>
                         챌린지 소개
                     </button>
@@ -45,6 +45,11 @@ export default function Info({challengeData}){
                         ${tab=="vertify" ? "text-[#FDF8ED] bg-[#6E6053]" : "text-[#6E6053] pt-[2px] bg-[#FDF8ED] font-medium"}`}
                         onClick={()=>{setTab("vertify")}}>
                         인증방법
+                    </button>
+                    <button className={`flex-none text-[11px] rounded-lg w-[85px] h-[20px] py-auto pt-[2px] text-center font-semibold
+                        ${tab=="vote" ? "text-[#FDF8ED] bg-[#6E6053]" : "text-[#6E6053] pt-[2px] bg-[#FDF8ED] font-medium"}`}
+                        onClick={()=>{setTab("vote")}}>
+                        투표방법
                     </button>
                 </div>
                 <div>
@@ -64,11 +69,14 @@ export default function Info({challengeData}){
                         </div>
                         <div className="flex flex-col gap-1 text-[13px]">
                             <div className="w-[100px] font-semibold">[ 챌린지 내용 ]</div>
-                            <div className="text-[#B8AA96] px-1">{challengeData.description}</div>
+                            <div className="text-[#B8AA96] px-1">{challengeData.challenge_description}</div>
                         </div>
                     </div>
+                    : tab == "vertify" ? <div className="px-2 pb-3 text-[#6E6053] text-[13px]">
+                        <div className='px-1'>{challengeData.auth_method}</div>
+                    </div>
                     : <div className="px-2 pb-3 text-[#6E6053] text-[13px]">
-                        {challengeData.vertify_method}
+                        <div className='px-1'>{challengeData.vote_method}</div>
                     </div>
                     }
                 </div>

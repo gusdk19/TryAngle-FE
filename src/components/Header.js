@@ -17,7 +17,7 @@ export default function Header(props){
     const id = props.id ? props.id : "";
     const prevPage = props.prevPage ? props.prevPage : -1;
 
-    console.log('prevPage',prevPage);
+    // console.log('prevPage',prevPage);
 
     const location = useLocation();
 

@@ -89,6 +89,7 @@ export default function ProfileEditModal({origNickname, onClose, changeUserData,
     }
 
     const handleChange= async () => {
+        console.log("profileImage", profileImage);
         try {
             const res = await fetch('http://localhost:8080/user/modify', {
                 method: 'PUT',
