@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-
 import "../styles/Challenge/Add.css";
-
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-//import { FaRegBell } from "react-icons/fa";
-//import { useNavigate } from 'react-router-dom';
 import FieldError from '../components/FieldError';
+import useAuthStore from "../components/User/UseAuthStore";
 
 // Basic Profile Image
 import bpi_1 from "../assets/images/basic_profile_image/basic_profile_image_1.png";
@@ -23,11 +20,46 @@ import bpi_10 from "../assets/images/basic_profile_image/basic_profile_image_10.
 import bpi_11 from "../assets/images/basic_profile_image/basic_profile_image_11.png";
 import bpi_12 from "../assets/images/basic_profile_image/basic_profile_image_12.png";
 
+//API
+const createChallenge = async ({ challengeData, leaderJoinData, thumbnailImage, user_token }) => {
+  if (!user_token) {
+    console.warn('토큰이 없습니다. 로그인 후 다시 시도해주세요.');
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append('challengeData', JSON.stringify(challengeData));
+  formData.append('leaderJoinData', JSON.stringify(leaderJoinData));
+  formData.append('thumbnailImage', thumbnailImage);
+
+  try {
+    const res = await fetch('http://localhost:8080/challenge', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${user_token}`,
+      },
+      body: formData,
+    });
+
+    const data = await res.json();
+    console.log("챌린지 생성 응답:", data);
+
+    if (!res.ok || !data.isSuccess) {
+      throw new Error(data.message || '챌린지 생성 실패');
+    }
+
+    return data;
+  } catch (error) {
+    console.error('챌린지 생성 오류:', error);
+    alert(`챌린지 생성 실패: ${error.message}`);
+  }
+};
 
 export default function Add() {
 
     const location = useLocation();
     const { visibility, inviteCode } = location.state || {};
+    const { user_token } = useAuthStore(); //API 연결 시 토큰 전달
 
     const [challengeName, setChallengeName] = useState('');
     const [challengeNameError, setChallengeNameError] = useState(false);
@@ -114,10 +146,35 @@ export default function Add() {
         }
     },[startYear, startMonth, startDay, endYear, endMonth, endDay])
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         let hasError = false;
+        //API 로직
+        const imageFile = document.getElementById('imageUpload')?.files[0];
+
+        const challengeData = {
+            challenge_name: challengeName,
+            challenge_shortintro: shortIntro,
+            challenge_description: challExplain,
+            category: Number(category),
+            challenge_public: visibility === 'public',
+            start_date: `${startYear}-${startMonth.padStart(2, '0')}-${startDay.padStart(2, '0')}`,
+            end_date: `${endYear}-${endMonth.padStart(2, '0')}-${endDay.padStart(2, '0')}`,
+            auth_time_start: '06:00',
+            auth_time_end: '22:00',
+            max_people: Number(maxParticipant),
+            min_deposit: Number(amount),
+            return_type: depositType === '예치금',
+            auth_frequency: certifyPeriod,
+            deposit_manage_method: depositManageMethod,
+            auth_method: challAuth,
+            vote_method: challVote,
+        };
+
+        const leaderJoinData = {
+            deposit: Number(amount),
+        };
 
         if (challengeName.trim() === '') {
         setChallengeNameError(true);
@@ -200,15 +257,35 @@ export default function Add() {
             hasError = true;
         }
 
+        //API
         if (hasError) {
             return;
         }
-        else{
-            navigate("/");
-        }
-        
 
-        // 실제 제출 로직 (ex: API 호출) 추가 가능
+        if (!user_token) {
+            alert('로그인이 필요합니다. 로그인 후 다시 시도해주세요.');
+            return;
+        }
+
+        try {
+        const result = await createChallenge({
+            challengeData,
+            leaderJoinData,
+            thumbnailImage: imageFile,
+            user_token,
+        });
+
+        console.log('result:', result);
+
+        if (result?.isSuccess) {
+            alert('챌린지 생성 성공');
+            navigate('/');
+    
+        }
+        } catch (error) {
+        console.error("챌린지 생성 중 예외 발생:", error);
+        }
+    
   };
 
     console.log("date", "certify", dateError, certifyPeriod);
@@ -486,10 +563,10 @@ export default function Add() {
                                 {/* 선택한 방식에 따라 동적으로 안내 문구 변경 */}
                                 <textarea
                                     className="w-full border rounded-md px-3 py-2 text-sm"
-                                    value={challAuth}
+                                    value={depositManageMethod}
                                     onChange={(e) => {
-                                    setChallAuth(e.target.value);
-                                    setChallAuthError(false);
+                                    setDepositManageMethod(e.target.value);
+                                    setDepositManageMethodError(false);
                                     }}
                                     placeholder={
                                     depositType === '예치금'
