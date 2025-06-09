@@ -21,24 +21,20 @@ import bpi_11 from "../assets/images/basic_profile_image/basic_profile_image_11.
 import bpi_12 from "../assets/images/basic_profile_image/basic_profile_image_12.png";
 
 //API
-const createChallenge = async ({ challengeData, leaderJoinData, thumbnailImage, user_token }) => {
+// ✅ createChallenge.js 내부 수정
+const createChallenge = async ({ formData, user_token }) => {
   if (!user_token) {
     console.warn('토큰이 없습니다. 로그인 후 다시 시도해주세요.');
     return;
   }
 
-  const formData = new FormData();
-  formData.append('challengeData', JSON.stringify(challengeData));
-  formData.append('leaderJoinData', JSON.stringify(leaderJoinData));
-  formData.append('thumbnailImage', thumbnailImage);
-
   try {
     const res = await fetch('http://localhost:8080/challenge', {
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${user_token}`,
+        Authorization: `Bearer ${user_token}`, // ✅ Content-Type 지정 금지 (FormData 자동 처리됨)
       },
-      body: formData,
+      body: formData, // ✅ JSON 아니라 FormData 사용
     });
 
     const data = await res.json();
@@ -146,35 +142,20 @@ export default function Add() {
         }
     },[startYear, startMonth, startDay, endYear, endMonth, endDay])
 
+    // 이미지 -> base64 변환 함수
+    const toBase64 = (file) =>
+    new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result); // 예: "data:image/jpeg;base64,...."
+        reader.onerror = reject;
+    });
+    
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         let hasError = false;
-        //API 로직
-        
-        const challengeData = {
-            challenge_name: challengeName,
-            challenge_shortintro: shortIntro,
-            challenge_description: challExplain,
-            category: Number(category),
-            challenge_public: visibility === 'public',
-            start_date: `${startYear}-${startMonth.padStart(2, '0')}-${startDay.padStart(2, '0')}`,
-            end_date: `${endYear}-${endMonth.padStart(2, '0')}-${endDay.padStart(2, '0')}`,
-            auth_time_start: '06:00',
-            auth_time_end: '22:00',
-            max_people: Number(maxParticipant),
-            min_deposit: Number(amount),
-            return_type: depositType === '예치금',
-            auth_frequency: certifyPeriod,
-            deposit_manage_method: depositManageMethod,
-            auth_method: challAuth,
-            vote_method: challVote,
-        };
-
-        const leaderJoinData = {
-            deposit: Number(amount),
-        };
-
+ 
         if (challengeName.trim() === '') {
         setChallengeNameError(true);
         hasError = true;
@@ -256,21 +237,52 @@ export default function Add() {
             hasError = true;
         }
 
-        //API
-        if (hasError) {
-            return;
-        }
+        if (hasError) return;
 
+        //API
         if (!user_token) {
             alert('로그인이 필요합니다. 로그인 후 다시 시도해주세요.');
             return;
         }
 
+        let base64Thumbnail = '';
+        if (imageFile) {
+            base64Thumbnail = await toBase64(imageFile);
+        }
+
+        const challengeData = {
+            challenge_name: challengeName,
+            challenge_thumbnail: base64Thumbnail,
+            challenge_shortintro: shortIntro,
+            challenge_description: challExplain,
+            category: Number(category),
+            challenge_public: visibility === 'public',
+            start_date: `${startYear}-${startMonth.padStart(2, '0')}-${startDay.padStart(2, '0')}`,
+            end_date: `${endYear}-${endMonth.padStart(2, '0')}-${endDay.padStart(2, '0')}`,
+            auth_time_start: '06:00',
+            auth_time_end: '22:00',
+            max_people: Number(maxParticipant),
+            min_deposit: Number(amount),
+            return_type: depositType === '예치금' ? 1 : 0,
+            auth_frequency: certifyPeriod,
+            deposit_manage_method: depositManageMethod,
+            auth_method: challAuth,
+            vote_method: challVote,
+        };
+
+        const leaderJoinData = {
+            deposit: Number(amount),
+        };
+
+        // ✅ FormData 구성
+        const formData = new FormData();
+        formData.append('challengeData', new Blob([JSON.stringify(challengeData)], { type: 'application/json' }));
+        formData.append('leaderJoinData', new Blob([JSON.stringify(leaderJoinData)], { type: 'application/json' }));
+
+
         try {
         const result = await createChallenge({
-            challengeData,
-            leaderJoinData,
-            thumbnailImage: imageFile,
+            formData,
             user_token,
         });
 
