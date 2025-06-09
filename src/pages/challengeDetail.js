@@ -13,6 +13,7 @@ import Vote from "../components/ChallengeDetail/Vote";
 import ChallengeFooter from "../components/ChallengeDetail/ChallengeFooter";
 import RequestLogin from "../components/ChallengeDetail/RequestLogin";
 import useAuthStore from "../components/User/UseAuthStore.js";
+import CancelChallModal from "../components/ChallengeDetail/CancelChallModal.js";
 
 export default function ChallengeDetail() {
 
@@ -158,7 +159,11 @@ export default function ChallengeDetail() {
     navigate(`/challenge/${id}/edit`, {challenge: challengeData, prePage: 'home'});
   }
 
+  const [cancelChallModal, setCancelChallModal] = useState(false);
+
   const deleteChallenge = ()=>{
+    setCancelChallModal(true);
+
   }
 
   if(loading){
@@ -236,6 +241,7 @@ export default function ChallengeDetail() {
 
       {!isLoggedIn && requestLogin ? <RequestLogin onClose={setRequestLogin} purpose="참가"/> : "" }
 
+      {cancelChallModal && <CancelChallModal onClose={setCancelChallModal} cancelChallID={id} cancelChallName={challengeData.challenge_name}/>}
     </div>
   );
 }

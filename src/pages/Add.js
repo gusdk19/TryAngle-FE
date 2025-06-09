@@ -20,46 +20,11 @@ import bpi_10 from "../assets/images/basic_profile_image/basic_profile_image_10.
 import bpi_11 from "../assets/images/basic_profile_image/basic_profile_image_11.png";
 import bpi_12 from "../assets/images/basic_profile_image/basic_profile_image_12.png";
 
-//API
-const createChallenge = async ({ challengeData, leaderJoinData, thumbnailImage, user_token }) => {
-  if (!user_token) {
-    console.warn('토큰이 없습니다. 로그인 후 다시 시도해주세요.');
-    return;
-  }
-
-  const formData = new FormData();
-  formData.append('challengeData', JSON.stringify(challengeData));
-  formData.append('leaderJoinData', JSON.stringify(leaderJoinData));
-  formData.append('thumbnailImage', thumbnailImage);
-
-  try {
-    const res = await fetch('http://localhost:8080/challenge', {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${user_token}`,
-      },
-      body: formData,
-    });
-
-    const data = await res.json();
-    console.log("챌린지 생성 응답:", data);
-
-    if (!res.ok || !data.isSuccess) {
-      throw new Error(data.message || '챌린지 생성 실패');
-    }
-
-    return data;
-  } catch (error) {
-    console.error('챌린지 생성 오류:', error);
-    alert(`챌린지 생성 실패: ${error.message}`);
-  }
-};
-
 export default function Add() {
 
     const location = useLocation();
     const { visibility, inviteCode } = location.state || {};
-    const { user_token } = useAuthStore(); //API 연결 시 토큰 전달
+    const { user_token, user_nickName } = useAuthStore(); //API 연결 시 토큰 전달
 
     const [challengeName, setChallengeName] = useState('');
     const [challengeNameError, setChallengeNameError] = useState(false);
@@ -154,6 +119,7 @@ export default function Add() {
         
         const challengeData = {
             challenge_name: challengeName,
+            challenge_thumbnail: profileImage || imageFile,
             challenge_shortintro: shortIntro,
             challenge_description: challExplain,
             category: Number(category),
@@ -169,6 +135,7 @@ export default function Add() {
             deposit_manage_method: depositManageMethod,
             auth_method: challAuth,
             vote_method: challVote,
+            // leader_nickname: user_nickName
         };
 
         const leaderJoinData = {
@@ -266,28 +233,57 @@ export default function Add() {
             return;
         }
 
-        try {
-        const result = await createChallenge({
+        //API
+        const createChallenge = async ({ challengeData, leaderJoinData, thumbnailImage, user_token }) => {
+            if (!user_token) {
+                console.warn('토큰이 없습니다. 로그인 후 다시 시도해주세요.');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('challengeData', JSON.stringify(challengeData));
+            formData.append('leaderJoinData', JSON.stringify(leaderJoinData));
+            formData.append('thumbnailImage', thumbnailImage);
+
+            console.log("challengeData", JSON.stringify(challengeData));
+
+            try {
+                const res = await fetch('http://localhost:8080/challenge', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${user_token}`,
+                },
+                body: JSON.stringify(challengeData),
+                });
+
+                const data = await res.json();
+                console.log("챌린지 생성 응답:", data);
+
+                if (!res.ok || !data.isSuccess) {
+                    throw new Error(data.message || '챌린지 생성 실패');
+                }
+                else{
+                    alert('챌린지 생성 성공');
+                    navigate('/');
+                }
+
+            } catch (error) {
+                console.error('챌린지 생성 오류:', error);
+                alert(`챌린지 생성 실패: ${error.message}`);
+            }
+        }; 
+
+        createChallenge({
             challengeData,
             leaderJoinData,
             thumbnailImage: imageFile,
-            user_token,
+            user_token
         });
-
-        console.log('result:', result);
-
-        if (result?.isSuccess) {
-            alert('챌린지 생성 성공');
-            navigate('/');
-    
-        }
-        } catch (error) {
-        console.error("챌린지 생성 중 예외 발생:", error);
-        }
     
   };
 
-    console.log("date", "certify", dateError, certifyPeriod);
+    // console.log("date", "certify", dateError, certifyPeriod);
 
     return (
         <div className="bg-white flex justify-center w-full">
