@@ -32,9 +32,9 @@ const createChallenge = async ({ formData, user_token }) => {
     const res = await fetch('http://localhost:8080/challenge', {
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${user_token}`, // ✅ Content-Type 지정 금지 (FormData 자동 처리됨)
+        Authorization: `Bearer ${user_token}`,
       },
-      body: formData, // ✅ JSON 아니라 FormData 사용
+      body: formData, 
     });
 
     const data = await res.json();
@@ -245,14 +245,9 @@ export default function Add() {
             return;
         }
 
-        let base64Thumbnail = '';
-        if (imageFile) {
-            base64Thumbnail = await toBase64(imageFile);
-        }
-
         const challengeData = {
             challenge_name: challengeName,
-            challenge_thumbnail: base64Thumbnail,
+            //challenge_thumbnail: base64Thumbnail,
             challenge_shortintro: shortIntro,
             challenge_description: challExplain,
             category: Number(category),
@@ -274,10 +269,13 @@ export default function Add() {
             deposit: Number(amount),
         };
 
-        // ✅ FormData 구성
+        // FormData 구성
         const formData = new FormData();
         formData.append('challengeData', new Blob([JSON.stringify(challengeData)], { type: 'application/json' }));
         formData.append('leaderJoinData', new Blob([JSON.stringify(leaderJoinData)], { type: 'application/json' }));
+        if (imageFile) {
+            formData.append('thumbnailImage', imageFile); // ✅ 이렇게 전송
+        }
 
 
         try {
