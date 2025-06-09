@@ -45,8 +45,37 @@ export default function CancelModal({onClose, cancel, cancelChallID, cancelChall
                 console.error('챌린지 삭제 오류:', error);
             }
         }
+
+        const quitChallenge = async()=>{
+            try {
+                const res = await fetch(`http://localhost:8080/challenge/quit`, {
+                    method: 'DELETE',
+                    headers: {
+                        // 'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${user_token}`
+                    },
+                    body: JSON.strinkgify({ "challenge_id" : cancelChallID }), 
+                });
+        
+                const data = await res.json();
+                console.log("quit Challenge check", data.isSuccess, data.message);
+        
+                if(data.isSuccess){
+                    // challengeFeeRefund에서 post만 제대로 되면 data.result 저장하는 것만으로 충분
+                    console.log("챌린지 참가를 취소하였습니다.");
+                } else{
+                    console.log(`⚠ ${data.message}`);
+                }
+            } catch (error) {
+                console.error('챌린지 참가 취소 오류:', error);
+            }
+        }
     
-        delChallenge();
+        if(cancel == "participate"){
+            quitChallenge();
+        }else{
+            delChallenge();
+        }
         onClose(false);        
     }
 

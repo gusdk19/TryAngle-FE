@@ -4,12 +4,15 @@ import Footer from '../components/Footer';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 import "../styles/Challenge/ChallengeFeeRefund.css";
+import useAuthStore from '../components/User/UseAuthStore';
 
 export default function ChallengeFeeRefund() {
 
   const location = useLocation();
 
   const {prevPage} = location.state || {};
+
+  const {user_token} = useAuthStore();
 
   const [inputAmount, setInputAmount] = useState('');
   const [error, setError] = useState('');
@@ -56,6 +59,34 @@ export default function ChallengeFeeRefund() {
     }
 
     // status(참여상태) : 1로 바꾸는 api post 또는 put 요청 필요
+    const joinChallenge = async()=>{
+      try {
+        const res = await fetch(`http://localhost:8080/challenge/join`, {
+            method: 'POST',
+            headers: {
+                // 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${user_token}`
+            },
+            body: JSON.stringify({ 
+               "challengeId" : challengeID,
+               "deposit": inputAmount
+            }), 
+        });
+
+        const data = await res.json();
+        console.log("join Challenge check", data.isSuccess, data.result);
+
+        if(data.isSuccess){
+          console.log("챌린지 참가에 성공하였습니다. (", inputAmount, ")");
+        } else{
+            console.log(`⚠ ${data.message}`);
+        }
+      } catch (error) {
+          console.error('개별 챌린지 조회 오류:', error);
+      }
+    }
+
+    joinChallenge();
 
     navigate(`/challenge/${challengeID}`, {state:{tab: "info", updatedStatus : 1, prevPage: prevPage}});
   }

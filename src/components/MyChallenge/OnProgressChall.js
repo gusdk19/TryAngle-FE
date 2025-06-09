@@ -68,11 +68,11 @@ export default function OnProgressChall({onProgressChallengeList, dueChallengeLi
                                     {dayDiff > 0 && <div className='due-date'>D-{dayDiff}</div>}
                                     {challenge.leader_nickname === user_nickName && <MdStar className='leader-mark' color='#FFCC5D'/> }
                                 </div>
-                                <div className='card-text flex flex-row'>
-                                    <span className='main-tag'>
+                                <div className='card-text flex flex-row '>
+                                    <span className='main-tag max-w-[80px] max-h-[21px] overflow-hidden truncate'>
                                         #{challenge.challenge_shortintro}
                                     </span>
-                                    <button className={`${filter == "due" ? "cancel-btn" : challenge.auth_status ? "auth-done-btn" : "auth-btn"}`}
+                                    <button className={`${filter == "due" ? user_nickName == challenge.leader_nickname && challenge.now_people == 1 ? "min-w-[66px] cancel-btn" : "cancel-btn" : challenge.auth_status ? "auth-done-btn" : "auth-btn"}`}
                                         onClick={(e)=>{
                                             e.stopPropagation(); 
                                             if(filter == "due"){

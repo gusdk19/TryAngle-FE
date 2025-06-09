@@ -14,6 +14,7 @@ import ChallengeFooter from "../components/ChallengeDetail/ChallengeFooter";
 import RequestLogin from "../components/ChallengeDetail/RequestLogin";
 import useAuthStore from "../components/User/UseAuthStore.js";
 import CancelChallModal from "../components/ChallengeDetail/CancelChallModal.js";
+import QuitChallModal from "../components/ChallengeDetail/QuitChallModal.js";
 
 export default function ChallengeDetail() {
 
@@ -165,6 +166,7 @@ export default function ChallengeDetail() {
   }
 
   const [cancelChallModal, setCancelChallModal] = useState(false);
+  const [quitChallModal, setQuitChallModal] = useState(false);
 
   const deleteChallenge = ()=>{
     setCancelChallModal(true);
@@ -201,7 +203,7 @@ export default function ChallengeDetail() {
           {/* Title */}
           <div className="flex justify-between">
             <div className="flex-1 flex px-5 justify-between">
-              <div className="flex-none flex gap-4">
+              <div className="flex-none flex gap-3">
                 <div className="flex-none text-[20px] text-[#4A483F] font-bold">
                   {challengeData.challenge_name}
                 </div>
@@ -218,10 +220,10 @@ export default function ChallengeDetail() {
                     onClick={editChallenge}>
                     수정
                   </button>
-                  <button className="flex-none rounded-md text-[13px] font-semibold px-4 mt-[3px] my-[2.75px] py-[0.5px] border-solid border-[#6E6053] border-[2px]" 
+                  {/* <button className="flex-none rounded-md text-[13px] font-semibold px-4 mt-[3px] my-[2.75px] py-[0.5px] border-solid border-[#6E6053] border-[2px]" 
                     onClick={deleteChallenge}>
                     삭제
-                  </button>
+                  </button> */}
                 </div>
               }
             </div>
@@ -241,12 +243,19 @@ export default function ChallengeDetail() {
       
         {/* Footer Navigation */}
         {navTab == "info" ?
-        <ChallengeFooter chall_status={status} status={userChallengeData.status} challengeID={id} setUserChallengeData={setUserChallengeData} participant_list={challengeData.participant_list} isLoggedIn={isLoggedIn} setRequestLogin={setRequestLogin} prevPage={prevPage} /> : ""}
+        <ChallengeFooter chall_status={status} status={userChallengeData.status} challengeID={id} setUserChallengeData={setUserChallengeData} participant_list={challengeData.participant_list} 
+          isLoggedIn={isLoggedIn} setRequestLogin={setRequestLogin} prevPage={prevPage}
+          deleteChall={status == 0 && user_nickName == challengeData.leader_nickname && challengeData.now_people == 1} 
+          onClose={setCancelChallModal} onClose2={setQuitChallModal} /> : ""}
       </div>
 
       {!isLoggedIn && requestLogin ? <RequestLogin onClose={setRequestLogin} purpose="참가"/> : "" }
 
       {cancelChallModal && <CancelChallModal onClose={setCancelChallModal} cancelChallID={id} cancelChallName={challengeData.challenge_name}/>}
+      {quitChallModal && 
+        <QuitChallModal onClose={setQuitChallModal} cancelChallID={id} 
+          leader={user_nickName == challengeData.leader_nickname}
+          cancelChallName={challengeData.challenge_name} setUserChallengeData={setUserChallengeData}/>}          
     </div>
   );
 }

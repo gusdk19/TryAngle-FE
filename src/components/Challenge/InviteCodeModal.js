@@ -27,7 +27,7 @@ export default function InviteCodeModal({ onClose, challengeId, correctCode }) {
         if (inputCode === correctCode) {
             // 성공
             setErrorMessage('');
-            navigate(`/challenge/1`, {
+            navigate(`/challenge/${challengeId}`, {
               state: { tab: 'info', prevPage: 'home' },
             });
             // navigate(`/challenge/${challengeId}`, {
