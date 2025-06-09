@@ -76,12 +76,9 @@ export default function AfterLoginMP({logout, setUserNickName}) {
 
             if(data.isSuccess){
                 setUserData(data.result);
-                setUserNickName(data.result.nickname);
             } else{
                 console.log(`⚠ ${data.message}`);
-
                 setUserData(dummyUserData);
-                setUserNickName(dummyUserData.nickname);
             }
             setLoading(false);
         } catch (error) {
@@ -114,7 +111,7 @@ export default function AfterLoginMP({logout, setUserNickName}) {
   useEffect(()=>{
     setUserData(prevData => ({
       ...prevData,
-      reward: totalReturn ? totalReturn : userData.reward,
+      returnMoney: totalReturn ? totalReturn : userData.returnMoney,
     }));
   }, [totalReturn])
     

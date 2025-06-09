@@ -7,7 +7,7 @@ import { MdStar } from "react-icons/md";
 import { FaAngleRight } from "react-icons/fa6";
 import { useNavigate } from 'react-router-dom';
 
-export default function OnProgressChall({onProgressChallengeList, dueChallengeList, setChallengeList}){
+export default function OnProgressChall({onProgressChallengeList, dueChallengeList, setChallengeList, user_nickName}){
 
     const navigate = useNavigate();
     
@@ -62,14 +62,14 @@ export default function OnProgressChall({onProgressChallengeList, dueChallengeLi
                                 }
                             }}>
                                 <div className='card-image flex flex-col'>
-                                    <div className='chall-title flex-none'>{challenge.challenge_name}</div>
+                                    <div className='chall-title flex-none z-10'>{challenge.challenge_name}</div>
                                     <img className='chall-thumbnail flex-1' src={challenge.challenge_thumbnail} />
                                     {dayDiff > 0 && <div className='due-date'>D-{dayDiff}</div>}
-                                    {challenge.leader === 1 && <MdStar className='leader-mark' color='#FFCC5D'/> }
+                                    {challenge.leader_nickname === user_nickName && <MdStar className='leader-mark' color='#FFCC5D'/> }
                                 </div>
                                 <div className='card-text flex flex-row'>
                                     <span className='main-tag'>
-                                        #{challenge.challenge_shrotintro}
+                                        #{challenge.challenge_shortintro}
                                     </span>
                                     <button className={`${filter == "due" ? "cancel-btn" : challenge.auth_status ? "auth-done-btn" : "auth-btn"}`}
                                         onClick={(e)=>{

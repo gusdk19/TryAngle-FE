@@ -9,7 +9,7 @@ import { TiDeleteOutline } from "react-icons/ti";
 
 import CancelModal from './CancelModal';
 
-export default function CreateChall({leaderChallengeList, setChallengeList}){
+export default function CreateChall({leaderChallengeList, setChallengeList, user_nickName}){
 
     const navigate = useNavigate();
 
@@ -20,7 +20,7 @@ export default function CreateChall({leaderChallengeList, setChallengeList}){
         const startDate = new Date(challenge.start_date);
         const endDate = new Date(challenge.end_date);
 
-        return((challenge.now_people == 1) && !(now > endDate))
+        return((challenge.now_people == 1) && (now > endDate))
     });
 
     const recruitingChallenges = leaderChallengeList.filter((challenge)=>{
@@ -35,7 +35,13 @@ export default function CreateChall({leaderChallengeList, setChallengeList}){
         return dateB - dateA; // 최신 날짜가 앞으로 오도록 정렬
     });
     
-    const recruiteCompleteChallenges = leaderChallengeList.filter(challenge => (challenge.now_people == challenge.max_people));
+    const recruiteCompleteChallenges = leaderChallengeList.filter((challenge)=>{
+        const now = new Date();
+        const startDate = new Date(challenge.start_date);
+        const endDate = new Date(challenge.end_date);
+
+        return((challenge.now_people == challenge.max_people) || ((now > startDate) && (challenge.now_people > 1)))
+    });
     const recruiteCompleteChallengesSorted = recruiteCompleteChallenges.sort((a, b) => {
         const now = new Date();
     
@@ -113,16 +119,16 @@ export default function CreateChall({leaderChallengeList, setChallengeList}){
                                     }})
                                 }}}>
                                 <div className='card-image flex flex-col'>
-                                    <div className='chall-title flex-none'>{challenge.challenge_name}</div>
+                                    <div className='chall-title flex-none z-10'>{challenge.challenge_name}</div>
                                     <img className='chall-thumbnail flex-1' src={challenge.challenge_thumbnail} />
                                     {filter == "recruit-fail" ? "" : <div className='due-date'>
                                         {now < startDate ? `D-${dayDiff}` : now <= endDate ? "진행중" : "완료"}
                                     </div>}
-                                    {challenge.leader === 1 && <MdStar className='leader-mark' color='#FFCC5D'/> }
+                                    {challenge.leader_nickname === user_nickName && <MdStar className='leader-mark' color='#FFCC5D'/> }
                                 </div>
                                 <div className='card-text flex flex-row gap-[2px]'>
                                     <span className='main-tag text-[11.5px] mt-[0.5px] '>
-                                        #{challenge.challenge_shrotintro}
+                                        #{challenge.challenge_shortintro}
                                     </span>
                                     {filter == "recruiting" &&
                                      <button className={`number-participants `}>

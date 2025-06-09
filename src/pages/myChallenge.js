@@ -21,7 +21,7 @@ export default function MyChallenge(){
     const [tab, setTab] = useState("onProgress") // tab(3) - onProgress(참여중), finish(참여완료), create(개설)
     const [loading, setLoading] = useState(true);
 
-    const { isLoggedIn, login, logout, user_token, user_name } = useAuthStore();
+    const { isLoggedIn, login, logout, user_token, user_nickName } = useAuthStore();
 
     const [challengeList, setChallengeList] = useState([]);
     const dummyChallengeList = [
@@ -338,7 +338,7 @@ export default function MyChallenge(){
                 });
     
                 const data = await res.json();
-                console.log("user Data check", data.isSuccess, data.result);
+                console.log("my challenge Data check", data.isSuccess, data.result);
     
                 if(data.isSuccess){
                     setChallengeList(data.result);
@@ -348,7 +348,7 @@ export default function MyChallenge(){
                 }
                 setLoading(false);
             } catch (error) {
-                console.error('마이페이지 조회 오류:', error);
+                console.error('마이챌린지 페이지 조회 오류:', error);
             }
         }
         
@@ -387,7 +387,7 @@ export default function MyChallenge(){
                 finishedList.push(challenge);
             }
 
-            if (challenge.leader_nickname == user_name) {
+            if (challenge.leader_nickname == user_nickName) {
                 leaderList.push(challenge);
             }
         });
@@ -440,11 +440,11 @@ export default function MyChallenge(){
                 {/* Main Content */}
                 {tab === "onProgress" && 
                     <OnProgressChall dueChallengeList={dueChallengeList} onProgressChallengeList={onProgressChallengeList} 
-                        setChallengeList={setChallengeList} />}
+                        setChallengeList={setChallengeList} user_nickName={user_nickName} />}
                 {tab === "finish" &&
-                    <FinishChall finishedChallengeList={finishedChallengeList}/> }
+                    <FinishChall finishedChallengeList={finishedChallengeList} user_nickName={user_nickName}/> }
                 {tab === "create" &&
-                    <CreateChall leaderChallengeList={leaderChallengeList} setChallengeList={setChallengeList}/>}
+                    <CreateChall leaderChallengeList={leaderChallengeList} setChallengeList={setChallengeList} user_nickName={user_nickName}/>}
             </>
             :<BeforeLoginMC />}
 

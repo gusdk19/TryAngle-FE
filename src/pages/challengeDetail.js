@@ -13,6 +13,7 @@ import Vote from "../components/ChallengeDetail/Vote";
 import ChallengeFooter from "../components/ChallengeDetail/ChallengeFooter";
 import RequestLogin from "../components/ChallengeDetail/RequestLogin";
 import useAuthStore from "../components/User/UseAuthStore.js";
+import CancelChallModal from "../components/ChallengeDetail/CancelChallModal.js";
 
 export default function ChallengeDetail() {
 
@@ -158,6 +159,13 @@ export default function ChallengeDetail() {
     navigate(`/challenge/${id}/edit`, {challenge: challengeData, prePage: 'home'});
   }
 
+  const [cancelChallModal, setCancelChallModal] = useState(false);
+
+  const deleteChallenge = ()=>{
+    setCancelChallModal(true);
+
+  }
+
   if(loading){
       return(
       <div className="bg-white flex flex-row justify-center w-full">
@@ -200,10 +208,16 @@ export default function ChallengeDetail() {
                 </div>
               </div>              
               {status == 0 && user_nickName == challengeData.leader_nickname && challengeData.now_people == 1 &&
-                <button className="flex-none rounded-md text-[13px] font-semibold px-4 mt-[3px] my-[2.75px] py-[0.5px] border-solid border-[#6E6053] border-[2px]" 
-                  onClick={editChallenge}>
-                  수정
-                </button>
+                <div className="flex-none flex gap-1">
+                  <button className="flex-none rounded-md text-[13px] font-semibold px-4 mt-[3px] my-[2.75px] py-[0.5px] border-solid border-[#6E6053] border-[2px]" 
+                    onClick={editChallenge}>
+                    수정
+                  </button>
+                  <button className="flex-none rounded-md text-[13px] font-semibold px-4 mt-[3px] my-[2.75px] py-[0.5px] border-solid border-[#6E6053] border-[2px]" 
+                    onClick={deleteChallenge}>
+                    삭제
+                  </button>
+                </div>
               }
             </div>
           </div>
@@ -212,7 +226,7 @@ export default function ChallengeDetail() {
           {/* Main Component */}
           <div className="h-[470px] px-5 overflow-scroll main">
             {navTab == "vertify" ? 
-              <Vertify vertifyMethod = {challengeData.vertify_method ? challengeData.vertify_method : "인증방법 소개글"} /> :
+              <Vertify vertifyMethod = {challengeData.auth_method ? challengeData.auth_method : "인증방법 소개글"} /> :
             navTab == "info" ?
               <Info challengeData={challengeData}/> :
               <></>
@@ -227,6 +241,7 @@ export default function ChallengeDetail() {
 
       {!isLoggedIn && requestLogin ? <RequestLogin onClose={setRequestLogin} purpose="참가"/> : "" }
 
+      {cancelChallModal && <CancelChallModal onClose={setCancelChallModal} cancelChallID={id} cancelChallName={challengeData.challenge_name}/>}
     </div>
   );
 }

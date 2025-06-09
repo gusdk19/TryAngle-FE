@@ -48,9 +48,11 @@ export default function Login(){
                 setToken(data.result.token);
                 setError('');
 
-                login(data.result.token);
-                // console.log("token", data.result.token)
-                navigate("/mypage", {state:{success:true}});
+                login(data.result.token, data.result.username);
+
+                console.log("nickname", data.result)
+                // navigate("/mypage", {state:{success:true}});
+                navigate(-1);
             } else {
                 setLoading(false);
                 setError(data.message || '로그인 실패');

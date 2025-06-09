@@ -6,7 +6,7 @@ import "../../styles/myChallenge/onProgressChall.css";
 import { MdStar } from "react-icons/md";
 import { FaAngleRight } from "react-icons/fa6";
 
-export default function FinishChall({finishedChallengeList }){
+export default function FinishChall({finishedChallengeList, user_nickName }){
 
     const navigate = useNavigate();
 
@@ -52,13 +52,13 @@ export default function FinishChall({finishedChallengeList }){
                                 }})
                             }}}>
                             <div className='card-image flex flex-col'>
-                                <div className='chall-title flex-none'>{challenge.challenge_name}</div>
+                                <div className='chall-title flex-none z-10'>{challenge.challenge_name}</div>
                                 <img className='chall-thumbnail flex-1' src={challenge.challenge_thumbnail} />
-                                {challenge.leader === 1 && <MdStar className='leader-mark' color='#FFCC5D'/> }
+                                {challenge.leader_nickname === user_nickName && <MdStar className='leader-mark' color='#FFCC5D'/> }
                             </div>
                             <div className='card-text flex flex-row'>
                                 <span className='main-tag'>
-                                    #{challenge.challenge_shrotintro}
+                                    #{challenge.challenge_shortintro}
                                 </span>
                                 {challenge.participation_success === 1 && 
                                 <div className={`${challenge.deposit_status ? "adjust-done" : "adjust-progress"}`}>
