@@ -23,10 +23,17 @@ import bpi_12 from "../assets/images/basic_profile_image/basic_profile_image_12.
 //API
 // ✅ createChallenge.js 내부 수정
 const createChallenge = async ({ formData, user_token }) => {
+
+
   if (!user_token) {
     console.warn('토큰이 없습니다. 로그인 후 다시 시도해주세요.');
     return;
   }
+
+  console.log("✅ 챌린지 생성 요청 데이터 (FormData):");
+    for (let pair of formData.entries()) {
+    console.log(`${pair[0]}: ${pair[1]}`);
+    }
 
   try {
     const res = await fetch('http://localhost:8080/challenge', {
@@ -269,6 +276,9 @@ export default function Add() {
             deposit: Number(amount),
         };
 
+        console.log('challengeData:', challengeData);
+        console.log('typeof category:', typeof challengeData.category);
+
         // FormData 구성
         const formData = new FormData();
         formData.append('challengeData', new Blob([JSON.stringify(challengeData)], { type: 'application/json' }));
@@ -347,10 +357,10 @@ export default function Add() {
                                 } ${categoryError ? 'border-red-500' : 'border-gray-300'}`}
                             >
                                 <option value="">카테고리 선택</option>
-                                <option value="운동">운동</option>
-                                <option value="공부">공부</option>
-                                <option value="생활">생활</option>
-                                <option value="기타">기타</option>
+                                <option value="1">운동</option>
+                                <option value="2">공부</option>
+                                <option value="3">생활</option>
+                                <option value="4">기타</option>
                             </select>
                         </div>
                         {/* 10글자 소개*/}
