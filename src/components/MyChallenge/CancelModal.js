@@ -51,10 +51,10 @@ export default function CancelModal({onClose, cancel, cancelChallID, cancelChall
                 const res = await fetch(`http://localhost:8080/challenge/quit`, {
                     method: 'DELETE',
                     headers: {
-                        // 'Content-Type': 'application/json',
+                        'Content-Type': 'application/json',
                         'Authorization': `Bearer ${user_token}`
                     },
-                    body: JSON.strinkgify({ "challenge_id" : cancelChallID }), 
+                    body: JSON.stringify({ "challenge_id" : cancelChallID }), 
                 });
         
                 const data = await res.json();

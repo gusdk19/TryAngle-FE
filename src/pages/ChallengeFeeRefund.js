@@ -10,7 +10,7 @@ export default function ChallengeFeeRefund() {
 
   const location = useLocation();
 
-  const {prevPage} = location.state || {};
+  const {prevPage, minDeposit} = location.state || {};
 
   const {user_token} = useAuthStore();
 
@@ -48,8 +48,8 @@ export default function ChallengeFeeRefund() {
       return;
     }
 
-    if (amount < 1000 || amount > 200000) {
-      setError('⚠ 1천원 이상 20만원 이하로 입력해주세요');
+    if (amount < (minDeposit ? minDeposit : 1000) || amount > 200000) {
+      setError(`⚠ ${minDeposit ? minDeposit : "1천원"} 이상 20만원 이하로 입력해주세요`);
       return;
     }
 
@@ -60,17 +60,20 @@ export default function ChallengeFeeRefund() {
 
     // status(참여상태) : 1로 바꾸는 api post 또는 put 요청 필요
     const joinChallenge = async()=>{
+
+      // const formData = new FormData();
+      // formData.append("challengeId", challengeID);
+      // formData.append("deposit", inputAmount);
+
       try {
         const res = await fetch(`http://localhost:8080/challenge/join`, {
             method: 'POST',
             headers: {
-                // 'Content-Type': 'application/json',
+                'Content-Type': 'application/json',
                 'Authorization': `Bearer ${user_token}`
             },
-            body: JSON.stringify({ 
-               "challengeId" : challengeID,
-               "deposit": inputAmount
-            }), 
+            // body: formData,
+            body: JSON.stringify({"challengeId": challengeID, "deposit": inputAmount.replace(",", "")})
         });
 
         const data = await res.json();
@@ -115,7 +118,7 @@ export default function ChallengeFeeRefund() {
                 className="w-full text-[25px] text-center font-bold py-2 outline-none border-b border-black block"
               />
               <p className='text-sm mt-1 text-[#5C5C5C]'>
-                최소 1,000원 ~ 최대 200,000원 (1천원, 1만원 단위 가능)
+                최소 {minDeposit ? minDeposit : 1000}원 ~ 최대 200,000원 (1천원, 1만원 단위 가능)
               </p>
               {error && <p className="text-sm text-red-500">{error}</p>}
             </section>
@@ -123,8 +126,8 @@ export default function ChallengeFeeRefund() {
             <div className="border border-[#D9D9D9] rounded-[15px] p-4 text-sm text-[#3D3D3D]">
             <section className="text-s text-[#3D3D3D]">
               <ul className="list-disc list-inside">
-                <p>100% 성공 ---------------------------10,000 + α원</p>
-                <p>90% 이상 성공 ---------------------------10,000원</p>
+                <p>100% 성공 ---------------------------{inputAmount ? inputAmount : " 예치금"} + α원</p>
+                <p>90% 이상 성공 ---------------------------{inputAmount ? inputAmount : " 예치금"}</p>
                 <p>50% 이상 90% 미만 ----------------------일부 환급</p>
                 <p>50% 미만 성공 ----------------------------환급 없음</p>
               </ul>

@@ -69,14 +69,26 @@ export default function Info({challengeData}){
                         </div>
                         <div className="flex flex-col gap-1 text-[13px]">
                             <div className="w-[100px] font-semibold">[ 챌린지 내용 ]</div>
-                            <div className="text-[#B8AA96] px-1">{challengeData.challenge_description}</div>
+                            <div className="text-[#B8AA96] px-1">
+                                {challengeData.challenge_description.split('\n').map((line, idx) => (
+                                    <div key={idx}>{line}</div>
+                                ))}
+                            </div>
                         </div>
                     </div>
                     : tab == "vertify" ? <div className="px-2 pb-3 text-[#6E6053] text-[13px]">
-                        <div className='px-1'>{challengeData.auth_method}</div>
+                        <div className='px-1'>
+                            {challengeData.auth_method.split('\n').map((line, idx) => (
+                                <div key={idx}>{line}</div>
+                            ))}
+                        </div>
                     </div>
                     : <div className="px-2 pb-3 text-[#6E6053] text-[13px]">
-                        <div className='px-1'>{challengeData.vote_method}</div>
+                        <div className='px-1'>
+                            {challengeData.vote_method.split('\n').map((line, idx) => (
+                                <div key={idx}>{line}</div>
+                            ))}
+                        </div>
                     </div>
                     }
                 </div>

@@ -58,11 +58,11 @@ export default function ChallengeDetail() {
 
   const dummyUserChallengeData = {
     "status": updatedStatus || 0, // 0: ready, 1: progress, 2: completed
-    "participaton_success": true,
-    "deposit_amount": 10000,
-    "deposit_status": 2, // 0: refunded, 1: donated, 2: not_refunded_yet
-    "created_at": "2025-04-22 19:43:15",
-    "auth_status": true,
+    "participaton_success": false,
+    "deposit_amount": null,
+    "deposit_status": null, // 0: refunded, 1: donated, 2: not_refunded_yet
+    "created_at": null,
+    "auth_status": false,
     "auth_vote_status": false
   };
 
@@ -246,6 +246,7 @@ export default function ChallengeDetail() {
         <ChallengeFooter chall_status={status} status={userChallengeData.status} challengeID={id} setUserChallengeData={setUserChallengeData} participant_list={challengeData.participant_list} 
           isLoggedIn={isLoggedIn} setRequestLogin={setRequestLogin} prevPage={prevPage}
           deleteChall={status == 0 && user_nickName == challengeData.leader_nickname && challengeData.now_people == 1} 
+          min_deposit={challengeData.min_deposit}
           onClose={setCancelChallModal} onClose2={setQuitChallModal} /> : ""}
       </div>
 

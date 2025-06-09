@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function ChallengeFooter({status, challengeID, setUserChallengeData, participant_list, isLoggedIn, setRequestLogin, chall_status, prevPage, deleteChall, onClose, onClose2}){
+export default function ChallengeFooter({status, challengeID, setUserChallengeData, participant_list, isLoggedIn, setRequestLogin, chall_status, prevPage, deleteChall, min_deposit, onClose, onClose2}){
     const navigate = useNavigate();
 
     // console.log("status", status);
@@ -31,7 +31,7 @@ export default function ChallengeFooter({status, challengeID, setUserChallengeDa
                     if(deleteChall){
                         onClose(true);
                     }else{
-                        navigate (`/challenge/${challengeID}/fee`, {state: {prevPage : prevPage}});
+                        navigate (`/challenge/${challengeID}/fee`, {state: {prevPage : prevPage, minDeposit : min_deposit}});
                     }
                     // fee 부분에서 status 값이 1로 바뀌도록 해야함.
                 }

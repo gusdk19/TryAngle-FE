@@ -21,7 +21,7 @@ export default function QuitChallModal({onClose, cancelChallName, cancelChallID,
                 const res = await fetch(`http://localhost:8080/challenge/quit`, {
                     method: 'DELETE',
                     headers: {
-                        // 'Content-Type': 'application/json',
+                        'Content-Type': 'application/json',
                         'Authorization': `Bearer ${user_token}`
                     },
                     body: JSON.stringify({ "challenge_id" : cancelChallID }), 
