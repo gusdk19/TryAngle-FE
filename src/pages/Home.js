@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import SearchBar from "../components/Home/SearchBar";
@@ -20,6 +20,8 @@ const Home = () => {
 
   const { isLoggedIn } = useAuthStore();
 
+  const [loading, setLoading] = useState(true);
+
   const [activeTab, setActiveTab] = useState('participating');
   const [activeCategory, setActiveCategory] = useState('전체');
   const [query, setQuery] = useState("");
@@ -32,7 +34,8 @@ const Home = () => {
 
   const categories = ['전체', '운동', '공부', '생활', '기타'];
 
-  const challenges = [
+  const [challenges, setChallenges] = useState([]);
+  const dummy_challenges = [
     {
       challenge_id: 1,
       title: '하루 30분 운동',
@@ -99,13 +102,53 @@ const Home = () => {
     }
   ];
 
+  useEffect(()=>{
+    const start = Date.now();
+
+    const getChallengeList = async()=>{
+      try {
+        const res = await fetch(`http://localhost:8080/challenge`, {
+            method: 'GET',
+            credentials: 'include'
+            // headers: {
+            //     'Content-Type': 'application/json',
+            // },
+        });
+
+        const data = await res.json();
+        console.log("challenge List check", data.isSuccess, data.result);
+
+        if(data.isSuccess){
+            setChallenges(data.result);
+        } else{
+            console.log(`⚠ ${data.message}`);
+            setChallenges(dummy_challenges);
+        }
+
+        setLoading(false);
+      } catch (error) {
+          console.error('개별 챌린지 조회 오류:', error);
+      }
+    }
+
+    getChallengeList();
+  }, []);
+
+
+
   const filteredChallenges = challenges
+  .filter((c) => {
+    const today = new Date();
+    const start_date = new Date(c.start_date);
+
+    return(activeTab == "participating" ? start_date > today : start_date <= today)
+  })
   .filter((c) =>
-    activeCategory === '전체' ? true : c.tag.includes(activeCategory)
+    activeCategory === '전체' ? true : c.category.includes(activeCategory)
   )
   .filter((c) =>
-    c.title.toLowerCase().includes(query) ||
-    c.description?.toLowerCase().includes(query)
+    c.challenge_name.toLowerCase().includes(query) ||
+    c.challenge_description?.toLowerCase().includes(query)
   );
 
   const [requestLogin, setRequestLogin] = useState(false);
@@ -182,12 +225,15 @@ const Home = () => {
 
         {/* 챌린지 카드 */}
         <div className="flex-1 overflow-y-auto p-4 pb-[18px] main overflow-scroll">
-          <div className="grid grid-cols-2 gap-4">
-          {filteredChallenges.map((challenge) => (
-            <ChallengeCard key={challenge.id} challenge={challenge} 
-              setShowInviteModal={setShowInviteModal} setCorrectCode={setCorrectCode} setChallengeID={setChallengeID}/>
-          ))}
-          </div>
+          {loading ? <div className="w-full h-full grid items-center">
+                  <div className="spinner"></div>
+              </div>
+            :<div className="grid grid-cols-2 gap-4">
+            {filteredChallenges.map((challenge) => (
+              <ChallengeCard key={challenge.id} challenge={challenge} 
+                setShowInviteModal={setShowInviteModal} setCorrectCode={setCorrectCode} setChallengeID={setChallengeID}/>
+            ))}
+          </div>}
         </div>
 
         

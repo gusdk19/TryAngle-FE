@@ -29,7 +29,7 @@ export default function ChallengeCard({challenge, setShowInviteModal, setCorrect
       setShowInviteModal(true);
     } else {
       navigate(`/challenge/${challenge.challenge_id}`, {
-        state: { tab: 'info', prevPage: 'home' },
+        state: { tab: 'info', prevPage: 'home', challenge: challenge },
       });
     }
   }
@@ -47,19 +47,19 @@ export default function ChallengeCard({challenge, setShowInviteModal, setCorrect
     >
       {/* 내부 박스 */}
         <div className="card-image">
-            <p className="challenge-title text-[#4A483F]">{challenge.title}</p>
+            <p className="challenge-title text-[#4A483F] z-10">{challenge.challenge_name}</p>
 
             <img
-            src={challenge.image}
-            alt={challenge.title}
+            src={challenge.challenge_thumbnail}
+            alt={challenge.challenge_name}
             className="chall-thumbnail"
             />
 
             <p className="due-date">{statusLabel}</p>
         </div>
 
-        <div className="w-full pl-[15px] mt-[13px] mb-[8px]">
-            <p className="card-text">{challenge.tag}</p>
+        <div className="w-full pl-[15px] mt-[10px] mb-[8px]">
+            <p className="card-text">#{challenge.challenge_shortintro}</p>
         </div>
 
     </div>

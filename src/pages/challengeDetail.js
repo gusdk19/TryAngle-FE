@@ -69,12 +69,15 @@ export default function ChallengeDetail() {
     const start = Date.now();
 
     const getChallengeData = async()=>{
+      const challengeId = parseInt(id, 10)
+
       try {
-        const res = await fetch(`http://localhost:8080/challenge/${id}`, {
+        const res = await fetch(`http://localhost:8080/challenge/${challengeId}`, {
             method: 'GET',
-            headers: {
-                // 'Content-Type': 'application/json',
-            },
+            credentials: 'include'
+            // headers: {
+            //     'Content-Type': 'application/json',
+            // },
         });
 
         const data = await res.json();
@@ -99,13 +102,15 @@ export default function ChallengeDetail() {
     }
 
     const getUserChallengeData = async()=>{
+      const challengeId = id;
       try {
-        const res = await fetch(`http://localhost:8080/challenge/my/${id}`, {
+        const res = await fetch(`http://localhost:8080/challenge/my/${challengeId}`, {
             method: 'GET',
             headers: {
                 // 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${user_token}`
             },
+            credentials: 'include'
         });
 
         const data = await res.json();

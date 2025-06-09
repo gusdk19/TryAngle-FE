@@ -21,6 +21,7 @@ export default function ChallengeFooter({status, challengeID, setUserChallengeDa
                         ...prev,
                         status : 0,
                     }))
+                    
                 }
                 else if(status === 0){
                     // setUserChallengeData((prev) => ({

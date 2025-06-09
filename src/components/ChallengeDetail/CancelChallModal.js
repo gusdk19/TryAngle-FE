@@ -26,7 +26,7 @@ export default function CancelChallModal({onClose, cancelChallName, cancelChallI
                 });
         
                 const data = await res.json();
-                console.log("delete Challenge check", data.isSuccess, data.message);
+                console.log("delete Challenge check", data, data.isSuccess, data.message);
         
                 if(data.isSuccess){
                     // challengeFeeRefund에서 post만 제대로 되면 data.result 저장하는 것만으로 충분

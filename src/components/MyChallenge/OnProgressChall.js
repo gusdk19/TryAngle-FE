@@ -85,7 +85,7 @@ export default function OnProgressChall({onProgressChallengeList, dueChallengeLi
                                                 }
                                             }
                                         }}>
-                                        {filter == "due" ? "참가 취소" : challenge.auth_status ? "인증완료" : "인증하기"}
+                                        {filter == "due" ? user_nickName == challenge.leader_nickname && challenge.now_people == 1 ? "챌린지 삭제" : "참가 취소" : challenge.auth_status ? "인증완료" : "인증하기"}
                                     </button>
                                 </div>
                             </div>
