@@ -14,6 +14,7 @@ export default function OnProgressChall({onProgressChallengeList, dueChallengeLi
     const [filter, setFilter] = useState("due"); // filter(2) : "due" - 예정, "onProgress" - 진행중
 
     const [openModal, setOpenModal] = useState(false);
+    const [cancelPurpose, setCancelPurpose] = useState("");
     const [cancelChallID, setCancelChallID] = useState();
     const [cancelChallName, setCancelChallName] = useState();
 
@@ -75,6 +76,11 @@ export default function OnProgressChall({onProgressChallengeList, dueChallengeLi
                                         onClick={(e)=>{
                                             e.stopPropagation(); 
                                             if(filter == "due"){
+                                                if(user_nickName == challenge.leader_nickname && challenge.now_people == 1){
+                                                    setCancelPurpose("delete");
+                                                }else{
+                                                    setCancelPurpose("participate");
+                                                }
                                                 cancelChall(challenge)
                                             }
                                             else{
@@ -99,7 +105,7 @@ export default function OnProgressChall({onProgressChallengeList, dueChallengeLi
                 </button>
             </div>
             {openModal && 
-                <CancelModal onClose={setOpenModal} cancel={"participate"} 
+                <CancelModal onClose={setOpenModal} cancel={cancelPurpose} 
                     cancelChallID={cancelChallID} cancelChallName={cancelChallName} setChallengeList={setChallengeList}/>}
         </div>
     )

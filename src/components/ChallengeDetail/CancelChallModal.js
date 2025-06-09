@@ -14,9 +14,11 @@ export default function CancelChallModal({onClose, cancelChallName, cancelChallI
     const [success, setSuccess] = useState(true);
 
     const handleClick=()=>{
+        const challengeId = cancelChallID;
+
         const delChallenge = async()=>{
             try {
-                const res = await fetch(`http://localhost:8080/challenge/${cancelChallID}`, {
+                const res = await fetch(`http://localhost:8080/challenge/${challengeId}`, {
                     method: 'DELETE',
                     headers: {
                         // 'Content-Type': 'application/json',

@@ -144,7 +144,7 @@ const Home = () => {
     return(activeTab == "participating" ? start_date > today : start_date <= today)
   })
   .filter((c) =>
-    activeCategory === '전체' ? true : c.category.includes(activeCategory)
+    activeCategory === '전체' ? true : c.category.includes(activeCategory == "운동" ? 'WORKOUT' : activeCategory == "공부" ? 'STUDY' : activeCategory == "생활" ? 'LIFE' : 'ETC')
   )
   .filter((c) =>
     c.challenge_name.toLowerCase().includes(query) ||

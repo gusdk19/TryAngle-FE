@@ -257,7 +257,7 @@ export default function Add() {
             //challenge_thumbnail: base64Thumbnail,
             challenge_shortintro: shortIntro,
             challenge_description: challExplain,
-            category: Number(category),
+            category: Number(category) - 1,
             challenge_public: visibility === 'public',
             start_date: `${startYear}-${startMonth.padStart(2, '0')}-${startDay.padStart(2, '0')}`,
             end_date: `${endYear}-${endMonth.padStart(2, '0')}-${endDay.padStart(2, '0')}`,
@@ -286,7 +286,6 @@ export default function Add() {
         if (imageFile) {
             formData.append('thumbnailImage', imageFile); // ✅ 이렇게 전송
         }
-
 
         try {
         const result = await createChallenge({
