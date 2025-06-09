@@ -20,11 +20,42 @@ import bpi_10 from "../assets/images/basic_profile_image/basic_profile_image_10.
 import bpi_11 from "../assets/images/basic_profile_image/basic_profile_image_11.png";
 import bpi_12 from "../assets/images/basic_profile_image/basic_profile_image_12.png";
 
+//API
+// ✅ createChallenge.js 내부 수정
+const createChallenge = async ({ formData, user_token }) => {
+  if (!user_token) {
+    console.warn('토큰이 없습니다. 로그인 후 다시 시도해주세요.');
+    return;
+  }
+
+  try {
+    const res = await fetch('http://localhost:8080/challenge', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${user_token}`, // ✅ Content-Type 지정 금지 (FormData 자동 처리됨)
+      },
+      body: formData, // ✅ JSON 아니라 FormData 사용
+    });
+
+    const data = await res.json();
+    console.log("챌린지 생성 응답:", data);
+
+    if (!res.ok || !data.isSuccess) {
+      throw new Error(data.message || '챌린지 생성 실패');
+    }
+
+    return data;
+  } catch (error) {
+    console.error('챌린지 생성 오류:', error);
+    alert(`챌린지 생성 실패: ${error.message}`);
+  }
+};
+
 export default function Add() {
 
     const location = useLocation();
     const { visibility, inviteCode } = location.state || {};
-    const { user_token, user_nickName } = useAuthStore(); //API 연결 시 토큰 전달
+    const { user_token } = useAuthStore(); //API 연결 시 토큰 전달
 
     const [challengeName, setChallengeName] = useState('');
     const [challengeNameError, setChallengeNameError] = useState(false);
@@ -111,37 +142,20 @@ export default function Add() {
         }
     },[startYear, startMonth, startDay, endYear, endMonth, endDay])
 
+    // 이미지 -> base64 변환 함수
+    const toBase64 = (file) =>
+    new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result); // 예: "data:image/jpeg;base64,...."
+        reader.onerror = reject;
+    });
+    
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         let hasError = false;
-        //API 로직
-        
-        const challengeData = {
-            challenge_name: challengeName,
-            challenge_thumbnail: profileImage || imageFile,
-            challenge_shortintro: shortIntro,
-            challenge_description: challExplain,
-            category: Number(category),
-            challenge_public: visibility === 'public',
-            start_date: `${startYear}-${startMonth.padStart(2, '0')}-${startDay.padStart(2, '0')}`,
-            end_date: `${endYear}-${endMonth.padStart(2, '0')}-${endDay.padStart(2, '0')}`,
-            auth_time_start: '06:00',
-            auth_time_end: '22:00',
-            max_people: Number(maxParticipant),
-            min_deposit: Number(amount),
-            return_type: depositType === '예치금',
-            auth_frequency: certifyPeriod,
-            deposit_manage_method: depositManageMethod,
-            auth_method: challAuth,
-            vote_method: challVote,
-            // leader_nickname: user_nickName
-        };
-
-        const leaderJoinData = {
-            deposit: Number(amount),
-        };
-
+ 
         if (challengeName.trim() === '') {
         setChallengeNameError(true);
         hasError = true;
@@ -223,67 +237,69 @@ export default function Add() {
             hasError = true;
         }
 
-        //API
-        if (hasError) {
-            return;
-        }
+        if (hasError) return;
 
+        //API
         if (!user_token) {
             alert('로그인이 필요합니다. 로그인 후 다시 시도해주세요.');
             return;
         }
 
-        //API
-        const createChallenge = async ({ challengeData, leaderJoinData, thumbnailImage, user_token }) => {
-            if (!user_token) {
-                console.warn('토큰이 없습니다. 로그인 후 다시 시도해주세요.');
-                return;
-            }
+        let base64Thumbnail = '';
+        if (imageFile) {
+            base64Thumbnail = await toBase64(imageFile);
+        }
 
-            const formData = new FormData();
-            formData.append('challengeData', JSON.stringify(challengeData));
-            formData.append('leaderJoinData', JSON.stringify(leaderJoinData));
-            formData.append('thumbnailImage', thumbnailImage);
+        const challengeData = {
+            challenge_name: challengeName,
+            challenge_thumbnail: base64Thumbnail,
+            challenge_shortintro: shortIntro,
+            challenge_description: challExplain,
+            category: Number(category),
+            challenge_public: visibility === 'public',
+            start_date: `${startYear}-${startMonth.padStart(2, '0')}-${startDay.padStart(2, '0')}`,
+            end_date: `${endYear}-${endMonth.padStart(2, '0')}-${endDay.padStart(2, '0')}`,
+            auth_time_start: '06:00',
+            auth_time_end: '22:00',
+            max_people: Number(maxParticipant),
+            min_deposit: Number(amount),
+            return_type: depositType === '예치금' ? 1 : 0,
+            auth_frequency: certifyPeriod,
+            deposit_manage_method: depositManageMethod,
+            auth_method: challAuth,
+            vote_method: challVote,
+        };
 
-            console.log("challengeData", JSON.stringify(challengeData));
+        const leaderJoinData = {
+            deposit: Number(amount),
+        };
 
-            try {
-                const res = await fetch('http://localhost:8080/challenge', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${user_token}`,
-                },
-                body: JSON.stringify(challengeData),
-                });
+        // ✅ FormData 구성
+        const formData = new FormData();
+        formData.append('challengeData', new Blob([JSON.stringify(challengeData)], { type: 'application/json' }));
+        formData.append('leaderJoinData', new Blob([JSON.stringify(leaderJoinData)], { type: 'application/json' }));
 
-                const data = await res.json();
-                console.log("챌린지 생성 응답:", data);
 
-                if (!res.ok || !data.isSuccess) {
-                    throw new Error(data.message || '챌린지 생성 실패');
-                }
-                else{
-                    alert('챌린지 생성 성공');
-                    navigate('/');
-                }
-
-            } catch (error) {
-                console.error('챌린지 생성 오류:', error);
-                alert(`챌린지 생성 실패: ${error.message}`);
-            }
-        }; 
-
-        createChallenge({
-            challengeData,
-            leaderJoinData,
-            thumbnailImage: imageFile,
-            user_token
+        try {
+        const result = await createChallenge({
+            formData,
+            user_token,
         });
+
+        console.log('result:', result);
+
+        if (result?.isSuccess) {
+            alert('챌린지 생성 성공');
+            navigate('/');
+    
+        }
+        } catch (error) {
+        console.error("챌린지 생성 중 예외 발생:", error);
+        }
     
   };
 
-    // console.log("date", "certify", dateError, certifyPeriod);
+    console.log("date", "certify", dateError, certifyPeriod);
 
     return (
         <div className="bg-white flex justify-center w-full">
