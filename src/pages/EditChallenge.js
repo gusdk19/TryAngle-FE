@@ -297,10 +297,10 @@ export default function EditChallenge() {
                                 } ${categoryError ? 'border-red-500' : 'border-gray-300'}`}
                             >
                                 <option value="">카테고리 선택</option>
-                                <option value="운동">운동</option>
-                                <option value="공부">공부</option>
-                                <option value="생활">생활</option>
-                                <option value="기타">기타</option>
+                                <option value="1">운동</option>
+                                <option value="2">공부</option>
+                                <option value="3">생활</option>
+                                <option value="4">기타</option>
                             </select>
                         </div>
                         {/* 10글자 소개*/}

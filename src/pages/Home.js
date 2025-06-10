@@ -135,17 +135,26 @@ const Home = () => {
   }, []);
 
 
+  const categoryMap = {
+    운동: 'HEALTH',
+    공부: 'STUDY',
+    생활: 'LIFE',
+    기타: 'ETC',
+  };
 
   const filteredChallenges = challenges
   .filter((c) => {
     const today = new Date();
     const start_date = new Date(c.start_date);
 
-    return(activeTab == "participating" ? start_date > today : start_date <= today)
+    return(activeTab === "participating" ? start_date > today : start_date <= today)
   })
-  .filter((c) =>
-    activeCategory === '전체' ? true : c.category.includes(activeCategory == "운동" ? 'HEALTH' : activeCategory == "공부" ? 'STUDY' : activeCategory == "생활" ? 'LIFE' : 'ETC')
-  )
+  .filter((c) => {
+    if (activeCategory === '전체') return true;
+    const categoryCode = categoryMap[activeCategory];
+    console.log('선택:', activeCategory, ' → 매핑:', categoryCode, ' | 챌린지 카테고리:', c.category);
+    return c.category === categoryCode;
+  })
   .filter((c) =>
     c.challenge_name.toLowerCase().includes(query) ||
     c.challenge_description?.toLowerCase().includes(query)
