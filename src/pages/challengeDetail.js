@@ -30,7 +30,9 @@ export default function ChallengeDetail() {
 
   const [loading, setLoading] = useState(challenge && !isLoggedIn ? false : true);
   const [challengeData, setChallengeData] = useState(challenge ? challenge : {});
-  const [userChallengeData, setUserChallengeData] = useState({"status": updatedStatus || 0});
+  const [userChallengeData, setUserChallengeData] = useState({});
+  
+  const [participate, setParticipate] = useState(updatedStatus ? updatedStatus : 0);
   // console.log("loading", loading, "challengeData", challengeData);
 
   const dummyChallengeData = {
@@ -57,7 +59,7 @@ export default function ChallengeDetail() {
   };
 
   const dummyUserChallengeData = {
-    "status": updatedStatus || 0, // 0: ready, 1: progress, 2: completed
+    "status": 0, // 0: ready, 1: progress, 2: completed
     "participaton_success": false,
     "deposit_amount": null,
     "deposit_status": null, // 0: refunded, 1: donated, 2: not_refunded_yet
@@ -70,7 +72,7 @@ export default function ChallengeDetail() {
     const start = Date.now();
 
     const getChallengeData = async()=>{
-      const challengeId = parseInt(id, 10)
+      const challengeId = parseInt(id, 10);
 
       try {
         const res = await fetch(`http://localhost:8080/challenge/${challengeId}`, {
@@ -119,7 +121,8 @@ export default function ChallengeDetail() {
 
           if(data.isSuccess){
               // challengeFeeRefund에서 post만 제대로 되면 data.result 저장하는 것만으로 충분
-              setUserChallengeData(updatedStatus ? {...data.result, status : updatedStatus} : data.result);
+              setUserChallengeData(data.result);
+              setParticipate(updatedStatus);
           } else{
               console.log(`⚠ ${data.message}`);
               setUserChallengeData(dummyUserChallengeData);
@@ -133,12 +136,43 @@ export default function ChallengeDetail() {
       }
     }
 
-    if(challenge == undefined){
-      getChallengeData();
+    const checkMyChallenge = async()=>{
+
+      const challengeId = parseInt(id, 10)
+
+      try {
+        const res = await fetch(`http://localhost:8080/challenge/my/${challengeId}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${user_token}`
+            },
+        });
+
+        const data = await res.json();
+        console.log("check My Challenge check", data.isSuccess, data.result);
+
+        if(data.isSuccess){
+          setParticipate(1);
+          console.log("챌린지 참가 여부 확인에 성공하였습니다.");
+          
+        } else{
+          setParticipate(0);
+          console.log(`⚠ ${data.message}`);
+        }
+      } catch (error) {
+          setParticipate(0);
+          console.error('개별 챌린지 참가 여부 확인 오류:', error);
+      }
     }
+
+    // if(challenge == undefined){
+      getChallengeData();
+    // }
 
     if(isLoggedIn){
       getUserChallengeData();
+      checkMyChallenge();
     }
   }, [])
 
@@ -190,7 +224,7 @@ export default function ChallengeDetail() {
         {/* Header */}
         <Header title={challengeData.challenge_name} page={page} prevPage={prevPage} id={challengeData.challenge_id}/>
         <hr className="m-0"/>
-        {isLoggedIn ? <DetailNav tab={navTab} setTab={setNavTab}/> 
+        {isLoggedIn ? <DetailNav status={status} tab={navTab} setTab={setNavTab}/> 
         : <div className="my-3"></div>}
 
         {/* Main Content */}
@@ -233,7 +267,7 @@ export default function ChallengeDetail() {
           {/* Main Component */}
           <div className="h-[470px] px-5 overflow-scroll main">
             {navTab == "vertify" ? 
-              <Vertify vertifyMethod = {challengeData.auth_method ? challengeData.auth_method : "인증방법 소개글"} /> :
+              <Vertify vertifyMethod = {challengeData.auth_method ? challengeData.auth_method : "인증방법 소개글"} challengeId={id}/> :
             navTab == "info" ?
               <Info challengeData={challengeData}/> :
               <></>
@@ -243,7 +277,7 @@ export default function ChallengeDetail() {
       
         {/* Footer Navigation */}
         {navTab == "info" ?
-        <ChallengeFooter chall_status={status} status={userChallengeData.status} challengeID={id} setUserChallengeData={setUserChallengeData} participant_list={challengeData.participant_list} 
+        <ChallengeFooter chall_status={status} status={participate} challengeID={id} setParticipate={setParticipate} participant_list={challengeData.participant_list} 
           isLoggedIn={isLoggedIn} setRequestLogin={setRequestLogin} prevPage={prevPage}
           deleteChall={status == 0 && user_nickName == challengeData.leader_nickname && challengeData.now_people == 1} 
           min_deposit={challengeData.min_deposit}
@@ -256,7 +290,7 @@ export default function ChallengeDetail() {
       {quitChallModal && 
         <QuitChallModal onClose={setQuitChallModal} cancelChallID={id} 
           leader={user_nickName == challengeData.leader_nickname}
-          cancelChallName={challengeData.challenge_name} setUserChallengeData={setUserChallengeData}/>}          
+          cancelChallName={challengeData.challenge_name} setParticipate={setParticipate}/>}          
     </div>
   );
 }

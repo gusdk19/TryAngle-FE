@@ -5,7 +5,7 @@ import { IoMdClose } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import useAuthStore from "../User/UseAuthStore";
 
-export default function QuitChallModal({onClose, cancelChallName, cancelChallID, setUserChallengeData, leader}){
+export default function QuitChallModal({onClose, cancelChallName, cancelChallID, setParticipate, leader}){
 
     const navigate = useNavigate();
 
@@ -33,10 +33,7 @@ export default function QuitChallModal({onClose, cancelChallName, cancelChallID,
                 if(data.isSuccess){
                     console.log("챌린지 참가를 취소하였습니다.");
 
-                    setUserChallengeData((prev)=>({
-                        ...prev,
-                        status : 0,
-                    }))
+                    setParticipate(0);
 
                     onClose(false);
                 } else{

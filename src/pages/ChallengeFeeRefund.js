@@ -118,7 +118,7 @@ export default function ChallengeFeeRefund() {
                 className="w-full text-[25px] text-center font-bold py-2 outline-none border-b border-black block"
               />
               <p className='text-sm mt-1 text-[#5C5C5C]'>
-                최소 {minDeposit ? minDeposit : 1000}원 ~ 최대 200,000원 (1천원, 1만원 단위 가능)
+                최소 <span className="text-red-500 font-semibold">{minDeposit ? minDeposit.toLocaleString() : 1000}원</span> ~ 최대 200,000원 (1천원, 1만원 단위 가능)
               </p>
               {error && <p className="text-sm text-red-500">{error}</p>}
             </section>
