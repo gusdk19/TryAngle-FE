@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import rank_bannerImage from '../assets/images/common/rank_bannerimage.png';
@@ -14,7 +14,7 @@ import bpi_4 from "../assets/images/mypage/basic_profile_image/basic_profile_ima
 import bpi_5 from "../assets/images/mypage/basic_profile_image/basic_profile_image_5.png"
 
 
-const sampleRankingData = [
+const rankingData = [
   {
     name: "다연츄",
     description: "챌린지 중독자!",
@@ -52,7 +52,7 @@ const sampleRankingData = [
   },
 ];
 
-const sortedRanking = [...sampleRankingData].sort((a, b) => {
+const sortedRanking = [...rankingData].sort((a, b) => {
   if (b.total_success_rate !== a.total_success_rate) {
     return b.total_success_rate - a.total_success_rate;
   }
@@ -62,14 +62,52 @@ const sortedRanking = [...sampleRankingData].sort((a, b) => {
 const Ranking = () => {
 
   const { isLoggedIn } = useAuthStore();
-
   const [activeTab, setActiveTab] = useState('overall');
-  
   const [query, setQuery] = useState("");
   const navigate = useNavigate();
+  const [rankingData, setRankingData] = useState([]);
+  const [rankingError, setRankingError] = useState(null);
 
 
   const [requestLogin, setRequestLogin] = useState(false);
+
+  useEffect(() => {
+    const fetchRanking = async () => {
+      try {
+        let url = 'http://localhost:8080/ranking'; // 기본: 전체 랭킹
+        const headers = {};
+
+        if (activeTab === 'follower') {
+          url = 'http://localhost:8080/ranking/following'; // 팔로잉 랭킹
+          const token = localStorage.getItem('accessToken')?.trim();
+
+          if (!token) {
+            setRankingError('🔒 로그인 후 팔로워 랭킹을 확인할 수 있습니다.');
+            return;
+          }
+
+          headers['Authorization'] = `Bearer ${token}`;
+        }
+
+        const res = await fetch(url, { headers });
+
+        if (!res.ok) {
+          const errText = await res.text();
+          setRankingError(`랭킹 조회 실패: ${errText}`);
+          return;
+        }
+
+        const data = await res.json();
+        setRankingData(data);
+        setRankingError(null);
+      } catch (err) {
+        console.error('랭킹 요청 오류:', err);
+        setRankingError('서버 오류');
+      }
+    };
+
+    fetchRanking();
+  }, [activeTab]);
   
 
   return (
@@ -106,7 +144,7 @@ const Ranking = () => {
         </div>
         {/* 랭킹 */}
          <main className="main h-[593px] overflow-auto px-5 mt-[20px] pb-6">
-            {sampleRankingData.map((user, index) => (
+            {rankingData.map((user, index) => (
                 <div key={index} className="flex items-center space-x-3 mb-4">
                 {/* 순위 동그라미 */}
                 <div className="relative w-11 h-11 flex items-center justify-center">
