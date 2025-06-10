@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { FaRegBell } from "react-icons/fa";
@@ -202,10 +202,42 @@ const mockNotification = [
 ]
 
 function Alarm() {
-
     const page = "alarm";
+    const [notifications, setNotifications] = useState([]);
 
-    const [notifications, setNotifications] = React.useState(mockNotification)
+    useEffect(() => {
+    const fetchNotifications = async () => {
+        const token = localStorage.getItem('accessToken')?.trim();
+        console.log('accessToken:', token);
+        if (!token) {
+        console.warn('🔒 accessToken이 없습니다. 로그인 후 시도해주세요.');
+        return;
+        }
+
+        try {
+        const res = await fetch('http://localhost:8080/user/notification', {
+            method: 'GET',
+            headers: {
+            Authorization: `Bearer ${token}`,
+            },
+        });
+
+        if (!res.ok) {
+            const errorText = await res.text(); // 에러 응답이 HTML일 수도 있으니 text로
+            console.error('서버 응답 오류:', errorText);
+            return;
+        }
+
+        const data = await res.json();
+        console.log('알림 목록:', data);
+        setNotifications(data.result); // 응답 구조에 따라 조정
+        } catch (error) {
+        console.error('알림 불러오기 실패:', error);
+        }
+    };
+
+    fetchNotifications();
+    }, []);
   
     const handleRead = (id) => {
       setNotifications((prev) =>
@@ -217,7 +249,7 @@ function Alarm() {
 
     /*정렬 + slice로 20개까지만 표시*/
     const sortedNotifications = [...notifications]
-    .sort((a, b) => new Date(b.created_date) - new Date(a.created_date))
+    .sort((a, b) => new Date(b.created_date || 0) - new Date(a.created_date || 0))
     .slice(0, 20);
    
    //TODO: nickname, chanllenge name을 볼드체로 변경

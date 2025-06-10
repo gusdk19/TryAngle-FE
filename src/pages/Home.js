@@ -136,7 +136,7 @@ const Home = () => {
 
 
   const categoryMap = {
-    운동: 'HEALTH',
+    운동: 'WORKOUT',
     공부: 'STUDY',
     생활: 'LIFE',
     기타: 'ETC',
