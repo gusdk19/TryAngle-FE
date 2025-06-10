@@ -48,6 +48,8 @@ export default function Login(){
                 setToken(data.result.token);
                 setError('');
 
+                localStorage.setItem('accessToken', data.result.token);
+
                 login(data.result.token, data.result.username);
 
                 console.log("nickname", data.result)

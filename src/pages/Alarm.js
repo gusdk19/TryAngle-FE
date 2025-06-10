@@ -80,123 +80,6 @@ const mockNotification = [
         is_read:false,
         created_date:'2025-05-14T12:00:00',
         message:"고은님이 친구신청을 보냈습니다.",
-    },
-    {
-        notification_id:9,
-        sender_id: 2002,
-        nickname: '박고은',
-        notification_type: 'FOLLOW',
-        is_read:false,
-        created_date:'2025-05-15T12:00:00',
-        message:"박고은님이 친구신청을 보냈습니다.",
-    },
-    {
-        notification_id:10,
-        sender_id: 2002,
-        nickname: '고은츄',
-        notification_type: 'FOLLOW',
-        is_read:false,
-        created_date:'2025-05-16T12:00:00',
-        message:"고은츄님이 친구신청을 보냈습니다.",
-    },
-    {
-        notification_id:11,
-        sender_id: 2002,
-        nickname: '혜원',
-        notification_type: 'FOLLOW',
-        is_read:false,
-        created_date:'2025-05-17T12:00:00',
-        message:"혜원님이 친구신청을 보냈습니다.",
-    },
-    {
-        notification_id:12,
-        sender_id: 2002,
-        nickname: '장혜원',
-        notification_type: 'FOLLOW',
-        is_read:false,
-        created_date:'2025-05-18T12:00:00',
-        message:"장혜원님이 친구신청을 보냈습니다.",
-    },
-    {
-        notification_id:13,
-        sender_id: 2002,
-        nickname: '혜원츄',
-        notification_type: 'FOLLOW',
-        is_read:false,
-        created_date:'2025-05-19T12:00:00',
-        message:"혜원츄님이 친구신청을 보냈습니다.",
-    },
-    {
-        notification_id:14,
-        sender_id: 2002,
-        nickname: '소재',
-        notification_type: 'FOLLOW',
-        is_read:false,
-        created_date:'2025-05-20T12:00:00',
-        message:"소재님이 친구신청을 보냈습니다.",
-    },
-    {
-        notification_id:15,
-        sender_id: 2002,
-        nickname: '고갈',
-        notification_type: 'FOLLOW',
-        is_read:false,
-        created_date:'2025-05-21T12:00:00',
-        message:"고갈님이 친구신청을 보냈습니다.",
-    },
-    {
-        notification_id:16,
-        sender_id: 2002,
-        nickname: '누가',
-        notification_type: 'FOLLOW',
-        is_read:false,
-        created_date:'2025-05-22T12:00:00',
-        message:"누가님이 친구신청을 보냈습니다.",
-    },
-    {
-        notification_id:17,
-        sender_id: 2002,
-        nickname: '있을까',
-        notification_type: 'FOLLOW',
-        is_read:false,
-        created_date:'2025-05-23T12:00:00',
-        message:"있을까님이 친구신청을 보냈습니다.",
-    },
-    {
-        notification_id:18,
-        sender_id: 2002,
-        nickname: '춘식이',
-        notification_type: 'FOLLOW',
-        is_read:false,
-        created_date:'2025-05-24T12:00:00',
-        message:"춘식이님이 친구신청을 보냈습니다.",
-    },
-    {
-        notification_id:19,
-        sender_id: 2002,
-        nickname: '교동이',
-        notification_type: 'FOLLOW',
-        is_read:false,
-        created_date:'2025-05-25T12:00:00',
-        message:"교동이님이 친구신청을 보냈습니다.",
-    },
-    {
-        notification_id:20,
-        sender_id: 2002,
-        nickname: '뽀로로',
-        notification_type: 'FOLLOW',
-        is_read:false,
-        created_date:'2025-05-26T12:00:00',
-        message:"뽀로로님이 친구신청을 보냈습니다.",
-    },
-    {
-        notification_id:21,
-        sender_id: 2002,
-        nickname: '크롱',
-        notification_type: 'FOLLOW',
-        is_read:false,
-        created_date:'2025-05-27T12:00:00',
-        message:"크롱님이 친구신청을 보냈습니다.",
     }
 
 ]
@@ -205,9 +88,40 @@ function Alarm() {
     const page = "alarm";
     const [notifications, setNotifications] = useState([]);
 
+    //챌린지 참여 권유 알림
+    const sendInviteNotification = async ({ senderId, receiverId, challengeId, inviteCode }) => {
+        const token = localStorage.getItem('accessToken');
+        if (!token) {
+        alert('🔒 로그인 후 다시 시도해주세요.');
+        return;
+        }
+
+        try {
+        const res = await fetch('http://localhost:8080/user/invite/notification', {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({ senderId, receiverId, challengeId, inviteCode }),
+        });
+
+        const data = await res.json();
+        if (res.ok && data.isSuccess) {
+            alert(data.message);
+        } else {
+            alert(`실패: ${data.message}`);
+        }
+        } catch (err) {
+        console.error('알림 전송 실패:', err);
+        alert('알림 전송 중 오류가 발생했습니다.');
+        }
+    };
+
+    //알림 리스트 조회
     useEffect(() => {
     const fetchNotifications = async () => {
-        const token = localStorage.getItem('accessToken')?.trim();
+        const token = localStorage.getItem('accessToken');
         console.log('accessToken:', token);
         if (!token) {
         console.warn('🔒 accessToken이 없습니다. 로그인 후 시도해주세요.');
@@ -223,14 +137,14 @@ function Alarm() {
         });
 
         if (!res.ok) {
-            const errorText = await res.text(); // 에러 응답이 HTML일 수도 있으니 text로
+            const errorText = await res.text(); 
             console.error('서버 응답 오류:', errorText);
             return;
         }
 
         const data = await res.json();
         console.log('알림 목록:', data);
-        setNotifications(data.result); // 응답 구조에 따라 조정
+        setNotifications(data.result); 
         } catch (error) {
         console.error('알림 불러오기 실패:', error);
         }
@@ -239,17 +153,42 @@ function Alarm() {
     fetchNotifications();
     }, []);
   
-    const handleRead = (id) => {
-      setNotifications((prev) =>
-        prev.map((n) =>
-          n.notification_id === id ? { ...n, is_read: true } : n
-        )
-      )
-    }
+    //알림 읽음 처리
+    const handleRead = async (id) => {
+        const token = localStorage.getItem('accessToken');
+        if (!token) {
+            alert('로그인이 필요합니다.');
+            return;
+        }
+
+        try {
+            const res = await fetch(`http://localhost:8080/user/notification/${id}/read`, {
+            method: 'PATCH',
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+            });
+
+            const data = await res.json();
+
+            if (res.ok && data.isSuccess) {
+            // 읽음 처리 성공 시 UI 상태도 변경
+            setNotifications((prev) =>
+                prev.map((n) =>
+                n.notificationId === id ? { ...n, isRead: true } : n
+                )
+            );
+            } else {
+            console.error('읽음 처리 실패:', data.message);
+            }
+        } catch (err) {
+            console.error('읽음 처리 중 오류 발생:', err);
+        }
+    };
 
     /*정렬 + slice로 20개까지만 표시*/
     const sortedNotifications = [...notifications]
-    .sort((a, b) => new Date(b.created_date || 0) - new Date(a.created_date || 0))
+    .sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0))
     .slice(0, 20);
    
    //TODO: nickname, chanllenge name을 볼드체로 변경
@@ -264,7 +203,7 @@ function Alarm() {
                 <div className="flex flex-col gap-4">
                     {sortedNotifications.map((n) => (
                     <NotificationItem
-                        key={n.notification_id}
+                        key={n.notificationId}
                         notification={n}
                         onClick={handleRead}
                     />
