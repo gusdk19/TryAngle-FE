@@ -50,7 +50,7 @@ export default function Login(){
 
                 localStorage.setItem('accessToken', data.result.token);
 
-                login(data.result.token, data.result.username);
+                login(data.result.token, data.result.username); //Alarm에서 토큰 전송 용
 
                 console.log("nickname", data.result)
                 // navigate("/mypage", {state:{success:true}});
