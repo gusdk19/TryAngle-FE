@@ -9,14 +9,21 @@ import { FaRegHeart } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa";
 import VoteFooter from "./VoteFooter";
 import ReportModal from "./ReportModal";
+import useAuthStore from "../User/UseAuthStore";
 
 export default function Vote({challengeID}){
+
+    const {user_token} = useAuthStore();
+
+    const [loading, setLoading] = useState(true);
 
     const [onReport, setOnReport] = useState(false);
 
     const [onVote, setOnVote] = useState("");
 
-    const [voteStatusList, setVoteStatusList] = useState([
+    const [voteStatusList, setVoteStatusList] = useState([]);
+
+    const dummyVoteStatusList = [
         {
           "nickname": "다연츄",
           "voter_id" : 1,
@@ -38,7 +45,39 @@ export default function Vote({challengeID}){
           "voted": false,
           "auth_image": null,
         }
-    ]);
+    ];
+
+    useEffect(()=>{
+      const getVoteStatusList = async()=>{
+        const challengeId = parseInt(challengeID, 10)
+
+        try {
+          const res = await fetch(`http://localhost:8080/challenge/${challengeId}/users/vote`, {
+              method: 'GET',
+              headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${user_token}`
+              },
+          });
+
+          const data = await res.json();
+          console.log("get Vote Status List check", data.isSuccess, data.result);
+
+          if(data.isSuccess){
+            setVoteStatusList(data.result);
+            console.log("챌린지 팀원 투표 현황 리스트 조회에 성공하였습니다.");
+            setLoading(false);
+          } else{
+            console.log(`⚠ ${data.message}`);
+          }
+        } catch (error) {
+            console.error('챌린지 팀원 투표 현황 리스트 조회 오류:', error);
+        }
+      }
+
+      getVoteStatusList();
+    }, [])
+
 
     const [onVoteUser, setOnVoteUser] = useState("");
 
@@ -74,7 +113,11 @@ export default function Vote({challengeID}){
                 </div>
                 <div className="flex flex-col gap-3 mt-3 text-[#6E6053] 
                         overflow-scroll main h-[635px]">
-                    {sortedVoteStatusList.map((voteStatus, id)=>{
+                    {loading ? 
+                    <div className="w-full h-full grid items-center">
+                        <div className="spinner"></div>
+                    </div>
+                    : sortedVoteStatusList.map((voteStatus, id)=>{
                         return(
                             <div className="flex flex-row gap-3 justify-between h-[45px] py-auto object-contain" id={id}>
                                 <div className="flex-1 flex flex-row gap-4">

@@ -9,6 +9,7 @@ export default function Info({challengeData}){
         application_period.setDate(application_period.getDate()-1);
     }
     // console.log("application_period", challengeData.start_date, application_period)
+    const formattedAP = application_period ? application_period.toISOString().split('T')[0] : "";
 
     const [tab, setTab] = useState("basic_info");
 
@@ -57,11 +58,15 @@ export default function Info({challengeData}){
                     <div className="flex flex-col gap-2 px-2 text-[#6E6053] font-medium">
                         <div className="flex flex-row gap-1 text-[13px]">
                             <div className="w-[100px] font-semibold">신청기간</div>
-                            <div className="text-[#B8AA96]">~{application_period ? application_period.toISOString().split('T')[0]: ''}</div>
+                            <div className="text-[#B8AA96]">~{formattedAP ? formattedAP: ''}</div>
                         </div>
                         <div className="flex flex-row gap-1 text-[13px]">
                             <div className="w-[100px] font-semibold">인증기간</div>
                             <div className="text-[#B8AA96]">{challengeData.start_date}~{challengeData.end_date}</div>
+                        </div>
+                        <div className="flex flex-row gap-1 text-[13px]">
+                            <div className="w-[100px] font-semibold">최소 예치금</div>
+                            <div className="text-[#B8AA96]">{challengeData.min_deposit.toLocaleString()}원</div>
                         </div>
                         <div className="flex flex-row gap-1 text-[13px]">
                             <div className="w-[100px] font-semibold">최대모집인원</div>

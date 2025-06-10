@@ -1,10 +1,10 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function ChallengeFooter({status, challengeID, setUserChallengeData, participant_list, isLoggedIn, setRequestLogin, chall_status, prevPage, deleteChall, min_deposit, onClose, onClose2}){
+export default function ChallengeFooter({status, challengeID, setParticipate, participant_list, isLoggedIn, setRequestLogin, chall_status, prevPage, deleteChall, min_deposit, onClose, onClose2}){
     const navigate = useNavigate();
 
-    // console.log("status", status);
+    // console.log("chall_status", chall_status, status);
 
     return(
         <footer className="flex absolute w-full h-[70px] bottom-0 left-0 bg-white ">
@@ -44,7 +44,7 @@ export default function ChallengeFooter({status, challengeID, setUserChallengeDa
             }}>
             {status == 0 ? chall_status != 0 ? "모집종료" : deleteChall ? "삭제하기" : "참가하기" :
              status == 1 && chall_status == 0 ? "참가취소" : 
-             status == 2 && chall_status == 2 ? "참가완료" : "참가중"}
+             chall_status == 2 ? "참가완료" : "참가중"}
           </button>
           <button className="flex-1 font-semibold text-[20px] bg-[#FAB809] text-[#4A483F]"
             onClick={()=>{
