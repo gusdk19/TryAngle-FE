@@ -22,22 +22,42 @@ export default function InviteCodeModal({ onClose, challengeId, correctCode }) {
         setCode(newCode);
     };
 
-    const handleVerify = () => {
-        const inputCode = code.join('');
-        if (inputCode === correctCode) {
-            // 성공
-            setErrorMessage('');
-            navigate(`/challenge/${challengeId}`, {
-              state: { tab: 'info', prevPage: 'home' },
-            });
-            // navigate(`/challenge/${challengeId}`, {
-            //   state: { tab: 'info' },
-            // });
-            onClose();
+    const handleVerify = async () => {
+      const inputCode = code.join('');
+      if (inputCode.length < 6) {
+        setErrorMessage('6자리 초대 코드를 입력해주세요.');
+        return;
+      }
+
+      try {
+        const res = await fetch('http://localhost:8080/challenge/invite/verify', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            challengeId: challengeId,
+            inviteCode: inputCode,
+          }),
+        });
+
+        const data = await res.json();
+
+        if (res.ok && data.isSuccess) {
+          // 인증 성공
+          setErrorMessage('');
+          navigate(`/challenge/${challengeId}`, {
+            state: { tab: 'info', prevPage: 'home' },
+          });
+          onClose();
         } else {
-            // 실패
-            setErrorMessage('올바르지 않은 초대 코드입니다.');
+          // 인증 실패
+          setErrorMessage(data.message || '올바르지 않은 초대 코드입니다.');
         }
+      } catch (error) {
+        console.error('초대 코드 인증 중 오류:', error);
+        setErrorMessage('서버 오류가 발생했습니다. 다시 시도해주세요.');
+      }
     };
 
     const handleKeyDown = (e, index) => {
