@@ -23,7 +23,7 @@ export default function OnProgressChall({onProgressChallengeList, dueChallengeLi
         setCancelChallID(challenge.challenge_id);
         setCancelChallName(challenge.challenge_name);
     }
-
+    
     return(
         <div className='w-full px-5 mt-4'>
             {/* Navbar */}
