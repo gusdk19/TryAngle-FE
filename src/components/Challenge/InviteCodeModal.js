@@ -24,20 +24,23 @@ export default function InviteCodeModal({ onClose, challengeId, correctCode }) {
 
     const handleVerify = async () => {
       const inputCode = code.join('');
+      const token = localStorage.getItem('accessToken');
+
       if (inputCode.length < 6) {
         setErrorMessage('6자리 초대 코드를 입력해주세요.');
         return;
       }
 
       try {
-        const res = await fetch('http://localhost:8080/challenge/invite/verify', {
+        const res = await fetch('http://localhost:8080/challenge/invite', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            Authorization : `Bearer ${token}`,
           },
           body: JSON.stringify({
-            challengeId: challengeId,
-            inviteCode: inputCode,
+            challenge_id: challengeId,
+            invite_code: inputCode,
           }),
         });
 
