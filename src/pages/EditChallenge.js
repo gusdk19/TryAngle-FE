@@ -8,6 +8,7 @@ import Footer from '../components/Footer';
 //import { FaRegBell } from "react-icons/fa";
 //import { useNavigate } from 'react-router-dom';
 import FieldError from '../components/FieldError';
+import useAuthStore from "../components/User/UseAuthStore";
 
 // Basic Profile Image
 import bpi_1 from "../assets/images/basic_profile_image/basic_profile_image_1.png";
@@ -24,11 +25,48 @@ import bpi_11 from "../assets/images/basic_profile_image/basic_profile_image_11.
 import bpi_12 from "../assets/images/basic_profile_image/basic_profile_image_12.png";
 
 
+//API
+const Edit = async ({ formData, user_token, challengeId }) => {
+
+  if (!user_token) {
+    console.warn('토큰이 없습니다. 로그인 후 다시 시도해주세요.');
+    return;
+  }
+
+  console.log("✅ 챌린지 수정 요청 데이터 (FormData):");
+    for (let pair of formData.entries()) {
+    console.log(`${pair[0]}: ${pair[1]}`);
+    }
+
+  try {
+    const res = await fetch(`http://localhost:8080/challenge/${challengeId}`, {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${user_token}`,
+      },
+      body: formData, 
+    });
+
+    const data = await res.json();
+    console.log("챌린지 수정 응답:", data);
+
+    if (!res.ok || !data.isSuccess) {
+      throw new Error(data.message || '챌린지 수정 실패');
+    }
+
+    return data;
+  } catch (error) {
+    console.error('챌린지 수정 오류:', error);
+    alert(`챌린지 수정 실패: ${error.message}`);
+  }
+};
+
 export default function EditChallenge() {
 
     const location = useLocation();
 
-    const { challenge, prevPage } = location.state || {};
+    const { challenge, prevPage, challengeId } = location.state || {};
+    const { user_token } = useAuthStore(); //API 연결 시 토큰 전달
 
     console.log("challenge", challenge);
 
@@ -43,12 +81,30 @@ export default function EditChallenge() {
     const [shortIntro, setShortIntro] = useState(updatedChallenge.challenge_shortintro || '');
     const [shortIntroError, setShortIntroError] = useState(false);
 
-    const [startYear, setStartYear] = useState(updatedChallenge.start_date?.split("-")[0] || '');
-    const [startMonth, setStartMonth] = useState(updatedChallenge.start_date?.split("-")[1] || '');
-    const [startDay, setStartDay] = useState(updatedChallenge.start_date?.split("-")[2] || '');
-    const [endYear, setEndYear] = useState(updatedChallenge.end_date?.split("-")[0] || '');
-    const [endMonth, setEndMonth] = useState(updatedChallenge.end_date?.split("-")[1] || '');
-    const [endDay, setEndDay] = useState(updatedChallenge.end_date?.split("-")[2] || '');
+    // 안전하게 날짜 문자열로 변환하는 함수
+    function safeDateString(dateValue) {
+    if (!dateValue) return '2025-01-01'; // 기본값 또는 빈 문자열
+    try {
+        return typeof dateValue === 'string'
+        ? dateValue
+        : new Date(dateValue).toISOString().slice(0, 10);
+    } catch {
+        return '2025-01-01';
+    }
+    }
+
+    // 안전한 초기값 가져오기
+    const startStr = safeDateString(updatedChallenge.start_date);
+    const endStr = safeDateString(updatedChallenge.end_date);
+
+    // 날짜 필드 초기화
+    const [startYear, setStartYear] = useState(startStr.split("-")[0]);
+    const [startMonth, setStartMonth] = useState(startStr.split("-")[1]);
+    const [startDay, setStartDay] = useState(startStr.split("-")[2]);
+
+    const [endYear, setEndYear] = useState(endStr.split("-")[0]);
+    const [endMonth, setEndMonth] = useState(endStr.split("-")[1]);
+    const [endDay, setEndDay] = useState(endStr.split("-")[2]);
     const [dateError, setDateError] = useState('');
 
     const [certifyPeriod, setCertifyPeriod] = useState(updatedChallenge.auth_frequency || '');
@@ -79,6 +135,7 @@ export default function EditChallenge() {
     const [profileImageError, setProfileImageError] = useState('');
     const [prePI, setPrePI] = useState(updatedChallenge.thumbnail || '');
     const [choiceBasicImage, setChoiceBasicImage] = useState(false);
+    const [imageFile, setImageFile] = useState(null);
 
     const navigate = useNavigate();
 
@@ -118,7 +175,7 @@ export default function EditChallenge() {
         }
     },[startYear, startMonth, startDay, endYear, endMonth, endDay])
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async(e) => {
         e.preventDefault();
 
         let hasError = false;
@@ -231,7 +288,7 @@ export default function EditChallenge() {
                 challenge_name : challengeName,
                 challenge_thumbnail : profileImage,
                 challenge_shortintro: shortIntro,
-                challenge_description: challExplain,
+                challenge_descripton: challExplain,
                 start_date : startDate,
                 end_date : endDate,
                 max_people : maxParticipant,
@@ -244,7 +301,51 @@ export default function EditChallenge() {
             },
             prevPage: prevPage}});
         }
-        
+
+        //API
+        if (!user_token) {
+            alert('로그인이 필요합니다. 로그인 후 다시 시도해주세요.');
+            return;
+        }
+
+        // FormData 구성
+        const formData = new FormData();
+        formData.append('challengeData', new Blob([JSON.stringify({
+            challenge_name : challengeName,
+            challenge_thumbnail : profileImage,
+            challenge_shortintro: shortIntro,
+            challenge_description: challExplain,
+            start_date : startDate,
+            end_date : endDate,
+            max_people : maxParticipant,
+            min_deposit : amount,
+            return_type : depositType,
+            auth_frequency: certifyPeriod,
+            deposit_manage_method: depositManageMethod,
+            auth_method: challAuth,
+            vote_method : challVote
+        })], { type: 'application/json' }));
+        if (imageFile) {
+            formData.append('thumbnailImage', imageFile); // ✅ 이렇게 전송
+        }
+
+        try {
+        const result = await Edit({
+            formData,
+            user_token,
+            challengeId
+        });
+
+        console.log('result:', result);
+
+        if (result?.isSuccess) {
+            alert('챌린지 생성 성공');
+            navigate('/');
+    
+        }
+        } catch (error) {
+        console.error("챌린지 생성 중 예외 발생:", error);
+        }
 
         // 실제 제출 로직 (ex: API 호출) 추가 가능
   };
