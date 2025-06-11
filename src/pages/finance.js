@@ -11,17 +11,24 @@ import dumbell from "../assets/images/finance/dumbell.png";
 
 import "../styles/finance/finance.css";
 import { useLocation } from "react-router-dom";
+import useAuthStore from "../components/User/UseAuthStore";
 
 
 export default function Finance() {
 
     const page = "finance";
 
+    const {user_token} = useAuthStore();
+
     const location = useLocation();
 
     const { deposit, reward } = location.state || {};
 
-    const financeStatus = [
+    const [loading, setLoading] = useState(true);
+
+    const [financeStatus, setFinanceStatus] = useState([]);
+
+    const dummyFinanceStatus = [
         {
             "challenge_id" : 1, 
             "challenge_name" : "하루에 물 한 잔잔", 
@@ -54,6 +61,80 @@ export default function Finance() {
         },
     ];
 
+    useEffect(()=>{
+      const getChallengeList = async ()=>{
+        try {
+            const res = await fetch('http://localhost:8080/challenge/my', {
+                method: 'GET',
+                headers: {
+                    // 'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${user_token}`
+                },
+            });
+
+            const data = await res.json();
+            console.log("my challenge Data check", data.isSuccess, data.result);
+
+            if(data.isSuccess){
+                console.log("마이챌린지 조회 성공했습니다.")
+
+                return data.result;
+            } else{
+                console.log(`⚠ ${data.message}`);
+            }
+        } catch (error) {
+            console.error('마이챌린지 페이지 조회 오류:', error);
+        }
+      } 
+
+      const getMyDepositRecord = async()=>{
+        try {
+          const res = await fetch(`http://localhost:8080/challenge/my/deposit`, {
+              method: 'GET',
+              headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${user_token}`
+              },
+          });
+
+          const data = await res.json();
+          console.log("get my Deposit Record check", data.isSuccess, data.result);
+
+          if(data.isSuccess){
+            const getData = await getChallengeList();
+
+            const updatedResult = await Promise.all(data.result.map(async(record) => {
+                // 해당 challenge_id와 일치하는 authData 항목 찾기
+                
+                const matchingData = getData.find((data)=>(data.challenge_id == record.challengeId))
+                
+                console.log("getData matchingData", getData, matchingData);
+
+                const today = new Date();
+                const endDate = new Date(matchingData.end_date);
+
+                return {
+                    ...record,
+                    // auth_image가 존재하면 true, 없거나 없으면 false
+                    refund_status: today <= endDate ? "진행중" : "정산중"
+                };
+            }));
+            
+            console.log("updatedResult", updatedResult);
+            setFinanceStatus(updatedResult);
+            console.log("챌린지 팀원 투표 현황 리스트 조회에 성공하였습니다.");
+            setLoading(false);
+          } else{
+            console.log(`⚠ ${data.message}`);
+          }
+        } catch (error) {
+            console.error('챌린지 팀원 투표 현황 리스트 조회 오류:', error);
+        }
+      }
+
+      getMyDepositRecord();
+    }, [])
+
     const [withdrawal, setWithdrawal] = useState(0);
 
     // const totalDeposit = financeStatus.reduce((sum, item) => sum + item.deposit, 0);
@@ -78,7 +159,7 @@ export default function Finance() {
                 <TotalFinanceBox totalDeposit={totalDeposit} totalReturn={totalReturn} withdrawal={withdrawal} setWithdrawal={setWithdrawal} onClose={setWdModal} />
                 
                 {/* 챌린지별 예치금 및 보상 기록 */}
-                <FinanceRecord financeStatus={financeStatus} />
+                <FinanceRecord financeStatus={financeStatus} loading={loading} />
         
                 {/* Footer Navigation */}
                 <Footer page={page}/>

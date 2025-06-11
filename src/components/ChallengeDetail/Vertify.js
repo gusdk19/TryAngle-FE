@@ -43,7 +43,7 @@ const addAuth = async (formData, user_token, image, setAuthImage, setAuthId) => 
   }
 };
 
-const editAuth = async (formData, user_token, image, setAuthImage, setAuthId, authId) => {
+const editAuth = async (formData, user_token, image, setAuthImage, setAuthId, authenticationId) => {
 
   console.log("user_token", user_token);
 
@@ -58,7 +58,7 @@ const editAuth = async (formData, user_token, image, setAuthImage, setAuthId, au
   }
 
   try {
-    const res = await fetch(`http://localhost:8080/authentication/${authId}`, {
+    const res = await fetch(`http://localhost:8080/authentication/${authenticationId}`, {
       method: 'PUT',
       headers: {
         Authorization: `Bearer ${user_token}`,
@@ -203,9 +203,11 @@ export default function Vertify({vertifyMethod, challengeId}){
 
     const cancelAuth = async () => {
 
+        const authenticationId = authId;
+
         const delAuth = async()=>{
             try {
-                const res = await fetch(`http://localhost:8080/authenticiation/${authId}`, {
+                const res = await fetch(`http://localhost:8080/authentication/${authenticationId}`, {
                     method: 'DELETE',
                     headers: {
                         // 'Content-Type': 'application/json',

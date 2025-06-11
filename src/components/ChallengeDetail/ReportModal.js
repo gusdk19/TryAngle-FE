@@ -24,7 +24,7 @@ export default function ReportModal({onClose, onVoteUser}){
     const handleReport = async()=>{
         // 신고 api
         try {
-            const res = await fetch('http://localhost:8080/user/withdrawal', {
+            const res = await fetch('http://localhost:8080/user/report', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
