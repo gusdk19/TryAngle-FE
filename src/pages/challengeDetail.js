@@ -180,7 +180,7 @@ export default function ChallengeDetail() {
 
   const navigate = useNavigate();
 
-  const [navTab, setNavTab] = useState(tab ? tab : "vertify");
+  const [navTab, setNavTab] = useState(tab ? tab : "info");
   const [requestLogin, setRequestLogin] = useState(false);
 
   const now = new Date();
@@ -196,7 +196,7 @@ export default function ChallengeDetail() {
   const status = now < startDate ? 0 : now > endDate ? 2 : 1; // 0 : 예정, 1 : 진행중, 2 : 진행 완료료 
 
   const editChallenge = ()=>{
-    navigate(`/challenge/${id}/edit`, {challenge: challengeData, prePage: 'home', challengeId: challengeData.challenge_id});
+    navigate(`/challenge/${id}/edit`, {state:{challenge: challengeData, prevPage: 'home', challengeId: challengeData.challenge_id}});
   }
 
   const [cancelChallModal, setCancelChallModal] = useState(false);

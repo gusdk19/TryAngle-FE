@@ -112,6 +112,8 @@ export default function Add() {
     const [choiceBasicImage, setChoiceBasicImage] = useState(false);
     const [imageFile, setImageFile] = useState(null);
 
+    const [bI, setBI] = useState(false);
+
     const navigate = useNavigate();
 
     const basicImages = [
@@ -119,11 +121,19 @@ export default function Add() {
     bpi_7, bpi_8, bpi_9, bpi_10, bpi_11, bpi_12,
     ];
 
+    const fetchImageAsFile = async (link) => {
+        const response = await fetch(link);
+        const blob = await response.blob();
+        const file = new File([blob], 'profile.png', { type: blob.type });
+        return file;
+    }
+
     const handleImageChange = (e) => {
         const file = e.target.files[0];
         if (file) {
         setImageFile(file);
         setProfileImage(URL.createObjectURL(file));
+        setBI(false);
         }
     };
 
@@ -252,15 +262,17 @@ export default function Add() {
             return;
         }
 
+        console.log("String(imageFile)", String(imageFile));
+
         const challengeData = {
             challenge_name: challengeName,
-            //challenge_thumbnail: base64Thumbnail,
+            challenge_thumbnail: bI ? String(profileImage) : String(imageFile),
             challenge_shortintro: shortIntro,
             challenge_description: challExplain,
             category: Number(category) - 1,
             challenge_public: visibility === 'public',
-            start_date: `${startYear}-${startMonth.padStart(2, '0')}-${startDay.padStart(2, '0')}`,
-            end_date: `${endYear}-${endMonth.padStart(2, '0')}-${endDay.padStart(2, '0')}`,
+            start_date: `${startYear}-${String(startMonth).padStart(2, '0')}-${String(startDay).padStart(2, '0')}`,
+            end_date: `${endYear}-${String(endMonth).padStart(2, '0')}-${String(endDay).padStart(2, '0')}`,
             auth_time_start: '06:00',
             auth_time_end: '22:00',
             max_people: Number(maxParticipant),
@@ -284,7 +296,7 @@ export default function Add() {
         formData.append('challengeData', new Blob([JSON.stringify(challengeData)], { type: 'application/json' }));
         formData.append('leaderJoinData', new Blob([JSON.stringify(leaderJoinData)], { type: 'application/json' }));
         if (imageFile) {
-            formData.append('thumbnailImage', imageFile); // ✅ 이렇게 전송
+            formData.append('thumbnailImage', bI ? fetchImageAsFile(profileImage) : imageFile); // ✅ 이렇게 전송
         }
 
         try {
@@ -306,7 +318,7 @@ export default function Add() {
     
   };
 
-    console.log("date", "certify", dateError, certifyPeriod);
+    // console.log("date", "certify", dateError, certifyPeriod);
 
     return (
         <div className="bg-white flex justify-center w-full">
@@ -691,6 +703,7 @@ export default function Add() {
                                         setPrePI(img);
                                         setProfileImage(img);
                                         setProfileImageError(false);
+                                        setBI(true);
                                     }}
                                     />
                                 ))}

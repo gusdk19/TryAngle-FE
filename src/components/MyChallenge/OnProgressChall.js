@@ -72,7 +72,7 @@ export default function OnProgressChall({onProgressChallengeList, dueChallengeLi
                                     <span className='main-tag max-w-[80px] max-h-[21px] overflow-hidden truncate'>
                                         #{challenge.challenge_shortintro}
                                     </span>
-                                    {!(user_nickName == challenge.leader_nickname && challenge.now_people > 1) && <button className={`${filter == "due" ? user_nickName == challenge.leader_nickname && challenge.now_people == 1 ? "min-w-[66px] cancel-btn" : "cancel-btn" : challenge.auth_status ? "auth-done-btn" : "auth-btn"}`}
+                                    {<button className={`${filter == "due" ? user_nickName == challenge.leader_nickname && challenge.now_people == 1 ? "min-w-[66px] cancel-btn" : "cancel-btn" : challenge.auth_status ? "auth-done-btn" : "auth-btn"}`}
                                         onClick={(e)=>{
                                             e.stopPropagation(); 
                                             if(filter == "due"){

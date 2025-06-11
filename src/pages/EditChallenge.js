@@ -75,7 +75,10 @@ export default function EditChallenge() {
     const [challengeName, setChallengeName] = useState(updatedChallenge.challenge_name || '');
     const [challengeNameError, setChallengeNameError] = useState(false);
 
-    const [category, setCategory] = useState(updatedChallenge.category || '');
+    const catNum = updatedChallenge.category == "ETC" ? 4 
+                    : updatedChallenge.category == "WORKOUT" ? 1 
+                    : updatedChallenge.category == "LIFE" ? 3 : 2
+    const [category, setCategory] = useState(updatedChallenge.category ? catNum : '');
     const [categoryError, setCategoryError] = useState(false);
 
     const [shortIntro, setShortIntro] = useState(updatedChallenge.challenge_shortintro || '');
@@ -84,13 +87,13 @@ export default function EditChallenge() {
     // 안전하게 날짜 문자열로 변환하는 함수
     function safeDateString(dateValue) {
     if (!dateValue) return '2025-01-01'; // 기본값 또는 빈 문자열
-    try {
-        return typeof dateValue === 'string'
-        ? dateValue
-        : new Date(dateValue).toISOString().slice(0, 10);
-    } catch {
-        return '2025-01-01';
-    }
+        try {
+            return typeof dateValue === 'string'
+            ? dateValue
+            : new Date(dateValue).toISOString().slice(0, 10);
+        } catch {
+            return '2025-01-01';
+        }
     }
 
     // 안전한 초기값 가져오기
@@ -99,12 +102,12 @@ export default function EditChallenge() {
 
     // 날짜 필드 초기화
     const [startYear, setStartYear] = useState(startStr.split("-")[0]);
-    const [startMonth, setStartMonth] = useState(startStr.split("-")[1]);
-    const [startDay, setStartDay] = useState(startStr.split("-")[2]);
+    const [startMonth, setStartMonth] = useState(parseInt(startStr.split("-")[1], 10));
+    const [startDay, setStartDay] = useState(parseInt(startStr.split("-")[2], 10));
 
     const [endYear, setEndYear] = useState(endStr.split("-")[0]);
-    const [endMonth, setEndMonth] = useState(endStr.split("-")[1]);
-    const [endDay, setEndDay] = useState(endStr.split("-")[2]);
+    const [endMonth, setEndMonth] = useState(parseInt(endStr.split("-")[1], 10));
+    const [endDay, setEndDay] = useState(parseInt(endStr.split("-")[2], 10));
     const [dateError, setDateError] = useState('');
 
     const [certifyPeriod, setCertifyPeriod] = useState(updatedChallenge.auth_frequency || '');
@@ -117,7 +120,7 @@ export default function EditChallenge() {
     const [challExplain, setChallExplain] = useState(updatedChallenge.challenge_description || '');
     const [challExplainError, setChallExplainError] = useState(false);
 
-    const [depositType, setDepositType] = useState(updatedChallenge.return_type || '');
+    const [depositType, setDepositType] = useState(updatedChallenge.return_type ? '예치금' : '기부');
     const [amount, setAmount] = useState(updatedChallenge.min_deposit || '');
     const [depositTypeError, setDepositTypeError] = useState(false);
     const [amountError, setAmountError] = useState(false);
@@ -131,11 +134,19 @@ export default function EditChallenge() {
     const [challVote, setChallVote] = useState(updatedChallenge.vote_method || '');
     const [challVoteError, setChallVoteError] = useState('');
 
-    const [profileImage, setProfileImage] = useState(updatedChallenge.thumbnail || '');
+    const fetchImageAsFile = async (link) => {
+        const response = await fetch(link);
+        const blob = await response.blob();
+        const file = new File([blob], 'profile.png', { type: blob.type });
+        return file;
+    }
+
+    const [profileImage, setProfileImage] = useState(updatedChallenge.challenge_thumbnail || '');
     const [profileImageError, setProfileImageError] = useState('');
-    const [prePI, setPrePI] = useState(updatedChallenge.thumbnail || '');
+    const [prePI, setPrePI] = useState(updatedChallenge.challenge_thumbnail || '');
     const [choiceBasicImage, setChoiceBasicImage] = useState(false);
     const [imageFile, setImageFile] = useState(null);
+    const [bI, setBI] = useState(false);
 
     const navigate = useNavigate();
 
@@ -150,6 +161,7 @@ export default function EditChallenge() {
         setProfileImage(URL.createObjectURL(file));
         setPrePI('');
         setProfileImageError(false);
+        setBI(false);
     }
     };
 
@@ -236,7 +248,7 @@ export default function EditChallenge() {
             hasError = true;
         }
 
-        if (amount.trim() === '') {
+        if (String(amount).trim() === '') {
         setAmountError(true);
         hasError = true;
         }
@@ -265,14 +277,15 @@ export default function EditChallenge() {
             return;
         }
         else{
-            setUpdatedChallenge((prev)=>({
+            setUpdatedChallenge(async(prev)=>({
                 ...prev,
                 challenge_name : challengeName,
-                challenge_thumbnail : profileImage,
+                challenge_thumbnail : String(profileImage),
                 challenge_shortintro: shortIntro,
                 challenge_description: challExplain,
-                start_date : startDate,
-                end_date : endDate,
+                category: category,
+                start_date: `${startYear}-${String(startMonth).padStart(2, '0')}-${String(startDay).padStart(2, '0')}`,
+                end_date: `${endYear}-${String(endMonth).padStart(2, '0')}-${String(endDay).padStart(2, '0')}`,
                 max_people : maxParticipant,
                 min_deposit : amount,
                 return_type : depositType,
@@ -282,24 +295,6 @@ export default function EditChallenge() {
                 vote_method : challVote
             }))
             
-            // navigate(`/challenge/${challenge.challenge_id}`, {state:{challenge : updatedChallenge}});
-            navigate(`/challenge/${challenge.challenge_id}`, {state:{challenge : {
-                ...challenge,
-                challenge_name : challengeName,
-                challenge_thumbnail : profileImage,
-                challenge_shortintro: shortIntro,
-                challenge_descripton: challExplain,
-                start_date : startDate,
-                end_date : endDate,
-                max_people : maxParticipant,
-                min_deposit : amount,
-                return_type : depositType,
-                auth_frequency: certifyPeriod,
-                deposit_manage_method: depositManageMethod,
-                auth_method: challAuth,
-                vote_method : challVote
-            },
-            prevPage: prevPage}});
         }
 
         //API
@@ -308,47 +303,67 @@ export default function EditChallenge() {
             return;
         }
 
+        console.log("startMonth", startMonth)
         // FormData 구성
         const formData = new FormData();
         formData.append('challengeData', new Blob([JSON.stringify({
             challenge_name : challengeName,
-            challenge_thumbnail : profileImage,
+            challenge_thumbnail : String(profileImage),
             challenge_shortintro: shortIntro,
             challenge_description: challExplain,
-            start_date : startDate,
-            end_date : endDate,
-            max_people : maxParticipant,
-            min_deposit : amount,
-            return_type : depositType,
+            category: Number(category) - 1,
+            challenge_public : challenge.challenge_public,
+            start_date: `${startYear}-${String(startMonth).padStart(2, '0')}-${String(startDay).padStart(2, '0')}`,
+            end_date: `${endYear}-${String(endMonth).padStart(2, '0')}-${String(endDay).padStart(2, '0')}`,
+            auth_time_start: '06:00',
+            auth_time_end: '22:00',
+            max_people: Number(maxParticipant),
+            min_deposit: Number(amount),
+            return_type: depositType === '예치금' ? 1 : 0,
             auth_frequency: certifyPeriod,
             deposit_manage_method: depositManageMethod,
             auth_method: challAuth,
-            vote_method : challVote
+            vote_method: challVote,
         })], { type: 'application/json' }));
-        if (imageFile) {
-            formData.append('thumbnailImage', imageFile); // ✅ 이렇게 전송
-        }
 
         try {
-        const result = await Edit({
-            formData,
-            user_token,
-            challengeId
-        });
+            const result = await Edit({
+                formData,
+                user_token,
+                challengeId
+            });
 
-        console.log('result:', result);
+            console.log('result:', result);
 
-        if (result?.isSuccess) {
-            alert('챌린지 생성 성공');
-            navigate('/');
-    
-        }
+            if (result?.isSuccess) {
+                alert('챌린지 수정 성공');
+                // navigate(`/challenge/${challenge.challenge_id}`, {state:{challenge : updatedChallenge}});
+                navigate(`/challenge/${challenge.challenge_id}`, {state:{challenge : {
+                    ...challenge,
+                    challenge_name : challengeName,
+                    challenge_thumbnail : String(profileImage),
+                    challenge_shortintro: shortIntro,
+                    challenge_descripton: challExplain,
+                    category: category == 1 ? "WORKOUT" : category == 2 ? "STUDY" : category == 3 ? "LIFE" : "ETC",
+                    start_date: `${startYear}-${String(startMonth).padStart(2, '0')}-${String(startDay).padStart(2, '0')}`,
+                    end_date: `${endYear}-${String(endMonth).padStart(2, '0')}-${String(endDay).padStart(2, '0')}`,
+                    max_people : maxParticipant,
+                    min_deposit : amount,
+                    return_type : depositType,
+                    auth_frequency: certifyPeriod,
+                    deposit_manage_method: depositManageMethod,
+                    auth_method: challAuth,
+                    vote_method : challVote
+                },
+                prevPage: prevPage, tab: "info"}});
+        
+            }
         } catch (error) {
-        console.error("챌린지 생성 중 예외 발생:", error);
+            console.error("챌린지 수정 중 예외 발생:", error);
         }
 
         // 실제 제출 로직 (ex: API 호출) 추가 가능
-  };
+    };
 
     console.log("date", "certify", dateError, certifyPeriod);
 
@@ -735,6 +750,7 @@ export default function EditChallenge() {
                                         setPrePI(img);
                                         setProfileImage(img);
                                         setProfileImageError(false);
+                                        setBI(true);
                                     }}
                                     />
                                 ))}
