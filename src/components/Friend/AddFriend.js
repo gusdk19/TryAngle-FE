@@ -30,6 +30,8 @@ export default function AddFriend({searchValue, setFollowings, allUsers, setAllU
     )
 
     const handleFollow = (targetUser, following) => {
+        console.log("targetUser", targetUser);
+
         if(following){
             setUserFollowing((prev)=>(prev-1))
         }

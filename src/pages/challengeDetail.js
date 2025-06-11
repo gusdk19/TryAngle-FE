@@ -32,7 +32,7 @@ export default function ChallengeDetail() {
   const [challengeData, setChallengeData] = useState(challenge ? challenge : {});
   const [userChallengeData, setUserChallengeData] = useState({});
   
-  const [participate, setParticipate] = useState(updatedStatus ? updatedStatus : 0);
+  const [participate, setParticipate] = useState(updatedStatus !== undefined ? updatedStatus : 0);
   // console.log("loading", loading, "challengeData", challengeData);
 
   const dummyChallengeData = {
@@ -96,7 +96,7 @@ export default function ChallengeDetail() {
         if(!isLoggedIn){
           //최소 0.4초 대기
           const elapsed = Date.now() - start;
-          const delay = Math.max(600 - elapsed, 0); // 0.4초보다 적게 걸렸다면 남은 시간만큼 대기
+          const delay = Math.max(1000 - elapsed, 0); // 0.4초보다 적게 걸렸다면 남은 시간만큼 대기
           setTimeout(() => setLoading(false), delay);
         }
       } catch (error) {
@@ -122,15 +122,10 @@ export default function ChallengeDetail() {
           if(data.isSuccess){
               // challengeFeeRefund에서 post만 제대로 되면 data.result 저장하는 것만으로 충분
               setUserChallengeData(data.result);
-              setParticipate(updatedStatus);
           } else{
               console.log(`⚠ ${data.message}`);
               setUserChallengeData(dummyUserChallengeData);
           }
-          //최소 0.4초 대기
-          const elapsed = Date.now() - start;
-          const delay = Math.max(600 - elapsed, 0); // 0.4초보다 적게 걸렸다면 남은 시간만큼 대기
-          setTimeout(() => setLoading(false), delay);
       } catch (error) {
           console.error('개별 챌린지에 관한 유저 참여 정보 조회 오류:', error);
       }
@@ -174,6 +169,11 @@ export default function ChallengeDetail() {
       getUserChallengeData();
       checkMyChallenge();
     }
+
+    //최소 0.4초 대기
+    const elapsed = Date.now() - start;
+    const delay = Math.max(600 - elapsed, 0); // 0.4초보다 적게 걸렸다면 남은 시간만큼 대기
+    setTimeout(() => setLoading(false), delay);
   }, [])
 
   const page = "challengeDetail";
@@ -196,7 +196,7 @@ export default function ChallengeDetail() {
   const status = now < startDate ? 0 : now > endDate ? 2 : 1; // 0 : 예정, 1 : 진행중, 2 : 진행 완료료 
 
   const editChallenge = ()=>{
-    navigate(`/challenge/${id}/edit`, {challenge: challengeData, prePage: 'home'});
+    navigate(`/challenge/${id}/edit`, {state:{challenge: challengeData, prePage: 'home'}});
   }
 
   const [cancelChallModal, setCancelChallModal] = useState(false);

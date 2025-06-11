@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 export default function ChallengeFooter({status, challengeID, setParticipate, participant_list, isLoggedIn, setRequestLogin, chall_status, prevPage, deleteChall, min_deposit, onClose, onClose2}){
     const navigate = useNavigate();
 
-    // console.log("chall_status", chall_status, status);
+    console.log("chall_status", chall_status, status);
 
     return(
         <footer className="flex absolute w-full h-[70px] bottom-0 left-0 bg-white ">

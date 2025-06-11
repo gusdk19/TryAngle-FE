@@ -30,6 +30,8 @@ export default function EditChallenge() {
 
     const { challenge, prevPage } = location.state || {};
 
+    console.log("challenge", challenge);
+
     const [updatedChallenge, setUpdatedChallenge] = useState(challenge || {});
 
     const [challengeName, setChallengeName] = useState(updatedChallenge.challenge_name || '');
