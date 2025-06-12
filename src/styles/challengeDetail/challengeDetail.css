@@ -1,0 +1,20 @@
+.main{
+    -ms-overflow-style:none; /* IE and Edge */
+    scrollbar-width:none; /* Firefox */
+}
+
+.main::-webkit-scrollbar {
+    display:none /* Chrome , Safari , Opera */
+}
+
+.cd-due-date{
+    height: fit-content;
+    padding: 1px 10px;
+    margin-top: 3px;
+    border-radius: 5px;
+    border: 1px solid #6E6053;
+    color: #4A483F;
+    background: white;
+    font-weight: 700;
+    font-size: 15px;
+}

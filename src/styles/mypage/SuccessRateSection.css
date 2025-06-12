@@ -1,0 +1,11 @@
+progress::-webkit-progress-bar {
+    background-color: #FCF4BB;
+    border-radius: 10px;
+    height : 15px;
+}
+
+progress::-webkit-progress-value {
+    background-color: #FFC421; /* 진행 부분 색상 */
+    border-radius: 10px;
+    height : 15px;
+}

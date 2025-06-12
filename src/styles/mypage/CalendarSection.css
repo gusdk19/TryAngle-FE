@@ -1,0 +1,96 @@
+.react-calendar{
+    border:none;
+    background: #FDF8ED;
+    color: #6E6053;
+    border-radius: 10px;
+    padding: 10px 5px;
+    font-family: 'Roboto', Helvetica, sans-serif;
+    pointer-events: none;
+}
+
+.react-calendar__navigation{
+    margin-bottom : 10px;
+    pointer-events : auto;
+}
+
+.react-calendar__navigation__label:hover,
+.react-calendar__navigation__arrow:hover{
+    border-radius : 20px;
+    background: inherit;
+}
+
+.react-calendar__navigation__label__labelText{
+    font-weight: bold;
+}
+
+.react-calendar__month-view__days, 
+.react-calendar__month-view__weekdays{
+    width : 100%;
+    gap : 4px;
+    margin-bottom : 2px;
+}
+
+.react-calendar__month-view__weekdays__weekday{
+    max-width : 45px;
+    padding : 5px;
+}
+
+.react-calendar__tile{
+    position: relative;
+    max-width : 45px;
+    height: 45px;
+    padding : 0px;
+}
+
+.react-calendar__tile--now{
+    border-radius : 100%;
+    background : #6E6053;
+    color : #FDF8ED;
+}
+
+.react-calendar__tile:enabled:hover,
+.react-calendar__tile:enabled:focus {
+    border-radius : 100%;
+    border : 0px solid #6E6053;
+    /* background : #FDF8ED;
+    color: inherit; */
+    background : inherit;
+    color : inherit;
+}
+
+.react-calendar__month-view__days__day--weekend.react-calendar__tile:enabled:hover,
+.react-calendar__month-view__days__day--weekend.react-calendar__tile:enabled:focus {
+    border-radius : 100%;
+    border : 0px solid #6E6053;
+    /* background : #FDF8ED;
+    color: #d10000; */
+    background : inherit;
+    color : #d10000;
+}
+
+.react-calendar__tile.react-calendar__tile--now:enabled:hover,
+.react-calendar__tile.react-calendar__tile--now:enabled:focus {
+    border-radius : 100%;
+    background : #6E6053;
+    color : #FDF8ED;
+}
+
+/* CustomCalendar.css */
+
+.stamp-wrapper {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    width: 100%;
+    height: 100%;
+    opacity: 0.9;
+    pointer-events: none; /* 클릭 이벤트 무시 */
+    z-index: 1;
+}
+
+.stamp-image {
+    width: 100%;
+    height: 100%;
+    border-radius: 100%;
+}
+  
