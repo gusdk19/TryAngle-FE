@@ -98,7 +98,7 @@ const Ranking = () => {
         }
 
         const data = await res.json();
-        setRankingData(data);
+        setRankingData(data.result);
         setRankingError(null);
       } catch (err) {
         console.error('랭킹 요청 오류:', err);
