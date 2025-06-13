@@ -14,7 +14,7 @@ export default function NotificationItem({ notification, onClick }) {
       className={`relative flex items-start rounded-lg cursor-pointer min-h-[90px] ${bgColor} pr-4 pb-2`}
     >
       {/* 아이콘 영역 */}
-      <div className="relative ml-[13px] mt-[12px] overflow-visible">
+      <div className="flex-none relative ml-[13px] mt-[12px] overflow-visible">
         <FaRegBell className="w-[30px] h-[30px] text-[#6B6B6B]" />
         {!isRead && (
           <span className="absolute top-[-2px] w-[6px] h-[6px] bg-[#FFC421] rounded-full" />
@@ -23,7 +23,7 @@ export default function NotificationItem({ notification, onClick }) {
 
       {/* 텍스트 영역 */}
       {/*API 추가 시 닉네임, 챌린지 이름에 디폴트 값 제거하기*/}
-      <div className="flex flex-col justify-center ml-[12px] mt-[14px] leading-[24px] text-[14px] text-[#4A483F]">
+      <div className="flex-1 flex flex-col justify-center ml-[12px] mt-[14px] leading-[24px] text-[14px] text-[#4A483F]">
         {notification.notificationType === 'FOLLOW' && (
           <>
             <p className="text-[18px] font-bold">우리 친구해요!</p>
@@ -43,14 +43,14 @@ export default function NotificationItem({ notification, onClick }) {
               에 초대했습니다.
               < br />
               <div className='flex flex-row justify-between'>
-                <span>(초대코드: {notification.challengeID})</span>
+                <span>{notification.inviteCode ? `(초대코드: ${notification.inviteCode})` : "(공개 챌린지)"}</span>
                 <button className='text-sm hover:font-bold'
                   onClick={(e)=>{
                     e.preventDefault();
                     if(notification.inviteCode){
-                      navigate(`/`, {state: {challID : notification.challengeID, inviteCode: notification.inviteCode, IVModal: true}});
+                      navigate(`/`, {state: {challID : notification.challengeId, inviteCode: notification.inviteCode, IVModal: true}});
                     }else{
-                      navigate(`/challenge/${notification.challengeID}`, {state : {prevPage: "alarm"}});
+                      navigate(`/challenge/${notification.challengeId}`, {state : {prevPage: "alarm"}});
                     }
                   }}>
                   챌린지로 이동 ▷

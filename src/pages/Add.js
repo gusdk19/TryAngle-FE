@@ -549,6 +549,13 @@ export default function Add() {
                                     onClick={()=> {
                                         setDepositType(type);
                                         setDepositTypeError(false);
+
+                                        if(type == "예치금"){
+                                            setDepositManageMethod("시스템 방식");
+                                            setDepositManageMethodError(false);
+                                        }else{
+                                            setDepositManageMethod("");
+                                        }
                                     }} 
                                     className={`px-3 py-1 rounded-full border text-sm ${
                                         depositType === type
@@ -588,7 +595,7 @@ export default function Add() {
                                 </p>}
 
                                 {/* 선택한 방식에 따라 동적으로 안내 문구 변경 */}
-                                <textarea
+                                {depositType === '기부' ? <textarea
                                     className="w-full border rounded-md px-3 py-2 text-sm"
                                     value={depositManageMethod}
                                     onChange={(e) => {
@@ -600,7 +607,17 @@ export default function Add() {
                                         ? '예치금 관리 방식을 설명해주세요.'
                                         : '기부금 관리 방식을 설명해주세요.'
                                     }
-                                />
+                                /> 
+                                : depositType === '예치금' && <div className="border border-[#D9D9D9] rounded-[15px] p-4 text-sm text-[#3D3D3D]">
+                                    <section className="text-s text-[#3D3D3D]">
+                                    <ul className="list-disc list-inside">
+                                        <p>100% 성공 ---------------------------{amount ? amount : " 예치금"} + α원</p>
+                                        <p>90% 이상 성공 ---------------------------{amount ? amount : " 예치금"}</p>
+                                        <p>50% 이상 90% 미만 ----------------------일부 환급</p>
+                                        <p>50% 미만 성공 ----------------------------환급 없음</p>
+                                    </ul>                                    
+                                    </section>
+                                </div>}
                             </div>
 
                         </div>

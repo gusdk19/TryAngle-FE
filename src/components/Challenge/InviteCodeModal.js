@@ -46,6 +46,7 @@ export default function InviteCodeModal({ onClose, challengeId, correctCode }) {
       });
 
       const data = await res.json();
+      console.log("invitecode join", data);
 
       if (res.ok && data.isSuccess) {
         setErrorMessage('');
@@ -54,6 +55,11 @@ export default function InviteCodeModal({ onClose, challengeId, correctCode }) {
         });
         onClose();
       } else {
+        if(data.code == "PARTICIPATION409"){
+          navigate(`/challenge/${challengeId}`, {
+            state: { tab: 'info', prevPage: 'home' },
+          });
+        }
         setErrorMessage(data.message || '챌린지 참여에 실패했습니다.');
       }
       } catch (error) {
