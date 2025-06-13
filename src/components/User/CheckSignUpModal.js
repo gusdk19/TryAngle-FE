@@ -3,13 +3,13 @@ import "../../styles/finance/withdrawalModal.css";
 import { Navigate, useNavigate } from "react-router-dom";
 import { IoMdClose } from "react-icons/io";
 
-export default function CheckSignUpModal({onClose, isSuccess}){
+export default function CheckSignUpModal({onClose, isSuccess, prevPage}){
 
     const navigate = useNavigate();
 
     const handleChange=()=>{
         if(isSuccess){
-            navigate("/login");
+            navigate("/login", {state: {prevPage: prevPage}});
         }else{
             navigate("/signup");
         }

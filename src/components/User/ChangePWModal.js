@@ -4,7 +4,7 @@ import "../../styles/finance/withdrawalModal.css";
 import { IoMdClose } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 
-export default function ChangePWModal({onClose, tempPW, setTempPW, email, setEmail}){
+export default function ChangePWModal({onClose, tempPW, setTempPW, email, setEmail, prevPage}){
 
     const navigate = useNavigate();
     const [resend, setResend] = useState(false);
@@ -42,7 +42,7 @@ export default function ChangePWModal({onClose, tempPW, setTempPW, email, setEma
     }
 
     const handleCheck=()=>{
-        navigate("/login");
+        navigate("/login", {state: {prevPage: prevPage}});
     }
 
     return (

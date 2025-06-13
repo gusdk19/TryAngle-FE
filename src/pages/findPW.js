@@ -1,11 +1,14 @@
 import React, {useState} from 'react';
 import Header from '../components/Header';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import ChangePWModal from '../components/User/ChangePWModal';
 
 export default function FindPW(){
 
     const navigate = useNavigate();
+    const location = useLocation();
+
+    const {prevPage} = location.state || {};
 
     const [email, setEmail] = useState("");
     const [tempPW, setTempPW] = useState("");
@@ -21,8 +24,8 @@ export default function FindPW(){
     };
 
     const changeEmail = (e)=>{
-        setEmail(e.target.value); 
-        setIsValid(validateEmail(e.target.value));
+        setEmail((e.target.value).trim()); 
+        setIsValid(validateEmail((e.target.value).trim()));
         const newErrors = [];
 
         if (!isValid) {
@@ -128,7 +131,7 @@ export default function FindPW(){
                 </div>
             </div>
 
-            {openModal ? <ChangePWModal onClose={setOpenModal} tempPW={tempPW} setTempPw={setTempPW} setEmail={setEmail} message={message} email={email}/> : ""}
+            {openModal ? <ChangePWModal onClose={setOpenModal} tempPW={tempPW} setTempPw={setTempPW} setEmail={setEmail} message={message} email={email} prevPage={prevPage}/> : ""}
         </div>
     )
 }

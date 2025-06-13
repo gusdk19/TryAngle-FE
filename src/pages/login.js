@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import "../styles/user/user.css";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
@@ -10,6 +10,9 @@ export default function Login(){
     const page = "login";
 
     const navigate = useNavigate();
+    const location = useLocation();
+
+    const {prevPage} = location.state || {};
 
     const { user, login } = useAuthStore();
     
@@ -54,7 +57,11 @@ export default function Login(){
 
                 console.log("nickname", data.result)
                 // navigate("/mypage", {state:{success:true}});
-                navigate(-1);
+                if(prevPage){
+                  navigate(`/${prevPage}`, {state:{success:true}});
+                } else{
+                  navigate(-1);
+                }
             } else {
                 setLoading(false);
                 setError(data.message || '로그인 실패');
@@ -156,18 +163,18 @@ export default function Login(){
             <div className="flex justify-between mx-[34px] text-[#838687] text-[12px]">
                 <div className="flex-none flex my-auto">
                     <span className="flex-none text-[12px] underline cursor-pointer"
-                        onClick={()=>{navigate("/signup")}}>
+                        onClick={()=>{navigate("/signup", {state: {prevPage: prevPage}})}}>
                         회원가입
                     </span>
                 </div>
                 <div className="flex-none flex gap-[2px] my-auto">
                     <span className="text-[12px] underline cursor-pointer"
-                        onClick={()=>{navigate("/findEmail")}}>
+                        onClick={()=>{navigate("/findEmail", {state: {prevPage: prevPage}})}}>
                             이메일 찾기
                     </span>
                     <hr orientation="vertical" className="h-[12px] mt-[4px] mx-[8px] border-[#D9D9D9] border-l-[0.1px]" />
                     <span className="text-[12px] underline cursor-pointer"
-                        onClick={()=>{navigate("/findPW")}}>
+                        onClick={()=>{navigate("/findPW", {state: {prevPage: prevPage}})}}>
                             비밀번호 재설정
                     </span>
                 </div>
