@@ -10,8 +10,6 @@ export default function InviteCode() {
 
   const { visibility, from } = location.state || {};
 
-  console.log("from", from);
-
   const [code, setCode] = useState(Array(6).fill(''));
   const inputsRef = useRef([]);
 
@@ -51,7 +49,6 @@ export default function InviteCode() {
     }
   };
 
-
   const handleSubmit = () => {
     const inviteCode = code.join('');
     if (inviteCode.length < 6) {
@@ -59,9 +56,9 @@ export default function InviteCode() {
       return;
     }
 
-    if (from == "add-challenge"){
+    if (from === "add-challenge"){
       navigate('/add-challenge/content', {
-        state: { visibility, inviteCode },
+        state: { visibility, inviteCode, from },
       });
     } else{
       // 챌린지 정보 확인 및 참여 목적 초대코드 입력 시시

@@ -21,16 +21,14 @@ import bpi_11 from "../assets/images/basic_profile_image/basic_profile_image_11.
 import bpi_12 from "../assets/images/basic_profile_image/basic_profile_image_12.png";
 
 //API
-// ✅ createChallenge.js 내부 수정
 const createChallenge = async ({ formData, user_token }) => {
-
 
   if (!user_token) {
     console.warn('토큰이 없습니다. 로그인 후 다시 시도해주세요.');
     return;
   }
 
-  console.log("✅ 챌린지 생성 요청 데이터 (FormData):");
+  console.log("챌린지 생성 요청 데이터 (FormData):");
     for (let pair of formData.entries()) {
     console.log(`${pair[0]}: ${pair[1]}`);
     }
@@ -61,7 +59,7 @@ const createChallenge = async ({ formData, user_token }) => {
 export default function Add() {
 
     const location = useLocation();
-    const { visibility, inviteCode } = location.state || {};
+    const { visibility, inviteCode, from } = location.state || {};
     const { user_token } = useAuthStore(); //API 연결 시 토큰 전달
 
     const [challengeName, setChallengeName] = useState('');
@@ -261,9 +259,7 @@ export default function Add() {
             // alert('로그인이 필요합니다. 로그인 후 다시 시도해주세요.');
             return;
         }
-
-        console.log("String(imageFile)", String(imageFile));
-
+        
         const challengeData = {
             challenge_name: challengeName,
             challenge_thumbnail: bI ? String(profileImage) : String(imageFile),
@@ -282,6 +278,7 @@ export default function Add() {
             deposit_manage_method: depositManageMethod,
             auth_method: challAuth,
             vote_method: challVote,
+            invite_code: inviteCode,
         };
 
         const leaderJoinData = {
