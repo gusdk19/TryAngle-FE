@@ -26,6 +26,8 @@ export default function ChallengeCard({challenge, setShowInviteModal, setCorrect
 
   const handleClickCard = () => {
     if (!challenge.challenge_public) {
+      setCorrectCode(challenge.invite_code);  
+      setChallengeID(challenge.challenge_id);
       setShowInviteModal(true);
     } else {
       navigate(`/challenge/${challenge.challenge_id}`, {
@@ -33,11 +35,12 @@ export default function ChallengeCard({challenge, setShowInviteModal, setCorrect
       });
     }
   }
-
+  /*
   useEffect(()=>{
     setCorrectCode("123456");
     setChallengeID(challenge.challenge_id);
   }, []);
+  */
 
   return (
     <>
