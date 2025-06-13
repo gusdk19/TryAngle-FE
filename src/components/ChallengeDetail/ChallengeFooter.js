@@ -1,10 +1,10 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function ChallengeFooter({status, challengeID, setParticipate, participant_list, isLoggedIn, setRequestLogin, chall_status, prevPage, deleteChall, min_deposit, onClose, onClose2}){
+export default function ChallengeFooter({status, challengeID, setParticipate, participant_list, isLoggedIn, setRequestLogin, chall_status, prevPage, deleteChall, min_deposit, onClose, onClose2, inviteCode}){
     const navigate = useNavigate();
 
-    console.log("chall_status", chall_status, status);
+    console.log("footer : chall_status", status, chall_status);
 
     return(
         <footer className="flex absolute w-full h-[70px] bottom-0 left-0 bg-white ">
@@ -42,22 +42,24 @@ export default function ChallengeFooter({status, challengeID, setParticipate, pa
                     // }))
                 }
             }}>
-            {status == 0 ? chall_status != 0 ? "모집종료" : deleteChall ? "삭제하기" : "참가하기" :
-             status == 1 && chall_status == 0 ? "참가취소" : 
+            {status == 0 ? chall_status != 0 ? "모집종료" : "참가하기" :
+             status == 1 && chall_status == 0 ? deleteChall ? "삭제하기" : "참가취소" : 
              chall_status == 2 ? "참가완료" : "참가중"}
           </button>
-          <button className="flex-1 font-semibold text-[20px] bg-[#FAB809] text-[#4A483F]"
+          {chall_status == 0 && <button className="flex-1 font-semibold text-[20px] bg-[#FAB809] text-[#4A483F]"
             onClick={()=>{
                 if(!isLoggedIn){
                     setRequestLogin(true);
                 }else{
                     navigate(`/challenge/${challengeID}/recommend`, {state:{
                         'participant_list': participant_list,
+                        'challengeID': challengeID,
+                        'inviteCode': inviteCode,
                     }})
                 }
             }}>
             권유하기
-          </button>
+          </button>}
         </footer>
     )
     

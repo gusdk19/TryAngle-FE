@@ -11,7 +11,7 @@ import "../../styles/mypage/CalendarSection.css";
 
 import stamp from "../../assets/images/mypage/stamp.png";
 
-export default function CalendarSection() {
+export default function CalendarSection({ authDateList }) {
   // Dates that user participates challenge
   // const particChallDate = [
   //   "2025-04-10",
@@ -24,7 +24,7 @@ export default function CalendarSection() {
   //   "2025-04-19",
   // ];
 
-  const [authDates, setAuthDates] = useState([]);
+  const [authDates, setAuthDates] = useState(authDateList || []);
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const { user_token } = useAuthStore();
 
@@ -45,6 +45,7 @@ export default function CalendarSection() {
       const data = await res.json();
 
       if (data?.isSuccess) {
+        console.log("캘린더 조회 성공하였습니다.");
         setAuthDates(data.result.authDates);
       } else {
         console.warn("응답 실패:", data.message);
@@ -56,9 +57,9 @@ export default function CalendarSection() {
     }
   };
 
-  useEffect(() => {
-    fetchCalendarData(currentMonth);
-  }, []);
+  // useEffect(() => {
+  //   fetchCalendarData(currentMonth);
+  // }, []);
 
   const handleMonthChange = ({ activeStartDate }) => {
     const year = activeStartDate.getFullYear();

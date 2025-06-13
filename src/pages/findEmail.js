@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import Header from '../components/Header';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import "../styles/user/user.css";
 import useAuthStore from '../components/User/UseAuthStore';
 
@@ -9,6 +9,9 @@ export default function FindEmail(){
     const {user_token} = useAuthStore();
 
     const navigate = useNavigate();
+    const location = useLocation();
+    
+    const {prevPage} = location.state || {};
     
     const [name, setName] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
@@ -226,7 +229,7 @@ export default function FindEmail(){
                         <button className={`mx-auto w-full h-[38px] mt-[0px] mb-[5px] py-[6px] rounded-md 
                         font-bold text-[15px] text-center items-center 
                         ${errors.length > 0 || name.length <= 0 || phoneNumber.length <= 0  || cn.length <= 0 || !isCNValid || !isPNValid ? "bg-[#D9D9D9] text-[#838687] cursor-default" : "bg-[#FFC421] text-white cursor-pointer"}`}
-                            onClick={()=>{navigate("/login");}} disabled={errors.length > 0 || name.length <= 0 || phoneNumber.length <= 0  || cn.length <= 0 || !isCNValid || !isPNValid ? true : false}>
+                            onClick={()=>{navigate("/login", {state: {prevPage: prevPage}});}} disabled={errors.length > 0 || name.length <= 0 || phoneNumber.length <= 0  || cn.length <= 0 || !isCNValid || !isPNValid ? true : false}>
                             로그인 페이지로 이동하기
                         </button>
                     </div>

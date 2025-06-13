@@ -8,23 +8,23 @@ export default function SuccessRateSection(){
 
     const [successRate, setSuccessRate] = useState({});
     const dummySuccessRate = {
-        total_success_rate: 72,
-        category_success_rate: [
+        totalSuccessRate: 72,
+        categorySuccessRate: [
           {
             category: "운동",
-            success_rate: 72
+            successRate: 72
           },
            {
             category: "공부",
-            success_rate: 72
+            successRate: 72
           },
             {
             category: "생활",
-            success_rate: 72
+            successRate: 72
           },
             {
             category: "기타",
-            success_rate: 72
+            successRate: 72
           },
         ]
     }
@@ -69,15 +69,17 @@ export default function SuccessRateSection(){
             <div className="mt-1">
                 <div className="text-xs text-[#6e6053] ml-1 " >(전체)</div>
                 <div className="flex flex-row gap-[5px] mt-[6px] pl-[2px] pr-[10px]">
-                    <progress className="flex-1 ml-1 w-full" value={successRate.total_success_rate/100} />
-                    <div className="flex-none text-xs text-[#6e6053] mt-[-1.5px] items-center">({successRate.total_success_rate}%)</div>
+                    <progress className="flex-1 ml-1 w-full" value={successRate.totalSuccessRate/100} />
+                    <div className="flex-none text-xs text-[#6e6053] mt-[-1.5px] items-center">({successRate.totalSuccessRate}%)</div>
                 </div>
-                {successRate?.category_success_rate?.map((item,idx) => {
+                {successRate?.categorySuccessRate?.map((item,idx) => {
                     return(
                         <div key={idx} className="flex flex-row gap-[5px] mt-[6px] pl-[9px] pr-[10px]">
-                            <div className="flex-none text-xs text-[#6e6053] mt-[-1.5px] items-center">{item.category}</div>
-                            <progress className="flex-1 ml-1 w-full" value={item.success_rate/100} />
-                            <div className="flex-none text-xs text-[#6e6053] mt-[-1.5px] items-center">({item.success_rate}%)</div>
+                            <div className="flex-none text-xs text-[#6e6053] mt-[-1.5px] items-center">
+                              {item.category == "WORKOUT" ? "운동" : item.category == "LIFE" ? "생활" : item.category == "ETC" ? "기타" : "공부"}
+                            </div>
+                            <progress className="flex-1 ml-1 w-full" value={item.successRate/100} />
+                            <div className="flex-none text-xs text-[#6e6053] mt-[-1.5px] items-center">({item.successRate}%)</div>
                         </div>
                     )
                 })}

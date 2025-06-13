@@ -57,7 +57,7 @@ const Edit = async ({ formData, user_token, challengeId }) => {
     return data;
   } catch (error) {
     console.error('챌린지 수정 오류:', error);
-    alert(`챌린지 수정 실패: ${error.message}`);
+    // alert(`챌린지 수정 실패: ${error.message}`);
   }
 };
 
@@ -299,7 +299,7 @@ export default function EditChallenge() {
 
         //API
         if (!user_token) {
-            alert('로그인이 필요합니다. 로그인 후 다시 시도해주세요.');
+            // alert('로그인이 필요합니다. 로그인 후 다시 시도해주세요.');
             return;
         }
 
@@ -336,7 +336,7 @@ export default function EditChallenge() {
             console.log('result:', result);
 
             if (result?.isSuccess) {
-                alert('챌린지 수정 성공');
+                // alert('챌린지 수정 성공');
                 // navigate(`/challenge/${challenge.challenge_id}`, {state:{challenge : updatedChallenge}});
                 navigate(`/challenge/${challenge.challenge_id}`, {state:{challenge : {
                     ...challenge,

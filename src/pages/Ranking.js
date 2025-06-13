@@ -67,6 +67,7 @@ const Ranking = () => {
   const navigate = useNavigate();
   const [rankingData, setRankingData] = useState([]);
   const [rankingError, setRankingError] = useState(null);
+  const [loading, setLoading] = useState(true);
 
 
   const [requestLogin, setRequestLogin] = useState(false);
@@ -111,6 +112,7 @@ const Ranking = () => {
         console.log("mockRankingData 원본:", mockRankingData);
         setRankingData(sorted);
         setRankingError(null);
+        setLoading(false);
       } catch (err) {
         console.error('랭킹 요청 오류:', err);
         setRankingError('서버 오류');
@@ -155,7 +157,11 @@ const Ranking = () => {
         </div>
         {/* 랭킹 */}
          <main className="main h-[593px] overflow-auto px-5 mt-[20px] pb-6">
-            {rankingData.map((user, index) => (
+            {loading ? 
+            <div className='w-full h-full grid items-center'>
+              <div className='spinner'></div>
+            </div>
+            : rankingData.map((user, index) => (
                 <div key={index} className="flex items-center space-x-3 mb-4">
                 {/* 순위 동그라미 */}
                 <div className="relative w-11 h-11 flex items-center justify-center">

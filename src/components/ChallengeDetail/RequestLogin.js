@@ -4,12 +4,12 @@ import "../../styles/finance/withdrawalModal.css";
 
 import { IoMdClose } from "react-icons/io";
 
-export default function RequestLogin({onClose, purpose}){
+export default function RequestLogin({onClose, purpose, prevPage}){
 
     const navigate = useNavigate();
 
     const handleChange=()=>{
-        navigate("/login", {state:{back : true}});
+        navigate("/login", {state:{back : true, prevPage: prevPage}});
     }
 
     return (
