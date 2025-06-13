@@ -619,7 +619,7 @@ export default function Add() {
 
                                 {/* 동적으로 변경되는 문구 */}
                                 {depositType && <p className="text-sm text-[#B3B3B3] px-1">
-                                    ※ 최소 200,000원까지 {depositType} 비용을 입력할 수 있습니다
+                                    ※ 최대 200,000원까지 {depositType} 비용을 입력할 수 있습니다
                                 </p>}
 
                                 {/* 선택한 방식에 따라 동적으로 안내 문구 변경 */}
@@ -639,8 +639,8 @@ export default function Add() {
                                 : depositType === '예치금' && <div className="border border-[#D9D9D9] rounded-[15px] p-4 text-sm text-[#3D3D3D]">
                                     <section className="text-s text-[#3D3D3D]">
                                     <ul className="list-disc list-inside">
-                                        <p>100% 성공 ---------------------------{amount ? amount : " 예치금"} + α원</p>
-                                        <p>90% 이상 성공 ---------------------------{amount ? amount : " 예치금"}</p>
+                                        <p>100% 성공 ---------------------------{deposit ? deposit : " 예치금"} + α원</p>
+                                        <p>90% 이상 성공 ---------------------------{deposit ? deposit : " 예치금"}</p>
                                         <p>50% 이상 90% 미만 ----------------------일부 환급</p>
                                         <p>50% 미만 성공 ----------------------------환급 없음</p>
                                     </ul>                                    
