@@ -1,14 +1,17 @@
 import React from 'react';
 import { FaRegBell } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
 export default function NotificationItem({ notification, onClick }) {
   const isRead = notification.isRead;
   const bgColor = isRead ? 'bg-[#F8F8F8]' : 'bg-[#FDF8ED]';
 
+  const navigate = useNavigate();
+
   return (
     <div
       onClick={() => onClick(notification.notificationId)}
-      className={`relative flex items-start rounded-lg cursor-pointer min-h-[90px] ${bgColor}`}
+      className={`relative flex items-start rounded-lg cursor-pointer min-h-[90px] ${bgColor} pr-4 pb-2`}
     >
       {/* 아이콘 영역 */}
       <div className="relative ml-[13px] mt-[12px] overflow-visible">
@@ -36,10 +39,23 @@ export default function NotificationItem({ notification, onClick }) {
             <p>
               <span className="font-bold">{notification.senderNickname || '다연'}</span>
               님이{' '}
-              <span className="font-bold">{notification.challenge_name || '하루 물 한 잔 마시기'}</span>
+              <span className="font-bold">{notification.challengeName || '하루 물 한 잔 마시기'}</span>
               에 초대했습니다.
               < br />
-              (초대코드: {notification.challengeId})
+              <div className='flex flex-row justify-between'>
+                <span>(초대코드: {notification.challengeID})</span>
+                <button className='text-sm hover:font-bold'
+                  onClick={(e)=>{
+                    e.preventDefault();
+                    if(notification.inviteCode){
+                      navigate(`/`, {state: {challID : notification.challengeID, inviteCode: notification.inviteCode, IVModal: true}});
+                    }else{
+                      navigate(`/challenge/${notification.challengeID}`, {state : {prevPage: "alarm"}});
+                    }
+                  }}>
+                  챌린지로 이동 ▷
+                </button>
+              </div>
             </p>
           </>
         )}

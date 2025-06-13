@@ -53,12 +53,12 @@ export default function Login(){
 
                 localStorage.setItem('accessToken', data.result.token);
 
-                login(data.result.token, data.result.username); //Alarm에서 토큰 전송 용
+                login(data.result.token, data.result.username, data.result.userId); //Alarm에서 토큰 전송 용
 
                 console.log("nickname", data.result)
                 // navigate("/mypage", {state:{success:true}});
                 if(prevPage){
-                  navigate(`/${prevPage}`, {state:{success:true}});
+                  navigate(`/${prevPage == "home" ? "" : prevPage}`, {state:{success:true}});
                 } else{
                   navigate(-1);
                 }

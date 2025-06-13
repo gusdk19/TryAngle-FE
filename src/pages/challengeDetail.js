@@ -224,7 +224,7 @@ export default function ChallengeDetail() {
         {/* Header */}
         <Header title={challengeData.challenge_name} page={page} prevPage={prevPage} id={challengeData.challenge_id}/>
         <hr className="m-0"/>
-        {isLoggedIn && participate === 1 ? <DetailNav status={status} tab={navTab} setTab={setNavTab}/> 
+        {isLoggedIn && participate === 1 && status > 0 ? <DetailNav status={status} tab={navTab} setTab={setNavTab}/> 
         : <div className="my-3"></div>}
 
         {/* Main Content */}
@@ -280,11 +280,11 @@ export default function ChallengeDetail() {
         <ChallengeFooter chall_status={status} status={participate} challengeID={id} setParticipate={setParticipate} participant_list={challengeData.participant_list} 
           isLoggedIn={isLoggedIn} setRequestLogin={setRequestLogin} prevPage={prevPage}
           deleteChall={status == 0 && user_nickName == challengeData.leader_nickname && challengeData.now_people == 1} 
-          min_deposit={challengeData.min_deposit}
+          min_deposit={challengeData.min_deposit} inviteCode={challengeData.invite_code}
           onClose={setCancelChallModal} onClose2={setQuitChallModal} /> : ""}
       </div>
 
-      {!isLoggedIn && requestLogin ? <RequestLogin onClose={setRequestLogin} purpose="참가"/> : "" }
+      {!isLoggedIn && requestLogin ? <RequestLogin onClose={setRequestLogin} purpose="참가" prevPage={`challenge/${id}`}/> : "" }
 
       {cancelChallModal && <CancelChallModal onClose={setCancelChallModal} cancelChallID={id} cancelChallName={challengeData.challenge_name}/>}
       {quitChallModal && 
