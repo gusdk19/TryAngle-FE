@@ -641,7 +641,7 @@ export default function EditChallenge() {
 
                                 {/* 동적으로 변경되는 문구 */}
                                 {depositType && <p className="text-sm text-[#B3B3B3] px-1">
-                                    ※ 최소 200,000원까지 {depositType} 비용을 입력할 수 있습니다
+                                    ※ 최대 200,000원까지 {depositType} 비용을 입력할 수 있습니다
                                 </p>}
 
                                 {/* 선택한 방식에 따라 동적으로 안내 문구 변경 */}
