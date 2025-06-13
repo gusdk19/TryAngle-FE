@@ -26,7 +26,7 @@ export default function VoteFooter({onVoteUser, onVoteUserID, setVoteStatusList,
   
           const data = await res.json();
 
-          console.log("emotion add check", data.isSuccess, data.message);
+          console.log("vote add check", data.isSuccess, data.message);
   
           if(data.isSuccess){
               console.log("인증 투표를 성공적으로 완료하였습니다.");

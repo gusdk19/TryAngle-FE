@@ -13,8 +13,7 @@ import bpi_3 from "../assets/images/mypage/basic_profile_image/basic_profile_ima
 import bpi_4 from "../assets/images/mypage/basic_profile_image/basic_profile_image_4.png"
 import bpi_5 from "../assets/images/mypage/basic_profile_image/basic_profile_image_5.png"
 
-
-const rankingData = [
+const mockRankingData = [
   {
     name: "다연츄",
     description: "챌린지 중독자!",
@@ -52,7 +51,8 @@ const rankingData = [
   },
 ];
 
-const sortedRanking = [...rankingData].sort((a, b) => {
+
+const sortedRanking = [...mockRankingData].sort((a, b) => {
   if (b.total_success_rate !== a.total_success_rate) {
     return b.total_success_rate - a.total_success_rate;
   }
@@ -96,9 +96,20 @@ const Ranking = () => {
           setRankingError(`랭킹 조회 실패: ${errText}`);
           return;
         }
+        // mock data 사용 위해 잠시 주석처리
+        // const data = await res.json(); 
 
-        const data = await res.json();
-        setRankingData(data.result);
+        await res.json(); // 👉 받은 데이터는 무시
+        // 대신 mock 데이터로 강제 세팅
+        const sorted = [...mockRankingData].sort((a, b) => {
+          if (b.total_success_rate !== a.total_success_rate) {
+            return b.total_success_rate - a.total_success_rate;
+          }
+          return b.totalChallenges - a.totalChallenges;
+        });
+        //setRankingData(data.result);
+        console.log("mockRankingData 원본:", mockRankingData);
+        setRankingData(sorted);
         setRankingError(null);
       } catch (err) {
         console.error('랭킹 요청 오류:', err);
@@ -109,7 +120,7 @@ const Ranking = () => {
     fetchRanking();
   }, [activeTab]);
   
-
+  console.log("현재 rankingData:", rankingData);
   return (
     <div className="bg-white flex flex-row justify-center w-full">
       {/* 모바일 프레임 */}
