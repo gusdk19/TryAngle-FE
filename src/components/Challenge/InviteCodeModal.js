@@ -23,51 +23,56 @@ export default function InviteCodeModal({ onClose, challengeId, correctCode }) {
     };
 
     const handleVerify = async () => {
-      const inputCode = code.join('');
-      const token = localStorage.getItem('accessToken');
+    const inputCode = code.join('').trim();
+    const token = localStorage.getItem('accessToken');
 
-      if (inputCode.length < 6) {
-        setErrorMessage('6자리 초대 코드를 입력해주세요.');
-        return;
-      }
+    if (inputCode.length < 6) {
+      setErrorMessage('6자리 초대 코드를 입력해주세요.');
+      return;
+    }
 
-      try {
-        const res = await fetch('http://localhost:8080/challenge/invite', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization : `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            challenge_id: challengeId,
-            invite_code: inputCode,
-          }),
+    try {
+      const res = await fetch('http://localhost:8080/challenge/join', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          challengeId,                 
+          deposit: 100000,             
+          inviteCode: inputCode       
+        }),
+      });
+
+      const data = await res.json();
+      console.log("invitecode join", data);
+
+      if (res.ok && data.isSuccess) {
+        setErrorMessage('');
+        navigate(`/challenge/${challengeId}`, {
+          state: { tab: 'info', prevPage: 'home' },
         });
-
-        const data = await res.json();
-
-        if (res.ok && data.isSuccess) {
-          // 인증 성공
-          setErrorMessage('');
+        onClose();
+      } else {
+        if(data.code == "PARTICIPATION409"){
           navigate(`/challenge/${challengeId}`, {
             state: { tab: 'info', prevPage: 'home' },
           });
-          onClose();
-        } else {
-          // 인증 실패
-          setErrorMessage(data.message || '올바르지 않은 초대 코드입니다.');
         }
+        setErrorMessage(data.message || '챌린지 참여에 실패했습니다.');
+      }
       } catch (error) {
-        console.error('초대 코드 인증 중 오류:', error);
+        console.error('챌린지 참여 요청 중 오류:', error);
         setErrorMessage('서버 오류가 발생했습니다. 다시 시도해주세요.');
       }
     };
 
-    const handleKeyDown = (e, index) => {
-      if (e.key === "Backspace" && !e.target.value && index > 0) {
-        inputs.current[index - 1].focus();
-      }
-    };
+      const handleKeyDown = (e, index) => {
+        if (e.key === "Backspace" && !e.target.value && index > 0) {
+          inputs.current[index - 1].focus();
+        }
+      };
 
     return (
     <div className="absolute top-0 left-0 w-full h-full bg-white bg-opacity-80 flex justify-center items-center z-50">

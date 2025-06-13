@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import "../../styles/friend/friend.css";
 import "../../styles/friend/follower.css"; //follower와 사용하는 css 동일해서 따로 만들지 않고 재사용.
+import useAuthStore from "../User/UseAuthStore";
 
 export default function SuggestFollowing({searchValue, followings, participant_list, 
-    recommendList, setRecommendList
+    recommendList, setRecommendList, challengeID, inviteCode
 }){
+
+    const {user_id,user_token} = useAuthStore();
 
     // const [followings, setFollowings] = useState([
     //     {
@@ -23,10 +26,40 @@ export default function SuggestFollowing({searchValue, followings, participant_l
         following.nickname.includes(searchValue)
     )
 
-    const addRecommend = (targetId) => {
-        if(!(recommendList.includes(targetId))){
-            setRecommendList(prev=>[...prev, targetId]);
+    const addRecommend = async (targetId) => {
+        console.log("targetId", targetId, user_id, challengeID, inviteCode);
+
+        try {
+            const res = await fetch('http://localhost:8080/user/invite/notification', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${user_token}`,
+                },
+                body: JSON.stringify({ 
+                    senderId : user_id,
+                    receiverId : targetId,
+                    challengeId : challengeID,
+                    inviteCode: inviteCode,
+                 }),
+            });
+
+            const data = await res.json();
+            console.log("data", data);
+
+            if (data.isSuccess) {
+                console.log("권유하기 성공공");
+
+                if(!(recommendList.includes(targetId))){
+                    setRecommendList(prev=>[...prev, targetId]);
+                }                
+            } else {
+                console.log("권유하기 실패");
+            }
+        } catch (err) {
+            console.error('권유하기 서버 오류류');
         }
+
     };
 
 

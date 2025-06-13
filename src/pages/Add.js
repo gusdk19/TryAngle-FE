@@ -21,16 +21,14 @@ import bpi_11 from "../assets/images/basic_profile_image/basic_profile_image_11.
 import bpi_12 from "../assets/images/basic_profile_image/basic_profile_image_12.png";
 
 //API
-// ✅ createChallenge.js 내부 수정
 const createChallenge = async ({ formData, user_token }) => {
-
 
   if (!user_token) {
     console.warn('토큰이 없습니다. 로그인 후 다시 시도해주세요.');
     return;
   }
 
-  console.log("✅ 챌린지 생성 요청 데이터 (FormData):");
+  console.log("챌린지 생성 요청 데이터 (FormData):");
     for (let pair of formData.entries()) {
     console.log(`${pair[0]}: ${pair[1]}`);
     }
@@ -61,7 +59,7 @@ const createChallenge = async ({ formData, user_token }) => {
 export default function Add() {
 
     const location = useLocation();
-    const { visibility, inviteCode } = location.state || {};
+    const { visibility, inviteCode, from } = location.state || {};
     const { user_token } = useAuthStore(); //API 연결 시 토큰 전달
 
     const [challengeName, setChallengeName] = useState('');
@@ -93,9 +91,10 @@ export default function Add() {
 
     const [depositType, setDepositType] = useState('');
     const [amount, setAmount] = useState('');
+    const [deposit, setDeposit] = useState('');
     const [depositTypeError, setDepositTypeError] = useState(false);
     const [amountError, setAmountError] = useState(false);
-
+    const [depositError, setDepositError] = useState(false);
 
     const [depositManageMethod, setDepositManageMethod] = useState('');
     const [depositManageMethodError, setDepositManageMethodError] = useState('');
@@ -234,6 +233,11 @@ export default function Add() {
         hasError = true;
         }
 
+        if (deposit.trim() === '' || Number(deposit) < Number(amount)) {
+        setDepositError(true);
+        hasError = true;
+        }
+
         if(depositManageMethod.trim() === ''){
             setDepositManageMethodError(true);
             hasError = true;
@@ -261,9 +265,7 @@ export default function Add() {
             // alert('로그인이 필요합니다. 로그인 후 다시 시도해주세요.');
             return;
         }
-
-        console.log("String(imageFile)", String(imageFile));
-
+        
         const challengeData = {
             challenge_name: challengeName,
             challenge_thumbnail: bI ? String(profileImage) : String(imageFile),
@@ -282,10 +284,11 @@ export default function Add() {
             deposit_manage_method: depositManageMethod,
             auth_method: challAuth,
             vote_method: challVote,
+            invite_code: inviteCode,
         };
 
         const leaderJoinData = {
-            deposit: Number(amount),
+            deposit: Number(deposit),
         };
 
         console.log('challengeData:', challengeData);
@@ -552,6 +555,13 @@ export default function Add() {
                                     onClick={()=> {
                                         setDepositType(type);
                                         setDepositTypeError(false);
+
+                                        if(type == "예치금"){
+                                            setDepositManageMethod("시스템 방식");
+                                            setDepositManageMethodError(false);
+                                        }else{
+                                            setDepositManageMethod("");
+                                        }
                                     }} 
                                     className={`px-3 py-1 rounded-full border text-sm ${
                                         depositType === type
@@ -573,11 +583,33 @@ export default function Add() {
                                     <input
                                     type="number"
                                     value={amount}
+                                    placeholder='최소 챌린지 비용'
                                     onChange={(e) => {
                                         setAmount(e.target.value);
                                         setAmountError(false);
                                     }}
-                                    className={`w-[120px] px-3 py-1 border rounded-md text-sm outline-none 
+                                    className={`w-[140px] px-3 py-1 border rounded-md text-sm outline-none 
+                                        appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none
+                                        ${amountError ? 'border-red-500' : 'border-gray-300'
+                                    }`}
+                                    />
+                                    <span className="text-sm">원</span>
+                                </div>
+
+                                {depositError ? <FieldError className="my-0"
+                                    error={depositError ? deposit.trim() == "" ? "납부할 챌린지 비용을 입력해주세요" : '납부 비용은 최소 챌린지 비용 이상이어야 합니다' : ''}
+                                /> : ""}
+                                
+                                <div className={`flex items-center gap-2 ${depositError && "mt-[-7px]"}`}>
+                                    <input
+                                    type="number"
+                                    placeholder="납부할 챌린지 비용"
+                                    value={deposit}
+                                    onChange={(e) => {
+                                        setDeposit(e.target.value);
+                                        setDepositError(false);
+                                    }}
+                                    className={`w-[140px] px-3 py-1 border rounded-md text-sm outline-none 
                                         appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none
                                         ${amountError ? 'border-red-500' : 'border-gray-300'
                                     }`}
@@ -591,7 +623,7 @@ export default function Add() {
                                 </p>}
 
                                 {/* 선택한 방식에 따라 동적으로 안내 문구 변경 */}
-                                <textarea
+                                {depositType === '기부' ? <textarea
                                     className="w-full border rounded-md px-3 py-2 text-sm"
                                     value={depositManageMethod}
                                     onChange={(e) => {
@@ -603,7 +635,17 @@ export default function Add() {
                                         ? '예치금 관리 방식을 설명해주세요.'
                                         : '기부금 관리 방식을 설명해주세요.'
                                     }
-                                />
+                                /> 
+                                : depositType === '예치금' && <div className="border border-[#D9D9D9] rounded-[15px] p-4 text-sm text-[#3D3D3D]">
+                                    <section className="text-s text-[#3D3D3D]">
+                                    <ul className="list-disc list-inside">
+                                        <p>100% 성공 ---------------------------{amount ? amount : " 예치금"} + α원</p>
+                                        <p>90% 이상 성공 ---------------------------{amount ? amount : " 예치금"}</p>
+                                        <p>50% 이상 90% 미만 ----------------------일부 환급</p>
+                                        <p>50% 미만 성공 ----------------------------환급 없음</p>
+                                    </ul>                                    
+                                    </section>
+                                </div>}
                             </div>
 
                         </div>
