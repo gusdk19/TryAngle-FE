@@ -330,7 +330,7 @@ export default function MyChallenge(){
 
         const getAuthList = async(challengeId)=>{
             try {
-                const res = await fetch(`http://localhost:8080/authentication/all/${challengeId}`, {
+                const res = await fetch(`http://localhost:8080/authentication/my/${challengeId}`, {
                     method: 'GET',
                     headers: {
                         // 'Content-Type': 'application/json',
@@ -341,25 +341,27 @@ export default function MyChallenge(){
         
                 const data = await res.json();
 
-                console.log("find whole Authentication list check", data, data.isSuccess, data.message);
+                console.log("find each Authentication list check", data, data.isSuccess, data.message);
         
                 if(data.isSuccess){
-                    const filteredResult = data.result.filter((auth)=>{
-                        // console.log("auth", auth.user_nickname, user_nickName);
-                        return(auth.user_nickname === user_nickName)
-                    });
+                    // const filteredResult = data.result.filter((auth)=>{
+                    //     // console.log("auth", auth.user_nickname, user_nickName);
+                    //     return(auth.user_nickname === user_nickName)
+                    // });
                     
-                    console.log("filteredResult",filteredResult);
-                    console.log("인증 전체를 조회하였습니다.");
+                    // console.log("filteredResult",filteredResult);
+                    console.log("개별 인증을 조회하였습니다.");
 
-                    return filteredResult;
+                    return data.result;
 
                 } else{
                     console.log(`⚠ ${data.message}`);
+                    
+                    return false;
                 }
                 setLoading(false);
             } catch (error) {
-                console.error('인증 전체 조회 오류:', error);
+                console.error('인증 개별 조회 오류:', error);
             }
         }
 
@@ -381,14 +383,14 @@ export default function MyChallenge(){
                     const updatedResult = await Promise.all(data.result.map(async(challenge) => {
                         // 해당 challenge_id와 일치하는 authData 항목 찾기
                         const getData = await getAuthList(challenge.challenge_id);
-                        const matchingAuth = getData[getData.length - 1]
+                        // const matchingAuth = getData[getData.length - 1]
                         
                         console.log("getData", getData);
 
                         return {
                             ...challenge,
                             // auth_image가 존재하면 true, 없거나 없으면 false
-                            auth_status: matchingAuth?.auth_image ? true : false
+                            auth_status: getData?.auth_image ? true : false
                         };
                     }));
                     

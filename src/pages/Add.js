@@ -263,6 +263,7 @@ export default function Add() {
         }
 
         console.log("String(imageFile)", String(imageFile));
+        console.log("form data date", startDate.toLocaleString("sv-SE"), endDate.toLocaleString("sv-SE"));
 
         const challengeData = {
             challenge_name: challengeName,
@@ -271,8 +272,10 @@ export default function Add() {
             challenge_description: challExplain,
             category: Number(category) - 1,
             challenge_public: visibility === 'public',
-            start_date: `${startYear}-${String(startMonth).padStart(2, '0')}-${String(startDay).padStart(2, '0')}`,
-            end_date: `${endYear}-${String(endMonth).padStart(2, '0')}-${String(endDay).padStart(2, '0')}`,
+            start_date: startDate.toLocaleString("sv-SE"),
+            end_date: endDate.toLocaleString("sv-SE"),
+            // start_date: `${startYear}-${String(startMonth).padStart(2, '0')}-${String(startDay).padStart(2, '0')}`,
+            // end_date: `${endYear}-${String(endMonth).padStart(2, '0')}-${String(endDay).padStart(2, '0')}`,
             auth_time_start: '06:00',
             auth_time_end: '22:00',
             max_people: Number(maxParticipant),

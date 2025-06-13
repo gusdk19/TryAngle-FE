@@ -96,7 +96,7 @@ export default function Vertify({vertifyMethod, challengeId}){
     useEffect(()=>{
         const getAuthList = async()=>{
             try {
-                const res = await fetch(`http://localhost:8080/authentication/all/${challengeId}`, {
+                const res = await fetch(`http://localhost:8080/authentication/my/${challengeId}`, {
                     method: 'GET',
                     headers: {
                         // 'Content-Type': 'application/json',
@@ -107,18 +107,21 @@ export default function Vertify({vertifyMethod, challengeId}){
         
                 const data = await res.json();
 
-                console.log("find whole Authentication list check", data, data.isSuccess, data.message);
+                console.log("find each Authentication check", data, data.isSuccess, data.message);
         
                 if(data.isSuccess){
-                    const filteredResult = data.result.filter((auth)=>{
-                        // console.log("auth", auth.user_nickname, user_nickName);
-                        return(auth.user_nickname === user_nickName)
-                    });
-                    const myAuth = filteredResult[filteredResult.length - 1]
-                    console.log("filteredResult",myAuth);
-                    setAuthId(myAuth ? myAuth.auth_id : "");
-                    setAuthImage(myAuth ? myAuth.auth_image : "");
-                    console.log("인증 전체를 조회하였습니다.");
+                    // const filteredResult = data.result.filter((auth)=>{
+                    //     // console.log("auth", auth.user_nickname, user_nickName);
+                    //     return(auth.user_nickname === user_nickName)
+                    // });
+                    // const myAuth = filteredResult[filteredResult.length - 1]
+                    // console.log("filteredResult",myAuth);
+                    // setAuthId(myAuth ? myAuth.auth_id : "");
+                    // setAuthImage(myAuth ? myAuth.auth_image : "");
+
+                    setAuthId(data.result ? data.result.auth_id : "");
+                    setAuthImage(data.result ? data.result.auth_image : "");
+                    console.log("개별 인증을 조회하였습니다.");
                 } else{
                     setAuthId("");
                     setAuthImage("");
@@ -128,7 +131,7 @@ export default function Vertify({vertifyMethod, challengeId}){
             } catch (error) {
                 setAuthId("");
                 setAuthImage("");
-                console.error('인증 전체 조회 오류:', error);
+                console.error('인증 개별 조회 오류:', error);
             }
         }
     
