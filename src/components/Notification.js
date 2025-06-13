@@ -43,14 +43,14 @@ export default function NotificationItem({ notification, onClick }) {
               에 초대했습니다.
               < br />
               <div className='flex flex-row justify-between'>
-                <span>(초대코드: {notification.challengeID})</span>
+                <span>(초대코드: {notification.challengeId})</span>
                 <button className='text-sm hover:font-bold'
                   onClick={(e)=>{
                     e.preventDefault();
                     if(notification.inviteCode){
-                      navigate(`/`, {state: {challID : notification.challengeID, inviteCode: notification.inviteCode, IVModal: true}});
+                      navigate(`/`, {state: {challID : notification.challengeId, inviteCode: notification.inviteCode, IVModal: true}});
                     }else{
-                      navigate(`/challenge/${notification.challengeID}`, {state : {prevPage: "alarm"}});
+                      navigate(`/challenge/${notification.challengeId}`, {state : {prevPage: "alarm"}});
                     }
                   }}>
                   챌린지로 이동 ▷
