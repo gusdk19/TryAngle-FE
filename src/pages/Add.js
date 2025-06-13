@@ -91,9 +91,10 @@ export default function Add() {
 
     const [depositType, setDepositType] = useState('');
     const [amount, setAmount] = useState('');
+    const [deposit, setDeposit] = useState('');
     const [depositTypeError, setDepositTypeError] = useState(false);
     const [amountError, setAmountError] = useState(false);
-
+    const [depositError, setDepositError] = useState(false);
 
     const [depositManageMethod, setDepositManageMethod] = useState('');
     const [depositManageMethodError, setDepositManageMethodError] = useState('');
@@ -232,6 +233,11 @@ export default function Add() {
         hasError = true;
         }
 
+        if (deposit.trim() === '' || Number(deposit) < Number(amount)) {
+        setDepositError(true);
+        hasError = true;
+        }
+
         if(depositManageMethod.trim() === ''){
             setDepositManageMethodError(true);
             hasError = true;
@@ -282,7 +288,7 @@ export default function Add() {
         };
 
         const leaderJoinData = {
-            deposit: Number(amount),
+            deposit: Number(deposit),
         };
 
         console.log('challengeData:', challengeData);
@@ -577,11 +583,33 @@ export default function Add() {
                                     <input
                                     type="number"
                                     value={amount}
+                                    placeholder='최소 챌린지 비용'
                                     onChange={(e) => {
                                         setAmount(e.target.value);
                                         setAmountError(false);
                                     }}
-                                    className={`w-[120px] px-3 py-1 border rounded-md text-sm outline-none 
+                                    className={`w-[140px] px-3 py-1 border rounded-md text-sm outline-none 
+                                        appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none
+                                        ${amountError ? 'border-red-500' : 'border-gray-300'
+                                    }`}
+                                    />
+                                    <span className="text-sm">원</span>
+                                </div>
+
+                                {depositError ? <FieldError className="my-0"
+                                    error={depositError ? deposit.trim() == "" ? "납부할 챌린지 비용을 입력해주세요" : '납부 비용은 최소 챌린지 비용 이상이어야 합니다' : ''}
+                                /> : ""}
+                                
+                                <div className={`flex items-center gap-2 ${depositError && "mt-[-7px]"}`}>
+                                    <input
+                                    type="number"
+                                    placeholder="납부할 챌린지 비용"
+                                    value={deposit}
+                                    onChange={(e) => {
+                                        setDeposit(e.target.value);
+                                        setDepositError(false);
+                                    }}
+                                    className={`w-[140px] px-3 py-1 border rounded-md text-sm outline-none 
                                         appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none
                                         ${amountError ? 'border-red-500' : 'border-gray-300'
                                     }`}
