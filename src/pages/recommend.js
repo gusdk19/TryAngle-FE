@@ -13,7 +13,7 @@ import useAuthStore from "../components/User/UseAuthStore";
 export default function Recommend() {
     const location = useLocation();
 
-    const {participant_list} = location.state || {};
+    const {participant_list, challengeID, inviteCode} = location.state || {};
 
     const { id } = useParams(); // URL에 있는 id 값(challenge_id) 가져오기
 
@@ -21,7 +21,7 @@ export default function Recommend() {
 
     const [loading, setLoading] = useState(true);
 
-    const [recommendList, setRecommendList] = useState([2]);
+    const [recommendList, setRecommendList] = useState([]);
 
     // followers, followings 리스트
     const [followers, setFollowers] = useState([]);
@@ -160,10 +160,10 @@ export default function Recommend() {
             {/* Main Content */}
             { tab === "follower" ?
              <SuggestFollower searchValue={searchValue} followers={followers} participant_list={participant_list}
-               recommendList={recommendList} setRecommendList={setRecommendList}/>
+               recommendList={recommendList} setRecommendList={setRecommendList} inviteCode={inviteCode} challengeID={challengeID} />
             : tab === "following" ?
              <SuggestFollowing searchValue={searchValue} followings={followings} participant_list={participant_list}
-               recommendList={recommendList} setRecommendList={setRecommendList}/>
+               recommendList={recommendList} setRecommendList={setRecommendList} inviteCode={inviteCode} challengeID={challengeID}/>
             : ""}
             
     

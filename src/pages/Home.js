@@ -14,9 +14,13 @@ import InviteCodeModal from '../components/Challenge/InviteCodeModal.js';
 
 import "../styles/Challenge/ChallengeCard.css";
 import "../styles/Home/Home.css";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Home = () => {
+
+  const location = useLocation();
+
+  const {inviteCode, challID, IVModal} = location.state || {};
 
   const { isLoggedIn } = useAuthStore();
 
@@ -26,9 +30,9 @@ const Home = () => {
   const [activeCategory, setActiveCategory] = useState('전체');
   const [query, setQuery] = useState("");
 
-  const [showInviteModal, setShowInviteModal] = useState(false);
-  const [challengeID, setChallengeID] = useState("");
-  const [correctCode, setCorrectCode] = useState("123456");
+  const [showInviteModal, setShowInviteModal] = useState(IVModal ? IVModal : false);
+  const [challengeID, setChallengeID] = useState(challID ? challID : "");
+  const [correctCode, setCorrectCode] = useState(inviteCode ? inviteCode : "123456");
 
   const navigate = useNavigate();
 
@@ -248,7 +252,7 @@ const Home = () => {
         
       </div>
       <Footer page="home" />
-      {!isLoggedIn && requestLogin ? <RequestLogin onClose={setRequestLogin} purpose={"생성"}/> : "" }
+      {!isLoggedIn && requestLogin ? <RequestLogin onClose={setRequestLogin} purpose={"생성"} prevPage="home"/> : "" }
     
       {showInviteModal && (
         <InviteCodeModal
