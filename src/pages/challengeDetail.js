@@ -224,7 +224,7 @@ export default function ChallengeDetail() {
         {/* Header */}
         <Header title={challengeData.challenge_name} page={page} prevPage={prevPage} id={challengeData.challenge_id}/>
         <hr className="m-0"/>
-        {isLoggedIn ? <DetailNav status={status} tab={navTab} setTab={setNavTab}/> 
+        {isLoggedIn && participate === 1 ? <DetailNav status={status} tab={navTab} setTab={setNavTab}/> 
         : <div className="my-3"></div>}
 
         {/* Main Content */}

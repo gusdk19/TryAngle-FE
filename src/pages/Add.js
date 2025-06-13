@@ -54,7 +54,7 @@ const createChallenge = async ({ formData, user_token }) => {
     return data;
   } catch (error) {
     console.error('챌린지 생성 오류:', error);
-    alert(`챌린지 생성 실패: ${error.message}`);
+    // alert(`챌린지 생성 실패: ${error.message}`);
   }
 };
 
@@ -258,7 +258,7 @@ export default function Add() {
 
         //API
         if (!user_token) {
-            alert('로그인이 필요합니다. 로그인 후 다시 시도해주세요.');
+            // alert('로그인이 필요합니다. 로그인 후 다시 시도해주세요.');
             return;
         }
 
@@ -308,7 +308,7 @@ export default function Add() {
         console.log('result:', result);
 
         if (result?.isSuccess) {
-            alert('챌린지 생성 성공');
+            // alert('챌린지 생성 성공');
             navigate('/');
     
         }

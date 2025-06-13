@@ -8,17 +8,17 @@ import useAuthStore from "../User/UseAuthStore";
 
 const addAuth = async (formData, user_token, image, setAuthImage, setAuthId) => {
 
-  console.log("user_token", user_token);
+//   console.log("user_token", user_token);
 
   if (!user_token) {
     console.warn('토큰이 없습니다. 로그인 후 다시 시도해주세요.');
     return;
   }
 
-  console.log("✅ 챌린지 생성 요청 데이터 (FormData):");
-  for (let pair of formData.entries()) {
-    console.log(`${pair[0]}: ${pair[1]}`);
-  }
+//   console.log("✅ 챌린지 생성 요청 데이터 (FormData):");
+//   for (let pair of formData.entries()) {
+//     console.log(`${pair[0]}: ${pair[1]}`);
+//   }
 
   try {
     const res = await fetch('http://localhost:8080/authentication', {
@@ -45,17 +45,17 @@ const addAuth = async (formData, user_token, image, setAuthImage, setAuthId) => 
 
 const editAuth = async (formData, user_token, image, setAuthImage, setAuthId, authenticationId) => {
 
-  console.log("user_token", user_token);
+//   console.log("user_token", user_token);
 
   if (!user_token) {
     console.warn('토큰이 없습니다. 로그인 후 다시 시도해주세요.');
     return;
   }
 
-  console.log("✅ 챌린지 생성 요청 데이터 (FormData):");
-  for (let pair of formData.entries()) {
-    console.log(`${pair[0]}: ${pair[1]}`);
-  }
+//   console.log("✅ 챌린지 생성 요청 데이터 (FormData):");
+//   for (let pair of formData.entries()) {
+//     console.log(`${pair[0]}: ${pair[1]}`);
+//   }
 
   try {
     const res = await fetch(`http://localhost:8080/authentication/${authenticationId}`, {
@@ -158,7 +158,7 @@ export default function Vertify({vertifyMethod, challengeId}){
 
     const capture = () => {
         const imageSrc = webcamRef.current.getScreenshot();
-        console.log("imageSrc", imageSrc);
+        // console.log("imageSrc", imageSrc);
         const file = dataURLtoFile(imageSrc, 'webcam_capture.jpg');
 
         const authData = authImage == "" ? { "challenge_id": challengeId, "comment": `챌린지 ${challengeId} 인증` } : {"comment": `챌린지 ${challengeId} 인증` }
@@ -187,7 +187,7 @@ export default function Vertify({vertifyMethod, challengeId}){
         const file = e.target.files[0];
         if (file) {
           const url = URL.createObjectURL(file);
-          console.log('Selected file URL:', url);
+        //   console.log('Selected file URL:', url);
 
           const authData = authImage == "" ? { "challenge_id": challengeId, "comment": `챌린지 ${challengeId} 인증` } : {"comment": `챌린지 ${challengeId} 인증` }
 
