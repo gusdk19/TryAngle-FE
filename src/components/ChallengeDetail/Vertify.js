@@ -142,7 +142,7 @@ export default function Vertify({vertifyMethod, challengeId}){
     const webcamRef = useRef(null);
 
     const dataURLtoFile = (dataUrl, fileName) => {
-        const arr = dataUrl.split(',');
+        const arr = dataUrl?.split(',');
         const mime = arr[0].match(/:(.*?);/)[1];
         const bstr = atob(arr[1]);
         let n = bstr.length;

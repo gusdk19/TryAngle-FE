@@ -21,12 +21,10 @@ export default function ChallengeDetail() {
   const location = useLocation();
 
   const { tab, challenge, updatedStatus, prevPage } = location.state || {};
-  // console.log("challenge",challenge);
 
   const { isLoggedIn, user_token, user_nickName } = useAuthStore();
 
   const { id } = useParams(); // URL에 있는 id 값(challenge_id) 가져오기
-  // console.log("challengeID",id);
 
   const [loading, setLoading] = useState(challenge && !isLoggedIn ? false : true);
   const [challengeData, setChallengeData] = useState(challenge ? challenge : {});
@@ -206,6 +204,8 @@ export default function ChallengeDetail() {
     setCancelChallModal(true);
 
   }
+
+  // console.log("deleteChall", status);
 
   if(loading){
       return(

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../styles/user/user.css";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import SUStepOne from "../components/User/SUStepOne";
@@ -13,6 +13,10 @@ import CheckSignUpModal from "../components/User/CheckSignUpModal";
 export default function SignUp(){
 
     const page = "signup";
+
+    const location = useLocation();
+
+    const {prevPage} = location.state || {};
 
     const [name, setName] = useState("");
     const [nickname, setNickname] = useState("");
@@ -46,7 +50,7 @@ export default function SignUp(){
             <SUFooter step={step} setStep={setStep} email={email} pw={pw} checkPW={checkPW} name={name} nickname={nickname} phoneNumber={phoneNumber} cn={cn} errors={errors}
                      emailIsExisted={emailIsExisted} nicknameIsExisted={nicknameIsExisted} setErrors={setErrors} setEmail={setEmail} setNickname={setNickname} setSuccess={setSuccess} setOpenModal={setOpenModal}/>
         
-            {openModal ? <CheckSignUpModal onClose={setOpenModal} isSuccess={success}/> : ""}
+            {openModal ? <CheckSignUpModal onClose={setOpenModal} isSuccess={success} prevPage={prevPage}/> : ""}
         </div>
     )
 }

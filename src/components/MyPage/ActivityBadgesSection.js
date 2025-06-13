@@ -159,8 +159,6 @@ export default function ActivityBadgesSection({user_token}) {
       getBadges();
     } else console.warn('토큰이 없습니다.');
   }, [])
-
-  
   
   const [clickedBadge, setClickedBadge] = useState([]);
 
