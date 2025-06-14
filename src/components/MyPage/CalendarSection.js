@@ -11,7 +11,7 @@ import "../../styles/mypage/CalendarSection.css";
 
 import stamp from "../../assets/images/mypage/stamp.png";
 
-export default function CalendarSection({authDateList}) {
+export default function CalendarSection({ authDateList }) {
   // Dates that user participates challenge
   // const particChallDate = [
   //   "2025-04-10",

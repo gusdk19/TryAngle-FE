@@ -66,7 +66,7 @@ export default function Info({challengeData}){
                         </div>
                         <div className="flex flex-row gap-1 text-[13px]">
                             <div className="w-[100px] font-semibold">최소 예치금</div>
-                            <div className="text-[#B8AA96]">{challengeData.min_deposit.toLocaleString()}원</div>
+                            <div className="text-[#B8AA96]">{challengeData?.min_deposit?.toLocaleString()}원</div>
                         </div>
                         <div className="flex flex-row gap-1 text-[13px]">
                             <div className="w-[100px] font-semibold">최대모집인원</div>

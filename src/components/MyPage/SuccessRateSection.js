@@ -8,25 +8,26 @@ export default function SuccessRateSection(){
 
     const [successRate, setSuccessRate] = useState({});
     const dummySuccessRate = {
-        totalSuccessRate: 72,
-        categorySuccessRate: [
-          {
-            category: "운동",
-            successRate: 72
-          },
-           {
-            category: "공부",
-            successRate: 72
-          },
-            {
-            category: "생활",
-            successRate: 72
-          },
-            {
-            category: "기타",
-            successRate: 72
-          },
-        ]
+        totalSuccessRate: 0,
+        categorySuccessRate: []
+        // [
+        //   {
+        //     category: "운동",
+        //     successRate: 0
+        //   },
+        //    {
+        //     category: "공부",
+        //     successRate: 0
+        //   },
+        //     {
+        //     category: "생활",
+        //     successRate: 0
+        //   },
+        //     {
+        //     category: "기타",
+        //     successRate: 0
+        //   },
+        // ]
     }
 
     useEffect(()=>{
