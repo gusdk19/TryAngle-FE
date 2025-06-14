@@ -11,7 +11,7 @@ export default function FailPartChallModal({onClose, error, challengeID, prevPag
 
     const {user_token} = useAuthStore();
 
-    const [success, setSuccess] = useState(true);
+    const [success, setSuccess] = useState(true); 
 
     const handleClick=()=>{
         navigate(`/challenge/${challengeID}`, {state:{prevPage:prevPage}});
