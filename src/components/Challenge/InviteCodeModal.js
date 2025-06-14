@@ -9,6 +9,7 @@ export default function InviteCodeModal({ onClose, challengeId, correctCode }) {
   const navigate = useNavigate();
   const [code, setCode] = useState(["", "", "", "", "", ""]);
   const [errorMessage, setErrorMessage] = useState("");
+  const [requestLogin, setRequestLogin] = useState(false);
 
   const { user_token } = useAuthStore();
 
@@ -31,12 +32,18 @@ export default function InviteCodeModal({ onClose, challengeId, correctCode }) {
       return;
     }
 
+    if(requestLogin){
+      navigate(`/login`, {
+          state: { tab: "info", prevPage: "home" },
+      });
+    }
+
     try {
       const res = await fetch("http://localhost:8080/challenge/invite/verify", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${user_token}`,
+          // Authorization: `Bearer ${user_token}`,
         },
         body: JSON.stringify({
           challenge_id: challengeId,
@@ -44,17 +51,23 @@ export default function InviteCodeModal({ onClose, challengeId, correctCode }) {
         }),
       });
 
-      console.log("rㄱㄱㄱㄱ", res);
-      const text = await res.text();
+      const data = await res.json();
+      console.log("invite verify data", data);
 
       if (res.ok) {
         setErrorMessage("");
+        setRequestLogin(false);
         navigate(`/challenge/${challengeId}`, {
           state: { tab: "info", prevPage: "home" },
         });
         onClose();
       } else {
-        setErrorMessage(text);
+        if(data.message == "토큰 누락 또는 유효하지 않은 토큰입니다."){
+          setErrorMessage("로그인 후 재시도해주십시오.");
+          setRequestLogin(true);
+        }else{
+          setErrorMessage(data.message);
+        }
       }
     } catch (error) {
       console.error("초대코드 인증 요청 중 오류:", error);
@@ -108,7 +121,7 @@ export default function InviteCodeModal({ onClose, challengeId, correctCode }) {
           onClick={handleVerify}
           className="w-full bg-[#FFC421] py-2 rounded font-bold text-white"
         >
-          초대 코드 확인
+          {requestLogin ? "로그인" : "확인"}
         </button>
       </div>
     </div>

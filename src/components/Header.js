@@ -63,6 +63,8 @@ export default function Header(props){
                         else if(title == "로그인"){
                             if(back){
                                 navigate(-1);
+                            }else if(prevPage){
+                                navigate(`/${prevPage == "home" ? "" : prevPage}`)
                             }else{
                                 navigate('/mypage');
                             }

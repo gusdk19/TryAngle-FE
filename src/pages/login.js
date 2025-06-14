@@ -114,7 +114,7 @@ export default function Login(){
 
     return(
         <div>
-            <Header title={"로그인"} />
+            <Header title={"로그인"} prevPage={prevPage}/>
             <div className="mx-[34px]">
                 <h1 className="mt-[80px] text-[35px] font-bold">로그인</h1>
 
