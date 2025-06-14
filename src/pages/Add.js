@@ -639,8 +639,8 @@ export default function Add() {
                                 : depositType === '예치금' && <div className="border border-[#D9D9D9] rounded-[15px] p-4 text-sm text-[#3D3D3D]">
                                     <section className="text-s text-[#3D3D3D]">
                                     <ul className="list-disc list-inside">
-                                        <p>100% 성공 ---------------------------{amount ? amount : " 예치금"} + α원</p>
-                                        <p>90% 이상 성공 ---------------------------{amount ? amount : " 예치금"}</p>
+                                        <p>100% 성공 ---------------------------{deposit ? deposit : " 예치금"} + α원</p>
+                                        <p>90% 이상 성공 ---------------------------{deposit ? deposit : " 예치금"}</p>
                                         <p>50% 이상 90% 미만 ----------------------일부 환급</p>
                                         <p>50% 미만 성공 ----------------------------환급 없음</p>
                                     </ul>                                    
