@@ -5,6 +5,7 @@ import useAuthStore from "../User/UseAuthStore";
 
 export default function InviteCodeModal({ onClose, challengeId, correctCode }) {
   const inputs = useRef([]);
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
   const navigate = useNavigate();
   const [code, setCode] = useState(["", "", "", "", "", ""]);
@@ -32,14 +33,14 @@ export default function InviteCodeModal({ onClose, challengeId, correctCode }) {
       return;
     }
 
-    if(requestLogin){
+    if (requestLogin) {
       navigate(`/login`, {
-          state: { tab: "info", prevPage: "home" },
+        state: { tab: "info", prevPage: "home" },
       });
     }
 
     try {
-      const res = await fetch("http://localhost:8080/challenge/invite/verify", {
+      const res = await fetch(`${API_BASE_URL}/challenge/invite/verify`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -62,10 +63,10 @@ export default function InviteCodeModal({ onClose, challengeId, correctCode }) {
         });
         onClose();
       } else {
-        if(data.message == "토큰 누락 또는 유효하지 않은 토큰입니다."){
+        if (data.message == "토큰 누락 또는 유효하지 않은 토큰입니다.") {
           setErrorMessage("로그인 후 재시도해주십시오.");
           setRequestLogin(true);
-        }else{
+        } else {
           setErrorMessage(data.message);
         }
       }

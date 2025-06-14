@@ -24,3 +24,7 @@ yarn-error.log*
 
 # VSCode / 확장 기능 변경 이력 무시
 .history/
+
+
+.env.development
+.env.production

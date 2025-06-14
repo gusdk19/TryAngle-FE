@@ -12,6 +12,7 @@ import "../../styles/mypage/CalendarSection.css";
 import stamp from "../../assets/images/mypage/stamp.png";
 
 export default function CalendarSection({ authDateList }) {
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
   // Dates that user participates challenge
   // const particChallDate = [
   //   "2025-04-10",
@@ -31,16 +32,13 @@ export default function CalendarSection({ authDateList }) {
   const fetchCalendarData = async (date) => {
     const ym = date.toISOString().slice(0, 7).replace("-", "");
     try {
-      const res = await fetch(
-        `http://localhost:8080/challenge/calendar?ym=${ym}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${user_token}`,
-          },
-        }
-      );
+      const res = await fetch(`${API_BASE_URL}/challenge/calendar?ym=${ym}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user_token}`,
+        },
+      });
 
       const data = await res.json();
 
