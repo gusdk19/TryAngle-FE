@@ -5,6 +5,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 import "../styles/Challenge/ChallengeFeeRefund.css";
 import useAuthStore from '../components/User/UseAuthStore';
+import FailPartChallModal from '../components/ChallengeDetail/FailPartChallModal';
 
 export default function ChallengeFeeRefund() {
 
@@ -13,6 +14,8 @@ export default function ChallengeFeeRefund() {
   const {prevPage, minDeposit} = location.state || {};
 
   const {user_token} = useAuthStore();
+
+  const [openModal, setOpenModal] = useState(false);
 
   const [inputAmount, setInputAmount] = useState('');
   const [error, setError] = useState('');
@@ -49,7 +52,7 @@ export default function ChallengeFeeRefund() {
     }
 
     if (amount < (minDeposit ? minDeposit : 1000) || amount > 200000) {
-      setError(`⚠ ${minDeposit ? minDeposit : "1천원"} 이상 20만원 이하로 입력해주세요`);
+      setError(<div>⚠ 예치금이 최소 조건<span style={{"font-weight":"bold"}}>({minDeposit ? minDeposit.toLocaleString() : "1천"}원)</span>보다 작습니다.</div>);
       return;
     }
 
@@ -81,8 +84,10 @@ export default function ChallengeFeeRefund() {
 
         if(data.isSuccess){
           console.log("챌린지 참가에 성공하였습니다. (", inputAmount, ")");
+          navigate(`/challenge/${challengeID}`, {state:{tab: "info", updatedStatus : 1, prevPage: prevPage}});
         } else{
-            console.log(`⚠ ${data.message}`);
+            setError(`⚠ ${data.message}`);
+            setOpenModal(true);
         }
       } catch (error) {
           console.error('개별 챌린지 조회 오류:', error);
@@ -91,7 +96,7 @@ export default function ChallengeFeeRefund() {
 
     joinChallenge();
 
-    navigate(`/challenge/${challengeID}`, {state:{tab: "info", updatedStatus : 1, prevPage: prevPage}});
+    
   }
 
   return (
@@ -157,6 +162,8 @@ export default function ChallengeFeeRefund() {
 
         <Footer />
       </div>
+
+      {openModal && <FailPartChallModal challengeID={challengeID} onClose={setOpenModal} error={error} prevPage={prevPage}/>}
     </div>
   );
 }
