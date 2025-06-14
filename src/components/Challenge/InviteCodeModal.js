@@ -55,7 +55,7 @@ export default function InviteCodeModal({ onClose, challengeId, correctCode }) {
         });
         onClose();
       } else {
-        if(data.code == "PARTICIPATION409"){
+        if(data.message == "이미 참여한 챌린지 입니다."){
           navigate(`/challenge/${challengeId}`, {
             state: { tab: 'info', prevPage: 'home' },
           });
