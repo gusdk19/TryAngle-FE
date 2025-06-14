@@ -26,8 +26,6 @@ export default function InviteCodeModal({ onClose, challengeId, correctCode }) {
 
   const handleVerify = async () => {
     const inputCode = code.join("").trim();
-    console.log("c", inputCode);
-    console.log("i", challengeId);
     if (inputCode.length < 6) {
       setErrorMessage("6자리 초대 코드를 입력해주세요.");
       return;
@@ -46,9 +44,10 @@ export default function InviteCodeModal({ onClose, challengeId, correctCode }) {
         }),
       });
 
+      console.log("rㄱㄱㄱㄱ", res);
       const text = await res.text();
 
-      if (res.ok && text === "초대코드 인증에 성공했습니다.") {
+      if (res.ok) {
         setErrorMessage("");
         navigate(`/challenge/${challengeId}`, {
           state: { tab: "info", prevPage: "home" },
