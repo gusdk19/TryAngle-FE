@@ -24,48 +24,38 @@ export default function InviteCodeModal({ onClose, challengeId, correctCode }) {
 
     const handleVerify = async () => {
     const inputCode = code.join('').trim();
-    const token = localStorage.getItem('accessToken');
-
     if (inputCode.length < 6) {
       setErrorMessage('6자리 초대 코드를 입력해주세요.');
       return;
     }
 
     try {
-      const res = await fetch('http://localhost:8080/challenge/join', {
+      const res = await fetch('http://localhost:8080/challenge/invite/verify', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          challengeId,                 
-          deposit: 100000,             
+          challenge_id: challengeId,                             
           inviteCode: inputCode       
         }),
       });
 
-      const data = await res.json();
-      console.log("invitecode join", data);
+      const text = await res.text();
 
-      if (res.ok && data.isSuccess) {
+      if (res.ok && text === '초대코드 인증에 성공했습니다.') {
         setErrorMessage('');
         navigate(`/challenge/${challengeId}`, {
           state: { tab: 'info', prevPage: 'home' },
         });
         onClose();
       } else {
-        if(data.message == "이미 참여한 챌린지 입니다."){
-          navigate(`/challenge/${challengeId}`, {
-            state: { tab: 'info', prevPage: 'home' },
-          });
-        }
-        setErrorMessage(data.message || '챌린지 참여에 실패했습니다.');
+        setErrorMessage(text);
       }
-      } catch (error) {
-        console.error('챌린지 참여 요청 중 오류:', error);
-        setErrorMessage('서버 오류가 발생했습니다. 다시 시도해주세요.');
-      }
+    } catch (error) {
+      console.error('초대코드 인증 요청 중 오류:', error);
+      setErrorMessage('서버 오류가 발생했습니다. 다시 시도해주세요.');
+    }
     };
 
       const handleKeyDown = (e, index) => {
