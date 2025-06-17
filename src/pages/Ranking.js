@@ -13,50 +13,13 @@ import bpi_3 from "../assets/images/mypage/basic_profile_image/basic_profile_ima
 import bpi_4 from "../assets/images/mypage/basic_profile_image/basic_profile_image_4.png"
 import bpi_5 from "../assets/images/mypage/basic_profile_image/basic_profile_image_5.png"
 
-const mockRankingData = [
-  {
-    name: "다연츄",
-    description: "챌린지 중독자!",
-    profileImage: bpi_1,
-    total_success_rate: 96,
-    totalChallenges: 20,
-  },
-  {
-    name: "효나츄",
-    description: "꾸준히 도전 중",
-    profileImage: bpi_2,
-    total_success_rate: 96,
-    totalChallenges: 15,
-  },
-  {
-    name: "혜원츄",
-    description: "열정 만수르",
-    profileImage: bpi_3,
-    total_success_rate: 82,
-    totalChallenges: 25,
-  },
-  {
-    name: "고은츄",
-    description: "도전 초보",
-    profileImage: bpi_4,
-    total_success_rate: 60,
-    totalChallenges: 10,
-  },
-  {
-    name: "타타",
-    description: "도전자",
-    profileImage: bpi_5,
-    total_success_rate: 60,
-    totalChallenges: 5,
-  },
-];
-
-
-const sortedRanking = [...mockRankingData].sort((a, b) => {
-  if (b.total_success_rate !== a.total_success_rate) {
-    return b.total_success_rate - a.total_success_rate;
-  }
-  return b.totalChallenges - a.totalChallenges;
+const mapToUIModel = (u) => ({
+  userId: u.userId,
+  name: u.nickname,
+  total_success_rate: u.successRate,
+  totalChallenges: u.challengeCount,
+  profileImage: u.profileImageUrl,
+  description: u.description,
 });
 
 const Ranking = () => {
@@ -68,59 +31,56 @@ const Ranking = () => {
   const [rankingData, setRankingData] = useState([]);
   const [rankingError, setRankingError] = useState(null);
   const [loading, setLoading] = useState(true);
-
-
   const [requestLogin, setRequestLogin] = useState(false);
 
   useEffect(() => {
     const fetchRanking = async () => {
+    
       try {
         let url = 'http://localhost:8080/ranking'; // 기본: 전체 랭킹
         const headers = {};
 
         if (activeTab === 'follower') {
-          url = 'http://localhost:8080/ranking/following'; // 팔로잉 랭킹
           const token = localStorage.getItem('accessToken')?.trim();
 
-          if (!token) {
-            setRankingError('🔒 로그인 후 팔로워 랭킹을 확인할 수 있습니다.');
+          if (!token || !isLoggedIn) {
+            setRankingError('로그인 후 팔로워 랭킹을 확인할 수 있습니다.');
+            setRankingData([]);
             return;
           }
-
+          url = 'http://localhost:8080/ranking/following'; // 팔로잉 랭킹
           headers['Authorization'] = `Bearer ${token}`;
         }
 
         const res = await fetch(url, { headers });
-
         if (!res.ok) {
           const errText = await res.text();
-          setRankingError(`랭킹 조회 실패: ${errText}`);
-          return;
+          throw new Error(`요청 실패 (HTTP ${res.status}): ${errText}`);
         }
-        // mock data 사용 위해 잠시 주석처리
-        // const data = await res.json(); 
 
-        await res.json(); // 👉 받은 데이터는 무시
-        // 대신 mock 데이터로 강제 세팅
-        const sorted = [...mockRankingData].sort((a, b) => {
-          if (b.total_success_rate !== a.total_success_rate) {
+        const json = await res.json();
+        if (!json.isSuccess) {
+          throw new Error(json.message || '랭킹 조회 실패');
+        }
+        
+        const list = json.result.map((u, index) => mapToUIModel(u, index));
+
+        const sorted = list.sort((a, b) => {
+          if (b.total_success_rate !== a.total_success_rate)
             return b.total_success_rate - a.total_success_rate;
-          }
           return b.totalChallenges - a.totalChallenges;
         });
-        //setRankingData(data.result);
-        console.log("mockRankingData 원본:", mockRankingData);
+
         setRankingData(sorted);
         setRankingError(null);
         setLoading(false);
       } catch (err) {
         console.error('랭킹 요청 오류:', err);
-        setRankingError('서버 오류');
+        setRankingError(err.message || '서버 오류');
       }
     };
-
     fetchRanking();
-  }, [activeTab]);
+  }, [activeTab, isLoggedIn]);
   
   console.log("현재 rankingData:", rankingData);
   return (
