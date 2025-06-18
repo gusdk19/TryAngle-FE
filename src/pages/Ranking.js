@@ -48,7 +48,7 @@ const Ranking = () => {
             setRankingData([]);
             return;
           }
-          url = "http://localhost:8080/ranking/following"; // 팔로잉 랭킹
+          url = `${API_BASE_URL}/ranking/following`; // 팔로잉 랭킹
           headers["Authorization"] = `Bearer ${token}`;
         }
 
