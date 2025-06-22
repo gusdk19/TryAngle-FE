@@ -12,7 +12,7 @@ import ReportModal from "./ReportModal";
 import useAuthStore from "../User/UseAuthStore";
 
 export default function Vote({ challengeID }) {
-  const API_BASE_URL = import.meta.env.REACT_APP_API_BASE_URL;
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
   const { user_token, user_nickName } = useAuthStore();
 
