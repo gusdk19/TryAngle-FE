@@ -228,6 +228,13 @@ export default function Vote({ challengeID }) {
     setEmotionModal(0);
   };
 
+  const fetchImageAsFile = async (link) => {
+    const response = await fetch(link);
+    const blob = await response.blob();
+    const file = new File([blob], 'profile.png', { type: blob.type });
+    return file;
+  }
+
   return (
     <div className="px-5">
       {onVote === "" ? (
@@ -251,7 +258,7 @@ export default function Vote({ challengeID }) {
                     <div className="flex-1 flex flex-row gap-4">
                       <img
                         className="max-w-[45px] max-h-[45px] border-[1.5px] border-[#D9D9D9] border-solid rounded-full"
-                        src={voteStatus.profileImage}
+                        src={voteStatus.profileImage && fetchImageAsFile(voteStatus.profileImage)}
                         width="45px"
                         height="45px"
                         alt={`user-${id} profileImage`}
