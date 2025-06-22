@@ -208,10 +208,17 @@ export default function Vertify({ vertifyMethod, challengeId }) {
     inputRef.current.click();
   };
 
+ const fetchImageAsFile = async (link) => {
+      const response = await fetch(link);
+      const blob = await response.blob();
+      const file = new File([blob], 'profile.png', { type: blob.type });
+      return file;
+  }
+
   const getImageFromAlbum = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const url = URL.createObjectURL(file);
+      const file = e.target.files[0];
+      if (file) {
+        const url = fetchImageAsFile(file);
       //   console.log('Selected file URL:', url);
 
       const authData =
