@@ -21,7 +21,11 @@ export default function ChallengeFooter({status, challengeID, setParticipate, pa
                     //     ...prev,
                     //     status : 0,
                     // }))
-                    onClose2(true);
+                    if(deleteChall){
+                        onClose(true);
+                    }else{
+                        onClose2(true);
+                    }
                 }
                 else if(status === 0){
                     // setUserChallengeData((prev) => ({
